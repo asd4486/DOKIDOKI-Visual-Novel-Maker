@@ -38,7 +38,7 @@ public class MyStoryBox:EditorWindow
 
             GUILayout.BeginHorizontal("box");
             if (action is DialogueBox) OnDialogueBox(action as DialogueBox);
-            if (action is StoryBoxCharacterItem) OnCharacterSprite(action as StoryBoxCharacterItem);
+            if (action is CharacterSprite) OnCharacterSprite(action as CharacterSprite);
             if (action is Delayer) OnDelayer(action as Delayer);
 
             if (GUILayout.Button("x", GUILayout.Width(20)))
@@ -54,22 +54,50 @@ public class MyStoryBox:EditorWindow
         GUILayout.EndScrollView();
 
         //action buttons
-        GUILayout.BeginVertical(GUILayout.Width(100));
+        GUILayout.BeginVertical(GUILayout.Width(120));
+        if (GUILayout.Button("Character Sprite"))
+        {
+            ActionCount += 1;
+            ActionList.Add(new CharacterSprite());
+        }
         if (GUILayout.Button("dialogue"))
         {
             ActionCount += 1;
             ActionList.Add(new DialogueBox());
         }
-        if (GUILayout.Button("Character Sprite"))
+        if (GUILayout.Button("Brahche"))
         {
-            ActionCount += 1;
-            ActionList.Add(new StoryBoxCharacterItem());
+
         }
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Background"))
+        {
+
+        }
+        if (GUILayout.Button("CG"))
+        {
+
+        }
+        GUILayout.EndHorizontal();
+
+        GUILayout.Space(10);
         if (GUILayout.Button("Delayer"))
         {
             ActionCount += 1;
             ActionList.Add(new Delayer());
         }
+
+
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Audio"))
+        {
+
+        }
+        if (GUILayout.Button("Sound"))
+        {
+
+        }
+        GUILayout.EndHorizontal();
 
         GUILayout.EndVertical();
 
@@ -93,7 +121,7 @@ public class MyStoryBox:EditorWindow
         GUILayout.EndVertical();
     }
 
-    void OnCharacterSprite(StoryBoxCharacterItem chara)
+    void OnCharacterSprite(CharacterSprite chara)
     {
         var list = CharacterInfoHelper.GetCharacterNames();
 

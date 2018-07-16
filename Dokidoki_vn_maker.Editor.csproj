@@ -288,15 +288,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\CGManager.cs" />
     <Compile Include="Assets\Editor\CreateCharacterWindow.cs" />
+    <Compile Include="Assets\Editor\Items\CGItem.cs" />
     <Compile Include="Assets\Editor\Items\CharacterSprite.cs" />
     <Compile Include="Assets\Editor\Items\CharacterSprite_Face.cs" />
     <Compile Include="Assets\Editor\Items\Delayer.cs" />
     <Compile Include="Assets\Editor\Items\DialogueBox.cs" />
-    <Compile Include="Assets\Editor\Items\StoryBoxCharacterItem.cs" />
     <Compile Include="Assets\Editor\MyStoryBox.cs" />
-    <Compile Include="Assets\Editor\Tools\CreateObjHelper.cs" />
     <Compile Include="Assets\Editor\Tools\CharacterInfoHelper.cs" />
+    <Compile Include="Assets\Editor\Tools\CreateObjHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

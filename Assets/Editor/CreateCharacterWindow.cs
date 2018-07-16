@@ -17,7 +17,7 @@ public class CreateCharacterWindow : EditorWindow
 
     public int SpriteCount;
 
-    Vector2 Scroller;
+    Vector2 Scroller { get; set; }
 
     public List<CharacterSprite> CharacterSpriteList = new List<CharacterSprite>();
 

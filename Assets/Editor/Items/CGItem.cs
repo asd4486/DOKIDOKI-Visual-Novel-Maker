@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+
+namespace Editor.Items
+{
+    public class CGItem
+    {
+        public string Name { get; set; }
+        public Sprite CG { get; set; }
+
+        public bool IsOut { get; set; }
+        public List<string> Animations { get; set; }
+    }
+}
