@@ -12,9 +12,6 @@ namespace Editor.Items
         public string Name;
         public List<CharacterSprite_Face> Faces = new List<CharacterSprite_Face>();
         public bool OpenFaceDropDown;
-
-        public int Index { get; set; }
-        public int? FaceIndex { get; set; }
     }
 }
 

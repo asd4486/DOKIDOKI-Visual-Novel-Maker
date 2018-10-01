@@ -1,4 +1,5 @@
 ﻿using Editor.Items;
+using Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -145,7 +146,8 @@ public class CreateCharacterWindow : EditorWindow
                 var spRendere = mySprite.AddComponent<SpriteRenderer>();
                 spRendere.sortingLayerName = "character";
                 spRendere.sprite = spriteInfo.Sprite;
-                
+                var spInfos = mySprite.AddComponent<CharaSpriteSetting>();
+
                 //face group
                 GameObject faces = new GameObject();
                 faces.name = "faces";
@@ -164,6 +166,10 @@ public class CreateCharacterWindow : EditorWindow
                         faceRendere.sortingLayerName = "character";
                         faceRendere.sortingOrder = 9;
                         faceRendere.sprite = faceInfo.Sprite;
+
+                        var facePos = face.AddComponent<CharaFaceSetting>();
+                        facePos.xPos = face.transform.localPosition.x;
+                        facePos.yPos = face.transform.localPosition.y;
                         face.transform.parent = faces.transform;
                     }
                 }
@@ -174,10 +180,14 @@ public class CreateCharacterWindow : EditorWindow
             }                
         }
 
+        //save to game source folder
         string path = "Assets/GameSources/Characters/" + chara.name + ".prefab";
         Editor.Tools.CreateObjHelper.SaveGameobj(chara, path);
 
+        //destroy Temporary File in scene
         DestroyImmediate(chara);
+
+        EditorUtility.DisplayDialog("WOAH!!", "A new dokidoki character are created !!", "OK");
     }
 
 }

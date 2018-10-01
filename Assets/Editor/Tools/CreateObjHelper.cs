@@ -12,7 +12,7 @@ namespace Editor.Tools
             {
                 //Create dialog to ask if User is sure they want to overwrite existing prefab
                 if (EditorUtility.DisplayDialog("Are you sure?",
-                        "The character already exists. Do you want to overwrite it?",
+                        "Object is already exists. Do you want to overwrite it?",
                         "Yes",
                         "No"))
                 //If the user presses the yes button, create the Prefab

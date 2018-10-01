@@ -288,16 +288,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Dokidoki_vn_maker.csproj">
+      <Project>{D18038C4-CBC9-7BED-9218-477237738704}</Project>
+      <Name>Dokidoki_vn_maker</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Assets\Editor\CGManager.cs" />
     <Compile Include="Assets\Editor\CreateCharacterWindow.cs" />
+    <Compile Include="Assets\Editor\Items\Audio.cs" />
+    <Compile Include="Assets\Editor\Items\BrancheBox.cs" />
     <Compile Include="Assets\Editor\Items\CGItem.cs" />
     <Compile Include="Assets\Editor\Items\CharacterSprite.cs" />
     <Compile Include="Assets\Editor\Items\CharacterSprite_Face.cs" />
+    <Compile Include="Assets\Editor\Items\CharcterInfos.cs" />
     <Compile Include="Assets\Editor\Items\Delayer.cs" />
     <Compile Include="Assets\Editor\Items\DialogueBox.cs" />
+    <Compile Include="Assets\Editor\Items\Sound.cs" />
     <Compile Include="Assets\Editor\MyStoryBox.cs" />
-    <Compile Include="Assets\Editor\Tools\CharacterInfoHelper.cs" />
     <Compile Include="Assets\Editor\Tools\CreateObjHelper.cs" />
+    <Compile Include="Assets\Editor\Tools\ObjectInfoHelper.cs" />
+    <Compile Include="Assets\Editor\ValueManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

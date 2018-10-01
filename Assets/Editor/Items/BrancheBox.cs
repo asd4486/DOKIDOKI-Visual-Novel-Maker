@@ -6,13 +6,13 @@ using UnityEngine;
 
 namespace Editor.Items
 {
-    public class DialogueBox
+    public class BrancheBox
     {
-        public string Name;
         public string Dialogue;
+
+        public List<string> Branches;
 
         public Color Color;
         public int FontSize = ValueManager.DefaultFontSize;
-        public int Speed = 3;
     }
 }

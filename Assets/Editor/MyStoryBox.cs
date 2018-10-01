@@ -1,4 +1,5 @@
 ﻿using Editor.Items;
+using Settings;
 using Editor.Tools;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public class MyStoryBox:EditorWindow
+public class MyStoryBox : EditorWindow
 {
     [MenuItem("DokiDoki Maker/Story box")]
     static void Init()
@@ -37,9 +38,14 @@ public class MyStoryBox:EditorWindow
             GUILayout.Label(i + ".", GUILayout.Width(15));
 
             GUILayout.BeginHorizontal("box");
+            //check all actions type and set current UI
             if (action is DialogueBox) OnDialogueBox(action as DialogueBox);
-            if (action is CharacterSprite) OnCharacterSprite(action as CharacterSprite);
+            if (action is BrancheBox) OnBranches(action as BrancheBox);
+            if (action is CharcterInfos) OnCharacterInfos(action as CharcterInfos);
+            if (action is CGItem) OnCG(action as CGItem);
             if (action is Delayer) OnDelayer(action as Delayer);
+            if (action is Audio) OnAudio(action as Audio);
+            if (action is Sound) OnSound(action as Sound);
 
             if (GUILayout.Button("x", GUILayout.Width(20)))
             {
@@ -49,8 +55,10 @@ public class MyStoryBox:EditorWindow
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
             GUILayout.EndHorizontal();
+            GUILayout.Space(3);
         }
         GUILayout.EndVertical();
+        GUILayout.Space(5);
         GUILayout.EndScrollView();
 
         //action buttons
@@ -58,7 +66,7 @@ public class MyStoryBox:EditorWindow
         if (GUILayout.Button("Character Sprite"))
         {
             ActionCount += 1;
-            ActionList.Add(new CharacterSprite());
+            ActionList.Add(new CharcterInfos());
         }
         if (GUILayout.Button("dialogue"))
         {
@@ -67,7 +75,8 @@ public class MyStoryBox:EditorWindow
         }
         if (GUILayout.Button("Brahche"))
         {
-
+            ActionCount += 1;
+            ActionList.Add(new BrancheBox());
         }
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Background"))
@@ -76,7 +85,8 @@ public class MyStoryBox:EditorWindow
         }
         if (GUILayout.Button("CG"))
         {
-
+            ActionCount += 1;
+            ActionList.Add(new CGItem());
         }
         GUILayout.EndHorizontal();
 
@@ -87,15 +97,16 @@ public class MyStoryBox:EditorWindow
             ActionList.Add(new Delayer());
         }
 
-
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Audio"))
         {
-
+            ActionCount += 1;
+            ActionList.Add(new Audio());
         }
         if (GUILayout.Button("Sound"))
         {
-
+            ActionCount += 1;
+            ActionList.Add(new Sound());
         }
         GUILayout.EndHorizontal();
 
@@ -110,34 +121,145 @@ public class MyStoryBox:EditorWindow
         //character name
         dialogue.Name = EditorGUILayout.TextField("Character Name:", dialogue.Name);
         GUILayout.Space(10);
-        dialogue.FontSize = EditorGUILayout.IntField("Font size:", dialogue.FontSize);
+
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Text speed");
-        dialogue.Speed = EditorGUILayout.Slider(dialogue.Speed, 1, 10);
+        dialogue.FontSize = EditorGUILayout.IntField("Font size:", dialogue.FontSize);
+        GUILayout.Space(15);
+        //dialogue text speed
+        dialogue.Speed = EditorGUILayout.IntSlider("Text speed", dialogue.Speed, 1, 5);
         GUILayout.EndHorizontal();
 
+        //dialogue text box
         GUILayout.Label("Dialogue");
         dialogue.Dialogue = EditorGUILayout.TextArea(dialogue.Dialogue, GUILayout.Height(50));
         GUILayout.EndVertical();
     }
 
-    void OnCharacterSprite(CharacterSprite chara)
+    void OnBranches(BrancheBox branceBox)
     {
-        var list = CharacterInfoHelper.GetCharacterNames();
+        //init branches
+        if (branceBox.Branches == null)
+        { branceBox.Branches = new List<string>() { "", "" }; }
 
+        GUILayout.BeginVertical();
+
+        branceBox.FontSize = EditorGUILayout.IntField("Font size:", branceBox.FontSize);
+        //dialogue text box
+        GUILayout.Label("Dialogue");
+        branceBox.Dialogue = EditorGUILayout.TextArea(branceBox.Dialogue, GUILayout.Height(50));
+
+        GUILayout.Space(5);
+        GUILayout.Label("Branches");
+        GUILayout.BeginVertical("Box");
+        for (int i = 0; i < branceBox.Branches.Count; i++)
+        {
+            GUILayout.BeginHorizontal();
+            var branche = branceBox.Branches[i];
+            branche = EditorGUILayout.TextField(i + ".", branche);
+            //delete branch
+            if (i >= 2)
+            {
+                if (GUILayout.Button("x", GUILayout.Width(20)))
+                {
+                    branceBox.Branches.RemoveAt(i);
+                }
+            }
+            GUILayout.EndHorizontal();
+        }
+
+        GUILayout.EndVertical();
+        //add new branche
+        if (GUILayout.Button("+"))
+        {
+            branceBox.Branches.Add("");
+        }
+        GUILayout.EndVertical();
+    }
+
+    void OnCharacterInfos(CharcterInfos chara)
+    {
+        GUILayout.BeginVertical();
+        //get all character
+        var list = ObjectInfoHelper.GetCharacterNames().ToArray();
+        //choice character
+        chara.Index = EditorGUILayout.Popup("Character", chara.Index, list);
+
+        //find selected character
+        string path = "Assets/GameSources/Characters/" + list[chara.Index] + ".prefab";
+        var selected = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
+        if (selected != null)
+        {
+            GUILayout.BeginHorizontal();
+            //get all sprites name
+            var spriteList = selected.GetComponentsInChildren<Transform>().Where(s=>s.GetComponent<CharaSpriteSetting>() != null).Select(s => s.name).ToArray();
+            //character sprite
+            chara.SpriteIndex = EditorGUILayout.Popup("Sprite", chara.SpriteIndex, spriteList);
+            GUILayout.Space(10);
+            //select character face if existe
+            var faceList = selected.transform.GetChild(chara.SpriteIndex).GetComponentsInChildren<Transform>().
+                            Where(f => f.GetComponent<CharaFaceSetting>() != null).
+                            Select(f => f.name).ToArray();
+            if (faceList.Length > 0) chara.FaceIndex = EditorGUILayout.Popup("Face", chara.FaceIndex ?? 0, faceList);
+            
+
+            GUILayout.EndHorizontal();
+        }
+        GUILayout.EndVertical();
+    }
+
+    void OnCG(CGItem cg)
+    {
+        //get all cg
+        var list = ObjectInfoHelper.GetCGsName().ToArray();
+
+        //selector for cg
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Character");
-        chara.Index = EditorGUILayout.Popup(chara.Index, list);
+
+        cg.Index = EditorGUILayout.Popup("CG", cg.Index, list);
+
+        //load preview cg
+        string path = "Assets/GameSources/CGs/" + list[cg.Index] + ".jpg";
+        var imgPriveiw = AssetDatabase.LoadAssetAtPath(path, typeof(Sprite)) as Sprite;
+        if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(128), GUILayout.Height(72));
         GUILayout.EndHorizontal();
     }
 
     void OnDelayer(Delayer delayer)
     {
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Delay");
-        delayer.Delay = EditorGUILayout.FloatField(delayer.Delay);
+        delayer.Delay = EditorGUILayout.FloatField("Delay",delayer.Delay);
         GUILayout.Label("S");
+    }
+
+    void OnAudio(Audio audio)
+    {
+        //Choice audio
+        audio.MyAudio = EditorGUILayout.ObjectField("Audio source", audio.MyAudio, typeof(AudioClip), false) as AudioClip;
+        GUILayout.Space(10);
+        //audio volume
+        audio.Volume = EditorGUILayout.Slider("Volume", audio.Volume, 0, 1);
+    }
+
+    void OnSound(Sound sound)
+    {
+        GUILayout.BeginVertical();
+        //Choice audio
+        sound.MySound = EditorGUILayout.ObjectField("Sound source", sound.MySound, typeof(AudioClip), false) as AudioClip;
+
+        //sound tracks(6 tracks)
+        var list = new List<string>();
+        for(int i =0; i < 6; i++)
+        {
+            list.Add((i+1).ToString());
+        }
+
+        GUILayout.BeginHorizontal();
+        //audio volume
+        sound.Volume = EditorGUILayout.Slider("Volume", sound.Volume, 0, 1);
+        GUILayout.Space(10);
+        sound.Track = EditorGUILayout.Popup("Track",sound.Track, list.ToArray());
         GUILayout.EndHorizontal();
+
+        GUILayout.EndVertical();
     }
 }
 
