@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Settings
+public class CharaSpriteSetting : MonoBehaviour
 {
-    public class CharaSpriteSetting : MonoBehaviour
-    {
-        public float xPos;
-        public float yPos;
-    }
+    public float xPos;
+    public float yPos;
 }
+

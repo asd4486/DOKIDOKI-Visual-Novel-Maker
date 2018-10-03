@@ -1,5 +1,4 @@
 ﻿using Editor.Items;
-using Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -7,7 +6,7 @@ using UnityEngine;
 
 public class CreateCharacterWindow : EditorWindow
 {
-    [MenuItem("DokiDoki Maker/Create Character...")]
+    [MenuItem("DokiDoki VN Maker/New Character")]
     static void Init()
     {
         CreateCharacterWindow window =
@@ -181,8 +180,8 @@ public class CreateCharacterWindow : EditorWindow
         }
 
         //save to game source folder
-        string path = "Assets/GameSources/Characters/" + chara.name + ".prefab";
-        Editor.Tools.CreateObjHelper.SaveGameobj(chara, path);
+        string path = ValueManager.CharaPath + chara.name + ".prefab";
+        CreateObjHelper.SaveGameobj(chara, path);
 
         //destroy Temporary File in scene
         DestroyImmediate(chara);

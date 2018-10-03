@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+[Serializable]
 public class Delayer
 {
-    public float Delay { get; set; }
+    public ActionTypes ActionType = ActionTypes.Delayer;
+
+    public float Delay;
 }
 

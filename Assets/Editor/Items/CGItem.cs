@@ -4,18 +4,12 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Editor.Items
+public class CGItem
 {
-    public class CGItem
-    {
-        public string OldName { get; set; }
-        public string Name { get; set; }
-        public Sprite CG { get; set; }
+    public string OldName;
+    public string Name;
+    public Sprite CG;
 
-        public bool IsOut { get; set; }
-        public List<string> Animations { get; set; }
-
-        //index for story box selector
-        public int Index { get; set; }
-    }
+    public List<string> Animations;
 }
+

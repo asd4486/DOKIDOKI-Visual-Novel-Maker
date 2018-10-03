@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class Audio
+[Serializable]
+public class Audio:AudioBase
 {
-    public AudioClip MyAudio;
-    public float Volume = 1;
+    //set action type
+    public ActionTypes ActionType = ActionTypes.Audio;
 }
 

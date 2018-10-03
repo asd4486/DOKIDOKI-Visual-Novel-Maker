@@ -1,5 +1,4 @@
 ﻿using Editor.Items;
-using Editor.Tools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using UnityEngine;
 
 public class CGManager : EditorWindow {
 
-    [MenuItem("DokiDoki Maker/CG manager")]
+    [MenuItem("DokiDoki VN Maker/CG manager")]
     static void Init()
     {
         CGManager window = (CGManager)EditorWindow.GetWindow(typeof(CGManager), false, "CG manager");
@@ -33,9 +32,8 @@ public class CGManager : EditorWindow {
             {
                 CGCount += 1;
                 //get cg sprite
-                string path = "Assets/GameSources/CGs/" + name + ".jpg";
+                string path = ValueManager.CGPath + name + ".jpg";
                 var sprite = AssetDatabase.LoadAssetAtPath(path, typeof(Sprite)) as Sprite;
-
                 CGList.Add(new CGItem { OldName = name, Name = name, CG = sprite });
             }
             RefreshCGList = false;
@@ -139,7 +137,7 @@ public class CGManager : EditorWindow {
                 //get asset path
                 string directory = AssetDatabase.GetAssetPath(CGInfo.CG);
                 //save path
-                string path = "Assets/GameSources/CGs/" + CGInfo.Name + ".jpg";
+                string path = ValueManager.CGPath + CGInfo.Name + ".jpg";
 
                 //if CG already existe, replace the cg
                 if (AssetDatabase.LoadAssetAtPath(path, typeof(Sprite)) != null)
@@ -150,13 +148,12 @@ public class CGManager : EditorWindow {
                 else
                 {
                     //get old cg
-                    string oldPath = "Assets/GameSources/CGs/" + CGInfo.OldName + ".jpg";
+                    string oldPath = ValueManager.CGPath + CGInfo.OldName + ".jpg";
                     var oldCg = AssetDatabase.LoadAssetAtPath(oldPath, typeof(Sprite)) as Sprite;
                     //change oldCg name if cg already existed
                     if (oldCg != null)
                     {
-                        var fullPath = Application.dataPath + "/GameSources/CGs/";
-                        System.IO.File.Move(fullPath + CGInfo.OldName+".jpg", fullPath + CGInfo.Name + ".jpg");
+                        System.IO.File.Move(ValueManager.CGFullPath + CGInfo.OldName+".jpg", ValueManager.CGFullPath + CGInfo.Name + ".jpg");
                     }
                     else
                     {

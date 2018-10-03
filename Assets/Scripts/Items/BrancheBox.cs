@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-
+[Serializable]
 public class BrancheBox
 {
+    public ActionTypes ActionType = ActionTypes.BrancheBox;
+
     public string Dialogue;
 
     public List<string> Branches;

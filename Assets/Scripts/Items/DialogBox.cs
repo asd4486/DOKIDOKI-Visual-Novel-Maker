@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class DialogueBox
+[Serializable]
+public class DialogBox
 {
+    public ActionTypes ActionType = ActionTypes.DialogBox;
+
     public string Name;
     public string Dialogue;
 

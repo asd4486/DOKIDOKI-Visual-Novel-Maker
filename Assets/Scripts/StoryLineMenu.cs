@@ -31,15 +31,17 @@ class StoryLineMenu:EditorWindow
         //action buttons
         if (GUILayout.Button("Character Sprite"))
         {
-            CurrentEditor.addNewAction();
+            CurrentEditor.AddNewAction(new CharcterSpriteInfos());
             MyWindow.Close();
         }
         if (GUILayout.Button("dialogue"))
         {
+            CurrentEditor.AddNewAction(new DialogBox());
             MyWindow.Close();
         }
         if (GUILayout.Button("Brahche"))
         {
+            CurrentEditor.AddNewAction(new BrancheBox());
             MyWindow.Close();
         }
         GUILayout.BeginHorizontal();
@@ -49,6 +51,7 @@ class StoryLineMenu:EditorWindow
         }
         if (GUILayout.Button("CG"))
         {
+            CurrentEditor.AddNewAction(new CGInfoItem());
             MyWindow.Close();
         }
         GUILayout.EndHorizontal();
@@ -56,18 +59,22 @@ class StoryLineMenu:EditorWindow
         GUILayout.Space(10);
         if (GUILayout.Button("Delayer"))
         {
+            CurrentEditor.AddNewAction(new Delayer());
             MyWindow.Close();
         }
 
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Audio"))
         {
+            CurrentEditor.AddNewAction(new Audio());
             MyWindow.Close();
         }
         if (GUILayout.Button("Sound"))
         {
+            CurrentEditor.AddNewAction(new Sound());
             MyWindow.Close();
         }
         GUILayout.EndHorizontal();
+        GUILayout.Space(5);
     }
 }
