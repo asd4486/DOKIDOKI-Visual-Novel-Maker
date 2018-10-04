@@ -28,12 +28,19 @@ class StoryLineMenu:EditorWindow
 
     private void OnGUI()
     {
+        GUILayout.BeginHorizontal();
         //action buttons
         if (GUILayout.Button("Character Sprite"))
         {
             CurrentEditor.AddNewAction(new CharcterSpriteInfos());
             MyWindow.Close();
         }
+        if(GUILayout.Button("Character out"))
+        {
+            MyWindow.Close();
+        }
+        GUILayout.EndHorizontal();
+
         if (GUILayout.Button("dialogue"))
         {
             CurrentEditor.AddNewAction(new DialogBox());

@@ -145,7 +145,7 @@ public class StoryLineEditor : Editor
         {
             GUILayout.BeginHorizontal();
             var branche = branceBox.Branches[i];
-            branche = EditorGUILayout.TextField(i + ".", branche);
+            branceBox.Branches[i] = EditorGUILayout.TextField(i + ".", branche);
             //delete branch
             if (i >= 2)
             {
@@ -176,15 +176,33 @@ public class StoryLineEditor : Editor
     {
         GUILayout.BeginVertical();
         //get all character
-        var list = ObjectInfoHelper.GetCharacterNames().ToArray();
+        var list = ObjectInfoHelper.GetCharacterNames();
+
+        //set character index if initialize request
+        if (chara.Initialize)
+        {
+            //find origin object
+            var origin = AssetDatabase.LoadAssetAtPath(chara.Path, typeof(GameObject)) as GameObject;
+
+            if (origin != null)
+            {
+                //set index
+                chara.Index = list.IndexOf(list.Where(c => c == origin.name).FirstOrDefault());
+            }
+            chara.Initialize = false;
+        }
+
         //choice character
-        chara.Index = EditorGUILayout.Popup("Character", chara.Index, list);
+        chara.Index = EditorGUILayout.Popup("Character", chara.Index, list.ToArray());
 
         //find selected character
-        string path = "Assets/GameSources/Characters/" + list[chara.Index] + ".prefab";
+        string path = ValueManager.CharaPath + list[chara.Index] + ".prefab";
         var selected = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
         if (selected != null)
         {
+            //set character path
+            chara.Path = path;
+
             //get all sprites name
             var spriteList = selected.GetComponentsInChildren<Transform>().Where(s => s.GetComponent<CharaSpriteSetting>() != null).Select(s => s.name).ToArray();
             //character sprite
@@ -201,14 +219,30 @@ public class StoryLineEditor : Editor
     void OnCG(CGInfoItem cg)
     {
         //get all cg
-        var list = ObjectInfoHelper.GetCGsName().ToArray();
+        var list = ObjectInfoHelper.GetCGsName();
+
+        if (cg.Initialize)
+        {
+            //find origin object
+            var origin = AssetDatabase.LoadAssetAtPath(cg.Path, typeof(GameObject)) as GameObject;
+
+            if (origin != null)
+            {
+                //set index
+                cg.Index = list.IndexOf(list.Where(c => c == origin.name).FirstOrDefault());
+            }
+            cg.Initialize = false;
+        }
+
         //selector for cg
-        cg.CGIndex = EditorGUILayout.Popup("CG", cg.CGIndex, list);
+        cg.Index = EditorGUILayout.Popup("CG", cg.Index, list.ToArray());
+        //set cg path
+        cg.Path = ValueManager.CGPath + list[cg.Index] + ".prefab";
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
         //load preview cg
-        string path = "Assets/GameSources/CGs/" + list[cg.CGIndex] + ".jpg";
+        string path = "Assets/GameSources/CGs/" + list[cg.Index] + ".jpg";
         var imgPriveiw = AssetDatabase.LoadAssetAtPath(path, typeof(Sprite)) as Sprite;
         if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(128), GUILayout.Height(72));
         GUILayout.EndHorizontal();
@@ -266,11 +300,13 @@ public class StoryLineEditor : Editor
         if (File.Exists(filePath))
         {
             //find all json data
-            string[] datas = File.ReadAllText(filePath).Replace("[", "").Replace("]", "").Split(new string[] { ",{" }, StringSplitOptions.RemoveEmptyEntries);
+            string jsons = File.ReadAllText(filePath);
+            string[] datas = jsons.Remove(jsons.Length - 1).Remove(0, 1).Split(new string[] { ",{" }, StringSplitOptions.RemoveEmptyEntries);
+
             for (var i = 0; i < datas.Length; i++)
             {
                 var d = datas[i];
-                if (d[0] != '{') {d = "{" + d; }
+                if(d[0] != '{') { d = "{" + d; }
 
                 var type = JsonUtility.FromJson<ActionBase>(d);
                 //check action type and load current class
@@ -285,9 +321,13 @@ public class StoryLineEditor : Editor
                         break;
                     case ActionTypes.CGInfoItem:
                         newAction = JsonUtility.FromJson<CGInfoItem>(d);
+                        //initialize setting
+                        (newAction as CGInfoItem).Initialize = true;
                         break;
                     case ActionTypes.CharcterSpriteInfos:
                         newAction = JsonUtility.FromJson<CharcterSpriteInfos>(d);
+                        //initialize setting
+                        (newAction as CharcterSpriteInfos).Initialize = true;
                         break;
                     case ActionTypes.Delayer:
                         newAction = JsonUtility.FromJson<Delayer>(d);

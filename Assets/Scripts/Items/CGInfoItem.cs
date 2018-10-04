@@ -9,7 +9,12 @@ public class CGInfoItem
 {
     public ActionTypes ActionType = ActionTypes.CGInfoItem;
 
+    [NonSerialized]
+    public bool Initialize;
+
     //index for story box selector
-    public int CGIndex;
+    [NonSerialized]
+    public int Index;
+    public string Path;
 }
 
