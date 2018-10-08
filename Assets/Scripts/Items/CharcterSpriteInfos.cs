@@ -11,6 +11,9 @@ public class CharcterSpriteInfos
     public bool Initialize;
 
     public string Path;
+    //get chara name
+    public string Name { get { return Path.Split('/')[Path.Split('/').Length - 1].Replace(".prefab", ""); } }
+
     [NonSerialized]
     public int Index;
 

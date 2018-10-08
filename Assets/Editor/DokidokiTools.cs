@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class DokidokiTools:MonoBehaviour
 {
-    [MenuItem("DokiDoki VN Maker/New Game")]
+    [MenuItem("DokiDoki VN Maker/Game/New Game")]
     static void CreateNewGame()
     {
         //find game gameobject

@@ -286,7 +286,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\DokidokiTools.cs" />
     <Compile Include="Assets\Scripts\Items\ActionBase.cs" />
     <Compile Include="Assets\Scripts\Items\Audio.cs" />
     <Compile Include="Assets\Scripts\Items\AudioBase.cs" />
@@ -298,6 +297,7 @@
     <Compile Include="Assets\Scripts\Items\Delayer.cs" />
     <Compile Include="Assets\Scripts\Items\DialogBox.cs" />
     <Compile Include="Assets\Scripts\Items\Sound.cs" />
+    <Compile Include="Assets\Scripts\MAIN.cs" />
     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
     <Compile Include="Assets\Scripts\Settings\CharaFaceSetting.cs" />
     <Compile Include="Assets\Scripts\Settings\CharaSpriteSetting.cs" />

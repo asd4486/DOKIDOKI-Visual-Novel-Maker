@@ -294,6 +294,7 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\CGManager.cs" />
     <Compile Include="Assets\Editor\CreateCharacterWindow.cs" />
+    <Compile Include="Assets\Editor\DokidokiTools.cs" />
     <Compile Include="Assets\Editor\Items\CGItem.cs" />
     <Compile Include="Assets\Editor\Items\CharacterSprite.cs" />
     <Compile Include="Assets\Editor\Items\CharacterSprite_Face.cs" />
