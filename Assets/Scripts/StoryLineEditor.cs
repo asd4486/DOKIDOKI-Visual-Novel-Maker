@@ -52,7 +52,7 @@ public class StoryLineEditor : Editor
             if (action is CharcterSpriteInfos) title = "Character sprite";
             if (action is CGInfoItem) title = "CG";
             if (action is Delayer) title = "Delayer";
-            if (action is Audio) title = "Audio";
+            if (action is Audio) title = "Background music";
             if (action is Sound) title = "Sound";
             GUILayout.Label(title, EditorStyles.boldLabel);
 
@@ -116,18 +116,28 @@ public class StoryLineEditor : Editor
         if (action is Sound) StoryLine.ActionList.Add(action as Sound);
     }
 
-    void OnDialogueBox(DialogBox dialogue)
+    #region action UIs
+    void OnDialogueBox(DialogBox dialog)
     {
         GUILayout.BeginVertical();
         //character name
-        dialogue.Name = EditorGUILayout.TextField("Character Name:", dialogue.Name);
-        dialogue.FontSize = EditorGUILayout.IntField("Font size:", dialogue.FontSize);
-        //dialogue text speed
-        dialogue.Speed = EditorGUILayout.IntSlider("Text speed", dialogue.Speed, 1, 5);
-
+        dialog.Name = EditorGUILayout.TextField("Character Name:", dialog.Name);
         //dialogue text box
         GUILayout.Label("Dialogue");
-        dialogue.Dialogue = EditorGUILayout.TextArea(dialogue.Dialogue, GUILayout.Height(50));
+        dialog.Dialogue = EditorGUILayout.TextArea(dialog.Dialogue, GUILayout.Height(50));
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(15);
+        //show character parameter
+        dialog.ShowCharParam = EditorGUILayout.Foldout(dialog.ShowCharParam, "Character");
+        GUILayout.EndHorizontal();
+        if (dialog.ShowCharParam)
+        {
+            dialog.FontSize = EditorGUILayout.IntField("Font size:", dialog.FontSize);
+            //dialogue text speed
+            dialog.Speed = EditorGUILayout.IntSlider("Text speed", dialog.Speed, 1, 5);
+        }
+
         GUILayout.EndVertical();
     }
 
@@ -216,6 +226,28 @@ public class StoryLineEditor : Editor
         GUILayout.EndVertical();
     }
 
+    void OnBackground(BackgroundItem background)
+    {
+        //initialize
+        if (background.Initialize)
+        {
+            //find origin object
+            var origin = AssetDatabase.LoadAssetAtPath(background.Path, typeof(Sprite)) as Sprite;
+
+            if (origin != null)
+            {
+                //set background image
+                background.Image = origin;
+            }
+            background.Initialize = false;
+        }
+
+        //Choice image
+        background.Image = EditorGUILayout.ObjectField("Image", background.Image, typeof(Sprite), false) as Sprite;
+        //get path
+        if (background.Image != null) background.Path = AssetDatabase.GetAssetPath(background.Image);
+    }
+
     void OnCG(CGInfoItem cg)
     {
         //get all cg
@@ -275,20 +307,34 @@ public class StoryLineEditor : Editor
         //get audio path
         if (sound.MyAudio != null) sound.AudioPath = AssetDatabase.GetAssetPath(sound.MyAudio);
 
-        //sound tracks(6 tracks)
-        var list = new List<string>();
-        for (int i = 0; i < 6; i++)
-        {
-            list.Add((i + 1).ToString());
-        }
         //audio volume
         sound.Volume = EditorGUILayout.Slider("Volume", sound.Volume, 0, 1);
-        GUILayout.Space(10);
-        sound.Track = EditorGUILayout.Popup("Track", sound.Track, list.ToArray());
+        //GUILayout.Space(10);
 
+        //find sound manager object
+        var obj = GameObject.FindGameObjectsWithTag("doki_sound_manager").FirstOrDefault();
+        if (obj != null)
+        {
+            var soundManager = obj.GetComponent<SoundManager>();
+
+            //find all sound tracks
+            if(soundManager.AudioTracks != null && soundManager.AudioTracks.Length > 0)
+            {
+                //sound track list for seletion
+                var list = new List<string>();
+                for (int i = 0; i < soundManager.AudioTracks.Length; i++)
+                {
+                    list.Add((i + 1).ToString());
+                }
+                sound.Track = EditorGUILayout.Popup("Track", sound.Track, list.ToArray());
+            }
+            
+        }
         GUILayout.EndVertical();
     }
+    #endregion
 
+    #region save load data
     void OnLoadData()
     {
         //refresh action list
@@ -318,6 +364,11 @@ public class StoryLineEditor : Editor
                         break;
                     case ActionTypes.BrancheBox:
                         newAction = JsonUtility.FromJson<BrancheBox>(d);
+                        break;
+                    case ActionTypes.BackgroundItem:
+                        newAction = JsonUtility.FromJson<BackgroundItem>(d);
+                        //initialize setting
+                        (newAction as BackgroundItem).Initialize = true;
                         break;
                     case ActionTypes.CGInfoItem:
                         newAction = JsonUtility.FromJson<CGInfoItem>(d);
@@ -358,4 +409,5 @@ public class StoryLineEditor : Editor
 
         File.WriteAllText(ValueManager.GameDataPath + "/" + DataFileName, json);
     }
+    #endregion
 }

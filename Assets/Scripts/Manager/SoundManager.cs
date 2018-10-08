@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour {
 
-    public AudioSource[] Audios;
+    public AudioSource[] AudioTracks;
 
     [Range(0, 1)]
-    public float GlobalVolume;
+    public float GlobalVolume = 1;
 
 	// Use this for initialization
 	//void Start () {

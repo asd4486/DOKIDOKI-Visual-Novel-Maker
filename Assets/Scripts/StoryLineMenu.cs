@@ -21,13 +21,15 @@ class StoryLineMenu:EditorWindow
 
     static void Init()
     {
-        MyWindow = (StoryLineMenu)EditorWindow.GetWindow(typeof(StoryLineMenu), true, "Story actions");
+        MyWindow = (StoryLineMenu)EditorWindow.GetWindow(typeof(StoryLineMenu), true, "Story actions", true);
         //MyWindow = window;
         MyWindow.Show();
     }
 
     private void OnGUI()
     {
+        GUILayout.BeginVertical("box");
+        GUILayout.Label("Character");
         GUILayout.BeginHorizontal();
         //action buttons
         if (GUILayout.Button("Character Sprite"))
@@ -40,8 +42,11 @@ class StoryLineMenu:EditorWindow
             MyWindow.Close();
         }
         GUILayout.EndHorizontal();
+        GUILayout.EndVertical();
 
-        if (GUILayout.Button("dialogue"))
+        GUILayout.BeginVertical("box");
+        GUILayout.Label("Dialog");
+        if (GUILayout.Button("dialog"))
         {
             CurrentEditor.AddNewAction(new DialogBox());
             MyWindow.Close();
@@ -51,6 +56,10 @@ class StoryLineMenu:EditorWindow
             CurrentEditor.AddNewAction(new BrancheBox());
             MyWindow.Close();
         }
+        GUILayout.EndVertical();
+
+        GUILayout.BeginVertical("box");
+        GUILayout.Label("Image");
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Background"))
         {
@@ -62,16 +71,12 @@ class StoryLineMenu:EditorWindow
             MyWindow.Close();
         }
         GUILayout.EndHorizontal();
+        GUILayout.EndVertical();
 
-        GUILayout.Space(10);
-        if (GUILayout.Button("Delayer"))
-        {
-            CurrentEditor.AddNewAction(new Delayer());
-            MyWindow.Close();
-        }
-
+        GUILayout.BeginVertical("box");
+        GUILayout.Label("Audio");
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Audio"))
+        if (GUILayout.Button("Background music"))
         {
             CurrentEditor.AddNewAction(new Audio());
             MyWindow.Close();
@@ -82,6 +87,30 @@ class StoryLineMenu:EditorWindow
             MyWindow.Close();
         }
         GUILayout.EndHorizontal();
+        GUILayout.EndVertical();
+
+        GUILayout.BeginVertical("box");
+        GUILayout.Label("Time");
+        if (GUILayout.Button("Delayer"))
+        {
+            CurrentEditor.AddNewAction(new Delayer());
+            MyWindow.Close();
+        }
+        GUILayout.EndVertical();
+
+        GUILayout.BeginVertical("box");
+        GUILayout.Label("Story");
+        GUILayout.BeginHorizontal();
+        if(GUILayout.Button("Play storyline"))
+        {
+
+        }
+        if (GUILayout.Button("Change scene"))
+        {
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.EndVertical();
+
         GUILayout.Space(5);
     }
 }

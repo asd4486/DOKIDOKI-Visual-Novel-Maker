@@ -11,9 +11,10 @@ public enum ActionTypes
     CharcterSpriteInfos = 0,
     DialogBox = 1,
     BrancheBox = 2,
-    CGInfoItem = 3,
-    Delayer = 4,
-    Audio = 5,
-    Sound = 6,
+    BackgroundItem = 3,
+    CGInfoItem = 4,
+    Delayer = 5,
+    Audio = 6,
+    Sound = 7,
 }
 

@@ -12,6 +12,8 @@ public class DialogBox
     public string Name;
     public string Dialogue;
 
+    [NonSerialized]
+    public bool ShowCharParam;
     public Color Color;
     public int FontSize = ValueManager.DefaultFontSize;
     public int Speed = 3;
