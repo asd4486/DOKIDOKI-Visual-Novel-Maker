@@ -21,6 +21,25 @@ public class CharcterSpriteInfos
     public int FaceIndex;
 
     public CharacterPosition Position;
+    public bool IsWait = true;
+
+    // override object.Equals
+    public override bool Equals(object obj)
+    {
+        var item = obj as CharcterSpriteInfos;
+        if (item == null)return false;
+            
+        return this.Path == item.Path && this.SpriteIndex == item.SpriteIndex 
+            && this.FaceIndex == item.FaceIndex && this.Position == item.Position && this.IsWait == item.IsWait;
+    }
+
+    // override object.GetHashCode
+    public override int GetHashCode()
+    {
+        // TODO: write your implementation of GetHashCode() here
+        //throw new NotImplementedException();
+        return base.GetHashCode();
+    }
 }
 
 //position of character

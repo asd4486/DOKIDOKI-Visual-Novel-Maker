@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
-using TreeEditor;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -50,6 +49,7 @@ public class StoryLineEditor : Editor
             if (action is DialogBox) title = "Dialog";
             if (action is BrancheBox) title = "Branche";
             if (action is CharcterSpriteInfos) title = "Character sprite";
+            if (action is BackgroundItem) title = "Background";
             if (action is CGInfoItem) title = "CG";
             if (action is Delayer) title = "Delayer";
             if (action is Audio) title = "Background music";
@@ -69,6 +69,7 @@ public class StoryLineEditor : Editor
             if (action is DialogBox) OnDialogueBox(action as DialogBox);
             if (action is BrancheBox) OnBranches(action as BrancheBox);
             if (action is CharcterSpriteInfos) OnCharacterInfos(action as CharcterSpriteInfos);
+            if (action is BackgroundItem) OnBackground(action as BackgroundItem);
             if (action is CGInfoItem) OnCG(action as CGInfoItem);
             if (action is Delayer) OnDelayer(action as Delayer);
             if (action is Audio) OnAudio(action as Audio);
@@ -104,12 +105,34 @@ public class StoryLineEditor : Editor
         GUILayout.EndHorizontal();
     }
 
+    private void OnDisable()
+    {     
+        var oldList = StoryLine.OnLoadData();
+        //check story line is changed or not
+        bool listChanged = false;
+        if (oldList.Count != ActionList.Count) { listChanged = true; }
+        else
+        {
+            for(int i = 0; i< ActionList.Count; i++) {
+                var a = ActionList[i];
+                var old = oldList[i];
+                if (!a.Equals(old)) listChanged = true;
+            }
+        }
+
+        if (!listChanged) return;
+        //show save alert when story line have changed but not saved
+        bool IsSave = EditorUtility.DisplayDialog("Story line has not been Saved", "Do you want to save the change?", "Yes", "No");
+        if (IsSave) { StoryLine.OnSaveData(ActionList); }
+    }
+
     //add new action to story lines
     public void AddNewAction(object action)
     {
+        if (action is CharcterSpriteInfos) ActionList.Add(action as CharcterSpriteInfos);
         if (action is DialogBox) ActionList.Add(action as DialogBox);
         if (action is BrancheBox) ActionList.Add(action as BrancheBox);
-        if (action is CharcterSpriteInfos) ActionList.Add(action as CharcterSpriteInfos);
+        if (action is BackgroundItem) ActionList.Add(action as BackgroundItem);
         if (action is CGInfoItem) ActionList.Add(action as CGInfoItem);
         if (action is Delayer) ActionList.Add(action as Delayer);
         if (action is Audio) ActionList.Add(action as Audio);
@@ -117,14 +140,59 @@ public class StoryLineEditor : Editor
     }
 
     #region action UIs
+    void OnCharacterInfos(CharcterSpriteInfos chara)
+    {
+        //get all character
+        var list = ObjectInfoHelper.GetCharacterNames();
+
+        //set character index if initialize request
+        if (chara.Initialize)
+        {
+            //find origin object
+            var origin = AssetDatabase.LoadAssetAtPath(chara.Path, typeof(GameObject)) as GameObject;
+
+            if (origin != null)
+            {
+                //set index
+                chara.Index = list.IndexOf(list.Where(c => c == origin.name).FirstOrDefault());
+            }
+            chara.Initialize = false;
+        }
+
+        //choice character
+        chara.Index = EditorGUILayout.Popup("Character", chara.Index, list.ToArray());
+
+        //find selected character
+        string path = ValueManager.CharaPath + list[chara.Index] + ".prefab";
+        var selected = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
+        if (selected != null)
+        {
+            //set character path
+            chara.Path = path;
+
+            //get all sprites name
+            var spriteList = selected.GetComponentsInChildren<Transform>().Where(s => s.GetComponent<CharaSpriteSetting>() != null).Select(s => s.name).ToArray();
+            //character sprite
+            chara.SpriteIndex = EditorGUILayout.Popup("Sprite", chara.SpriteIndex, spriteList);
+            //select character face if existe
+            var faceList = selected.transform.GetChild(chara.SpriteIndex).GetComponentsInChildren<Transform>().
+                            Where(f => f.GetComponent<CharaFaceSetting>() != null).
+                            Select(f => f.name).ToArray();
+            if (faceList.Length > 0) chara.FaceIndex = EditorGUILayout.Popup("Face", chara.FaceIndex, faceList);
+        }
+
+        //is wait for character appear
+        chara.IsWait = EditorGUILayout.Toggle("Is wait", chara.IsWait);
+    }
+
     void OnDialogueBox(DialogBox dialog)
     {
         GUILayout.BeginVertical();
         //character name
-        dialog.Name = EditorGUILayout.TextField("Character Name:", dialog.Name);
+        dialog.CharaName = EditorGUILayout.TextField("Character Name:", dialog.CharaName);
         //dialogue text box
         GUILayout.Label("Dialogue");
-        dialog.Dialogue = EditorGUILayout.TextArea(dialog.Dialogue, GUILayout.Height(50));
+        dialog.Dialog = EditorGUILayout.TextArea(dialog.Dialog, GUILayout.Height(50));
 
         GUILayout.BeginHorizontal();
         GUILayout.Space(15);
@@ -137,7 +205,8 @@ public class StoryLineEditor : Editor
             //dialogue text speed
             dialog.Speed = EditorGUILayout.IntSlider("Text speed", dialog.Speed, 1, 5);
         }
-
+        //dialog show in one shot
+        dialog.NoWait = EditorGUILayout.Toggle("No wait", dialog.NoWait);
         GUILayout.EndVertical();
     }
 
@@ -182,49 +251,7 @@ public class StoryLineEditor : Editor
         GUILayout.EndVertical();
     }
 
-    void OnCharacterInfos(CharcterSpriteInfos chara)
-    {
-        GUILayout.BeginVertical();
-        //get all character
-        var list = ObjectInfoHelper.GetCharacterNames();
 
-        //set character index if initialize request
-        if (chara.Initialize)
-        {
-            //find origin object
-            var origin = AssetDatabase.LoadAssetAtPath(chara.Path, typeof(GameObject)) as GameObject;
-
-            if (origin != null)
-            {
-                //set index
-                chara.Index = list.IndexOf(list.Where(c => c == origin.name).FirstOrDefault());
-            }
-            chara.Initialize = false;
-        }
-
-        //choice character
-        chara.Index = EditorGUILayout.Popup("Character", chara.Index, list.ToArray());
-
-        //find selected character
-        string path = ValueManager.CharaPath + list[chara.Index] + ".prefab";
-        var selected = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
-        if (selected != null)
-        {
-            //set character path
-            chara.Path = path;
-
-            //get all sprites name
-            var spriteList = selected.GetComponentsInChildren<Transform>().Where(s => s.GetComponent<CharaSpriteSetting>() != null).Select(s => s.name).ToArray();
-            //character sprite
-            chara.SpriteIndex = EditorGUILayout.Popup("Sprite", chara.SpriteIndex, spriteList);
-            //select character face if existe
-            var faceList = selected.transform.GetChild(chara.SpriteIndex).GetComponentsInChildren<Transform>().
-                            Where(f => f.GetComponent<CharaFaceSetting>() != null).
-                            Select(f => f.name).ToArray();
-            if (faceList.Length > 0) chara.FaceIndex = EditorGUILayout.Popup("Face", chara.FaceIndex, faceList);
-        }
-        GUILayout.EndVertical();
-    }
 
     void OnBackground(BackgroundItem background)
     {
@@ -246,6 +273,9 @@ public class StoryLineEditor : Editor
         background.Image = EditorGUILayout.ObjectField("Image", background.Image, typeof(Sprite), false) as Sprite;
         //get path
         if (background.Image != null) background.Path = AssetDatabase.GetAssetPath(background.Image);
+
+        //is wait for background appear
+        background.IsWait = EditorGUILayout.Toggle("Is wait", background.IsWait);
     }
 
     void OnCG(CGInfoItem cg)
@@ -256,12 +286,12 @@ public class StoryLineEditor : Editor
         if (cg.Initialize)
         {
             //find origin object
-            var origin = AssetDatabase.LoadAssetAtPath(cg.Path, typeof(GameObject)) as GameObject;
-
+            var origin = AssetDatabase.LoadAssetAtPath(cg.Path, typeof(Sprite)) as Sprite;
             if (origin != null)
             {
                 //set index
                 cg.Index = list.IndexOf(list.Where(c => c == origin.name).FirstOrDefault());
+
             }
             cg.Initialize = false;
         }
@@ -269,7 +299,7 @@ public class StoryLineEditor : Editor
         //selector for cg
         cg.Index = EditorGUILayout.Popup("CG", cg.Index, list.ToArray());
         //set cg path
-        cg.Path = ValueManager.CGPath + list[cg.Index] + ".prefab";
+        cg.Path = ValueManager.CGPath + list[cg.Index] + ".jpg";
 
         GUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
@@ -278,6 +308,9 @@ public class StoryLineEditor : Editor
         var imgPriveiw = AssetDatabase.LoadAssetAtPath(path, typeof(Sprite)) as Sprite;
         if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(128), GUILayout.Height(72));
         GUILayout.EndHorizontal();
+
+        //is wait for CG appear
+        cg.IsWait = EditorGUILayout.Toggle("Is wait", cg.IsWait);
     }
 
     void OnDelayer(Delayer delayer)
@@ -326,7 +359,7 @@ public class StoryLineEditor : Editor
                 {
                     list.Add((i + 1).ToString());
                 }
-                sound.Track = EditorGUILayout.Popup("Track", sound.Track, list.ToArray());
+                sound.TrackIndex = EditorGUILayout.Popup("Track", sound.TrackIndex, list.ToArray());
             }
             
         }

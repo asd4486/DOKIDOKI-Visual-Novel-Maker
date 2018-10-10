@@ -9,4 +9,6 @@ public class CharacterOutInfos
     [NonSerialized]
     public int Index;
     public string CharaPath;
+
+    public bool IsWait = true;
 }

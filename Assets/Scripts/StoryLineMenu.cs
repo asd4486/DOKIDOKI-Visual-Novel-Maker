@@ -63,6 +63,7 @@ class StoryLineMenu:EditorWindow
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Background"))
         {
+            CurrentEditor.AddNewAction(new BackgroundItem());
             MyWindow.Close();
         }
         if (GUILayout.Button("CG"))
