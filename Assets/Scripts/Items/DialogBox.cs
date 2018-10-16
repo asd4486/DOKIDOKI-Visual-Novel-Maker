@@ -1,11 +1,13 @@
-﻿using System;
+﻿using NodeEditor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 [Serializable]
-public class DialogBox
+public class DialogBox : NodeBase
 {
     public ActionTypes ActionType = ActionTypes.DialogBox;
 
@@ -20,15 +22,77 @@ public class DialogBox
 
     public bool NoWait;
 
+    public DialogBox() { }
+
+    public DialogBox(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+        GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
+        Action<NodeBase> onClickRemoveNode)
+    {
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode);
+        Title = "Dialog";
+    }
+
+    public override void Draw()
+    {
+        InPoint.Draw();
+        OutPoint.Draw();
+
+        GUILayout.BeginArea(Rect, Title, Style);
+        GUILayout.Space(5);
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(SpacePixel);
+        GUILayout.FlexibleSpace();
+        GUILayout.BeginVertical();
+        GUILayout.Space(SpacePixel);
+
+        //character name
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Name", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        CharaName = EditorGUILayout.TextField( CharaName);
+        GUILayout.EndHorizontal();
+
+        //dialogue text box
+        GUILayout.Label("Dialogue", WhiteTxtStyle);
+        Dialog = EditorGUILayout.TextArea(Dialog, GUILayout.Height(50));
+
+        //show character parameter
+        ShowCharParam = EditorGUILayout.Foldout(ShowCharParam, "Character +", true, WhiteTxtStyle);
+
+        if (ShowCharParam)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Font size", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            FontSize = EditorGUILayout.IntField( FontSize);
+            GUILayout.EndHorizontal();
+            //dialogue text speed
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Text speed", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            Speed = EditorGUILayout.IntSlider(Speed, 1, 5);
+            GUILayout.EndHorizontal();
+        }
+        //dialog show in one shot
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("No wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        NoWait = EditorGUILayout.Toggle(NoWait);
+        GUILayout.EndHorizontal();
+
+        GUILayout.EndVertical();
+        GUILayout.Space(SpacePixel);
+        GUILayout.EndHorizontal();
+        GUILayout.EndArea();
+
+        base.Draw();
+    }
+
     // override object.Equals
     public override bool Equals(object obj)
     {
         var item = obj as DialogBox;
         if (item == null) return false;
 
-        return this.CharaName == item.CharaName && this.Dialog == item.Dialog
-            && this.Color == item.Color && this.FontSize == item.FontSize && this.Speed == item.Speed
-            && this.NoWait == item.NoWait;
+        return CharaName == item.CharaName && Dialog == item.Dialog
+            && Color == item.Color && FontSize == item.FontSize && Speed == item.Speed
+            && NoWait == item.NoWait && Position == item.Position;
     }
 
     // override object.GetHashCode

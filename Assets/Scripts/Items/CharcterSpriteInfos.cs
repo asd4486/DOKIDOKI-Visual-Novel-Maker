@@ -1,10 +1,13 @@
-﻿using System;
+﻿using NodeEditor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEditor;
+using UnityEngine;
 
 [Serializable]
-public class CharcterSpriteInfos
+public class CharcterSpriteInfos : NodeBase
 {
     public ActionTypes ActionType = ActionTypes.CharcterSpriteInfos;
     [NonSerialized]
@@ -20,8 +23,97 @@ public class CharcterSpriteInfos
     public int SpriteIndex;
     public int FaceIndex;
 
-    public CharacterPosition Position;
+    public CharacterPosition CharaPos;
     public bool IsWait = true;
+
+    public CharcterSpriteInfos() { }
+
+    public CharcterSpriteInfos(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+        GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
+        Action<NodeBase> onClickRemoveNode)
+    {
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode);
+        Title = "Character sprite";
+    }
+
+    public override void Draw()
+    {
+        InPoint.Draw();
+        OutPoint.Draw();
+
+        GUILayout.BeginArea(Rect, Title, Style);
+        GUILayout.Space(5);
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(SpacePixel);
+        GUILayout.FlexibleSpace();
+        GUILayout.BeginVertical();
+        GUILayout.Space(SpacePixel);
+
+        //get all character
+        var list = ObjectInfoHelper.GetCharacterNames();
+
+        //set character index if initialize request
+        if (Initialize)
+        {
+            //find origin object
+            var origin = AssetDatabase.LoadAssetAtPath(Path, typeof(GameObject)) as GameObject;
+
+            if (origin != null)
+            {
+                //set index
+                Index = list.IndexOf(list.Where(c => c == origin.name).FirstOrDefault());
+            }
+            Initialize = false;
+        }
+
+        //choose character
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Character" , WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        Index = EditorGUILayout.Popup(Index, list.ToArray());
+        GUILayout.EndHorizontal();
+
+        //find selected character
+        string path = ValueManager.CharaPath + list[Index] + ".prefab";
+        var selected = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
+        if (selected != null)
+        {
+            //set character path
+            Path = path;
+            //get all sprites name
+            var spriteList = selected.GetComponentsInChildren<Transform>().Where(s => s.GetComponent<CharaSpriteSetting>() != null).Select(s => s.name).ToArray();
+
+            //character sprite
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Sprite", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            SpriteIndex = EditorGUILayout.Popup(SpriteIndex, spriteList);
+            GUILayout.EndHorizontal();
+
+            //select character face if existe
+            var faceList = selected.transform.GetChild(SpriteIndex).GetComponentsInChildren<Transform>().
+                            Where(f => f.GetComponent<CharaFaceSetting>() != null).
+                            Select(f => f.name).ToArray();
+            if (faceList.Length > 0)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Face", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+                FaceIndex = EditorGUILayout.Popup(FaceIndex, faceList);
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        //is wait for character appear
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Is wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        IsWait = EditorGUILayout.Toggle(IsWait);
+        GUILayout.EndHorizontal();
+
+        GUILayout.EndVertical();
+        GUILayout.Space(SpacePixel);
+        GUILayout.EndHorizontal();
+        GUILayout.EndArea();
+
+        base.Draw();
+    }
 
     // override object.Equals
     public override bool Equals(object obj)
@@ -29,8 +121,9 @@ public class CharcterSpriteInfos
         var item = obj as CharcterSpriteInfos;
         if (item == null)return false;
             
-        return this.Path == item.Path && this.SpriteIndex == item.SpriteIndex 
-            && this.FaceIndex == item.FaceIndex && this.Position == item.Position && this.IsWait == item.IsWait;
+        return Path == item.Path && SpriteIndex == item.SpriteIndex 
+            && FaceIndex == item.FaceIndex && Position == item.Position && IsWait == item.IsWait
+            && Position == item.Position;
     }
 
     // override object.GetHashCode

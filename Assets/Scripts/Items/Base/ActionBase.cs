@@ -16,5 +16,6 @@ public enum ActionTypes
     Delayer = 5,
     Audio = 6,
     Sound = 7,
+    Start = 8
 }
 

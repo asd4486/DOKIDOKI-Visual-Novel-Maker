@@ -1,11 +1,13 @@
-﻿using System;
+﻿using NodeEditor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 [Serializable]
-public class CGInfoItem
+public class CGInfoItem : NodeBase
 {
     public ActionTypes ActionType = ActionTypes.CGInfoItem;
 
@@ -19,13 +21,83 @@ public class CGInfoItem
 
     public bool IsWait = true;
 
+    public CGInfoItem() { }
+
+    public CGInfoItem(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+        GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
+        Action<NodeBase> onClickRemoveNode)
+    {
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode);
+        Title = "CG";
+    }
+
+    public override void Draw()
+    {
+        InPoint.Draw();
+        OutPoint.Draw();
+
+        GUILayout.BeginArea(Rect, Title, Style);
+        GUILayout.Space(5);
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(SpacePixel);
+        GUILayout.FlexibleSpace();
+        GUILayout.BeginVertical();
+        GUILayout.Space(SpacePixel);
+
+        //get all cg
+        var list = ObjectInfoHelper.GetCGsName();
+
+        if (Initialize)
+        {
+            //find origin object
+            var origin = AssetDatabase.LoadAssetAtPath(Path, typeof(Sprite)) as Sprite;
+            if (origin != null)
+            {
+                //set index
+                Index = list.IndexOf(list.Where(c => c == origin.name).FirstOrDefault());
+
+            }
+            Initialize = false;
+        }
+
+        //selector for cg
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("CG", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        Index = EditorGUILayout.Popup(Index, list.ToArray());
+        GUILayout.EndHorizontal();
+        //set cg path
+        Path = ValueManager.CGPath + list[Index] + ".jpg";
+
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        //load preview cg
+        string path = "Assets/GameSources/CGs/" + list[Index] + ".jpg";
+        var imgPriveiw = AssetDatabase.LoadAssetAtPath(path, typeof(Sprite)) as Sprite;
+        if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(200), GUILayout.Height(113));
+        GUILayout.EndHorizontal();
+
+        //is wait for CG appear
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Is wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        IsWait = EditorGUILayout.Toggle(IsWait);
+        GUILayout.EndHorizontal();
+
+        GUILayout.EndVertical();
+        GUILayout.Space(SpacePixel);
+        GUILayout.EndHorizontal();
+        GUILayout.EndArea();
+
+        base.Draw();
+    }
+
+
     // override object.Equals
     public override bool Equals(object obj)
     {
         var item = obj as CGInfoItem;
         if (obj == null) return false;
 
-        return this.Path == item.Path && this.IsWait == item.IsWait;
+        return Path == item.Path && IsWait == item.IsWait && Position == item.Position;
     }
 
     // override object.GetHashCode
