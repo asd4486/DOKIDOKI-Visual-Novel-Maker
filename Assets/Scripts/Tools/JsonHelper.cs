@@ -19,14 +19,14 @@ public static class JsonHelper
         return list;
     }
 
-    public static string ToJson<T>(List<T> list)
+    public static string ToJson<T>(List<T> list, bool prettyPrint = false)
     {
         string json = "";
         List<string> jsonList = new List<string>();
         //action list to string list
         foreach (var a in list)
         {
-            var actionjson = JsonUtility.ToJson(a);
+            var actionjson = JsonUtility.ToJson(a, prettyPrint);
             jsonList.Add(actionjson);
         }
         //write json and save

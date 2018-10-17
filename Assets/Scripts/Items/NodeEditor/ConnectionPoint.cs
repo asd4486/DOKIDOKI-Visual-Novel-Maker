@@ -8,19 +8,17 @@ namespace NodeEditor
 {
     public enum ConnectionPointType { In, Out }
 
+    [Serializable]
     public class ConnectionPoint
     {
         public Rect Rect;
-
         public ConnectionPointType Type;
-
-        public NodeBase Node;
-
+        public SimpleNodeBase Node;
         public GUIStyle Style;
 
         public Action<ConnectionPoint> OnClickConnectionPoint;
 
-        public ConnectionPoint(NodeBase node, ConnectionPointType type, GUIStyle style, Action<ConnectionPoint> onClickConnectionPoint)
+        public ConnectionPoint(SimpleNodeBase node, ConnectionPointType type, GUIStyle style, Action<ConnectionPoint> onClickConnectionPoint)
         {
             this.Node = node;
             this.Type = type;

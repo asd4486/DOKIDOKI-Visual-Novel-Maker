@@ -1,21 +1,17 @@
-﻿using System;
+﻿using NodeEditor;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StoryLine : MonoBehaviour {
+public class StoryLine : MonoBehaviour
+{
 
     [HideInInspector]
     //story json data file name
-    public string DataFileName { get; set; }
-
-    private void Awake()
-    {
-        //game data file name
-        DataFileName = SceneManager.GetActiveScene().name + '-' + gameObject.name + ".json";
-    }
+    public string DataFileName{ get { return "Story-" + SceneManager.GetActiveScene().name + '-' + gameObject.name + ".asset"; } }
 
     #region save load data
     public List<object> OnLoadData()
@@ -87,9 +83,9 @@ public class StoryLine : MonoBehaviour {
         //}
     }
 
-    public void OnSaveData(List<object> actionList)
+    public void OnSaveData(List<NodeBase> actionList)
     {
-        var json = JsonHelper.ToJson(actionList);
+        var json = JsonHelper.ToJson(actionList, true);
         //Debug.Log(json);
 
         File.WriteAllText(ValueManager.GameDataPath + "/" + DataFileName, json);

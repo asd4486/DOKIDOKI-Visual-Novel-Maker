@@ -16,9 +16,9 @@ public class Audio:AudioBase
 
     public Audio(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode)
+        Action<NodeBase> onClickRemoveNode, int id)
     {
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
         Title = "Background music";
     }
 
@@ -64,7 +64,7 @@ public class Audio:AudioBase
         var item = obj as Audio;
         if (item == null) return false;
 
-        return MyAudio == item.MyAudio && Volume == item.Volume && Position == item.Position;
+        return MyAudio == item.MyAudio && Volume == item.Volume && Position == item.Position && Id == item.Id;
     }
 
     // override object.GetHashCode

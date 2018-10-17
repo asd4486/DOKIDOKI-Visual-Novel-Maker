@@ -26,9 +26,9 @@ public class DialogBox : NodeBase
 
     public DialogBox(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode)
+        Action<NodeBase> onClickRemoveNode, int id)
     {
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
         Title = "Dialog";
     }
 
@@ -92,7 +92,7 @@ public class DialogBox : NodeBase
 
         return CharaName == item.CharaName && Dialog == item.Dialog
             && Color == item.Color && FontSize == item.FontSize && Speed == item.Speed
-            && NoWait == item.NoWait && Position == item.Position;
+            && NoWait == item.NoWait && Position == item.Position && Id == item.Id;
     }
 
     // override object.GetHashCode

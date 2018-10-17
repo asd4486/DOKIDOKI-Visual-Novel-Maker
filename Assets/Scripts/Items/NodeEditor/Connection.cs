@@ -7,32 +7,33 @@ using UnityEngine;
 
 namespace NodeEditor
 {
+    [Serializable]
     public class Connection
     {
-        public ConnectionPoint inPoint;
-        public ConnectionPoint outPoint;
+        public ConnectionPoint InPoint;
+        public ConnectionPoint OutPoint;
         public Action<Connection> OnClickRemoveConnection;
 
         public Connection(ConnectionPoint inPoint, ConnectionPoint outPoint, Action<Connection> OnClickRemoveConnection)
         {
-            this.inPoint = inPoint;
-            this.outPoint = outPoint;
+            this.InPoint = inPoint;
+            this.OutPoint = outPoint;
             this.OnClickRemoveConnection = OnClickRemoveConnection;
         }
 
         public void Draw()
         {
             Handles.DrawBezier(
-                inPoint.Rect.center,
-                outPoint.Rect.center,
-                inPoint.Rect.center + Vector2.left * 50f,
-                outPoint.Rect.center - Vector2.left * 50f,
+                InPoint.Rect.center,
+                OutPoint.Rect.center,
+                InPoint.Rect.center + Vector2.left * 50f,
+                OutPoint.Rect.center - Vector2.left * 50f,
                 Color.white,
                 null,
                 2f
             );
 
-            if (Handles.Button((inPoint.Rect.center + outPoint.Rect.center) * 0.5f, Quaternion.identity, 4, 8, Handles.RectangleCap))
+            if (Handles.Button((InPoint.Rect.center + OutPoint.Rect.center) * 0.5f, Quaternion.identity, 4, 8, Handles.RectangleCap))
             {
                 if (OnClickRemoveConnection != null)
                 {

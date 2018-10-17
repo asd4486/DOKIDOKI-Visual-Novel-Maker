@@ -1,1 +1,0 @@
-[{"ActionType":3,"Path":"Assets/Images/BG/gal_game_bg_by_mrainbowwj-d7k2ocu.jpg","IsWait":false},{"ActionType":0,"Path":"Assets/GameSources/Characters/chara_toto.prefab","SpriteIndex":0,"FaceIndex":0,"Position":0,"IsWait":true},{"ActionType":1,"CharaName":"toto","Dialog":"hello","Color":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"FontSize":15,"Speed":3,"NoWait":false}]

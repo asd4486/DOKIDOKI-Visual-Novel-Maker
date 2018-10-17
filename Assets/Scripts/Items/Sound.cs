@@ -17,9 +17,9 @@ public class Sound : AudioBase
 
     public Sound(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode)
+        Action<NodeBase> onClickRemoveNode, int id)
     {
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
         Title = "Sound";
     }
 
@@ -87,7 +87,7 @@ public class Sound : AudioBase
         var item = obj as Sound;
         if (obj == null) return false;
 
-        return MyAudio == item.MyAudio && Volume == item.Volume && TrackIndex == item.TrackIndex && Position == item.Position;
+        return MyAudio == item.MyAudio && Volume == item.Volume && TrackIndex == item.TrackIndex && Position == item.Position && Id == item.Id;
     }
 
     // override object.GetHashCode

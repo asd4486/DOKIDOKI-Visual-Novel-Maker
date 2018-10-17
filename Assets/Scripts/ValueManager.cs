@@ -16,6 +16,7 @@ public static class ValueManager
     public static string CharaPath = GameSourcesPath + "Characters/";
     public static string CharaFullPath = GameSourcesFullPath + "Characters/";
 
-    public static string GameDataPath = Application.dataPath + "/GameData/";
+    public static string GameDataPath = "Assets/GameData/";
+    public static string GameDataFullPath = Application.dataPath + "/GameData/";
 }
 

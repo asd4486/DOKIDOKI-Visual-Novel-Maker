@@ -8,40 +8,28 @@ using UnityEngine;
 namespace NodeEditor
 {
     [Serializable]
-    public class NodeBase
+    public class NodeBase: SimpleNodeBase
     {
         public ConnectionPoint InPoint;
         public ConnectionPoint OutPoint;
 
-        public Vector2 Position;
-        public List<Connection> InConnections;
-        public Connection OutConnection;
-
-        [NonSerialized]
         public bool IsDragged;
         [NonSerialized]
         public bool IsSelected;
 
         [NonSerialized]
-        public Rect Rect;
-        [NonSerialized]
         public float SpacePixel = 10;
         [NonSerialized]
         public float LabelWidth = 90;
-        [NonSerialized]
+
         public string Title;
         [NonSerialized]
         public GUIStyle Style;
 
-        [NonSerialized]
         public GUIStyle DefaultNodeStyle;
-        [NonSerialized]
         public GUIStyle SelectedNodeStyle;
-        [NonSerialized]
         public GUIStyle WhiteTxtStyle;
-        [NonSerialized]
         public Action<NodeBase> OnRemoveNode;
-        [NonSerialized]
         public bool CanEdit;
 
         //public NodeBase() { }
@@ -55,7 +43,7 @@ namespace NodeEditor
 
         public void Init(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
             GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-            Action<NodeBase> onClickRemoveNode, bool canEdit = true)
+            Action<NodeBase> onClickRemoveNode, int id = 0, bool canEdit = true)
         {
             Position = position;
             Rect = new Rect(position.x, position.y, width, height+5);
@@ -73,6 +61,7 @@ namespace NodeEditor
             WhiteTxtStyle.focused.textColor = Color.yellow;
             CanEdit = canEdit;
 
+            Id = id;
         }
 
         public void Drag(Vector2 delta)
@@ -155,7 +144,7 @@ namespace NodeEditor
             var item = obj as NodeBase;
             if (item == null) return false;
 
-            return item.Position == Position;
+            return item.Position == Position && item.Id == Id;
         }
 
         // override object.GetHashCode

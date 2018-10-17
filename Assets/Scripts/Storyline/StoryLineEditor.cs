@@ -17,9 +17,6 @@ public class StoryLineEditor : Editor
     {
         //get editor target
         StoryLine = (StoryLine)target;
-        //game data file name
-        StoryLine.DataFileName = SceneManager.GetActiveScene().name + '-' + StoryLine.gameObject.name + ".json";
-       
     }
 
     public override void OnInspectorGUI()

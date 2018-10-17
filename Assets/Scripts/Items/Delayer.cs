@@ -17,9 +17,9 @@ public class Delayer : NodeBase
 
     public Delayer(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode)
+        Action<NodeBase> onClickRemoveNode, int id)
     {
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
         Title = "Delayer";
     }
 
@@ -56,7 +56,7 @@ public class Delayer : NodeBase
         var item = obj as Delayer;
         if (obj == null) return false;
 
-        return Delay == item.Delay && Position == item.Position;
+        return Delay == item.Delay && Position == item.Position && Id == item.Id;
     }
 
     // override object.GetHashCode

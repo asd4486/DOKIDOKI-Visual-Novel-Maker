@@ -30,9 +30,9 @@ public class CharcterSpriteInfos : NodeBase
 
     public CharcterSpriteInfos(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode)
+        Action<NodeBase> onClickRemoveNode, int id)
     {
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
         Title = "Character sprite";
     }
 
@@ -123,7 +123,7 @@ public class CharcterSpriteInfos : NodeBase
             
         return Path == item.Path && SpriteIndex == item.SpriteIndex 
             && FaceIndex == item.FaceIndex && Position == item.Position && IsWait == item.IsWait
-            && Position == item.Position;
+            && Position == item.Position && Id == item.Id;
     }
 
     // override object.GetHashCode
