@@ -7,17 +7,24 @@ public static class JsonHelper
 {
     //public static T[] FromJson<T>(string json)
     //{
-    //    Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(json);
+    //    string newJson = "{ \"array\": " + json + "}";
+    //    Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(newJson);
     //    return wrapper.Items;
     //}
 
-    public static List<T> FromJson<T>(string json)
+    public static T[] FromJson<T>(string json)
     {
-        List<T> list = new List<T>();
-        //var jsonobj = JsonUtility.FromJson<object>(json);
-        Debug.Log(JsonUtility.FromJson<Wrapper<T>>(json).Items);
-        return list;
+        Wrapper<T> wrapper = UnityEngine.JsonUtility.FromJson<Wrapper<T>>(json);
+        return wrapper.Items;
     }
+
+    //public static List<T> FromJson<T>(string json)
+    //{
+    //    List<T> list = new List<T>();
+    //    //var jsonobj = JsonUtility.FromJson<object>(json);
+    //    Debug.Log(JsonUtility.FromJson<Wrapper<T>>(json).Items);
+    //    return list;
+    //}
 
     public static string ToJson<T>(List<T> list, bool prettyPrint = false)
     {
@@ -38,12 +45,12 @@ public static class JsonHelper
         //return JsonUtility.ToJson(wrapper);
     }
 
-    //public static string ToJson<T>(T[] array, bool prettyPrint)
-    //{
-    //    Wrapper<T> wrapper = new Wrapper<T>();
-    //    wrapper.Items = array;
-    //    return JsonUtility.ToJson(wrapper, prettyPrint);
-    //}
+    public static string ToJson<T>(T[] array, bool prettyPrint = false)
+    {
+        Wrapper<T> wrapper = new Wrapper<T>();
+        wrapper.Items = array;
+        return UnityEngine.JsonUtility.ToJson(wrapper, prettyPrint);
+    }
 
     [Serializable]
     private class Wrapper<T>

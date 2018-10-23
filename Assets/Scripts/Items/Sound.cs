@@ -9,8 +9,6 @@ using UnityEngine;
 [Serializable]
 public class Sound : AudioBase
 {
-    public ActionTypes ActionType = ActionTypes.Sound;
-
     public int TrackIndex;
 
     public Sound() { }
@@ -19,8 +17,8 @@ public class Sound : AudioBase
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickRemoveNode, int id)
     {
+        ActionType = ActionTypes.Sound;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
-        Title = "Sound";
     }
 
     public override void Draw()

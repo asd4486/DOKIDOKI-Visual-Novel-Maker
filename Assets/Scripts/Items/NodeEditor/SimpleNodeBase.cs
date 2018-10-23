@@ -8,19 +8,21 @@ using UnityEngine;
 namespace NodeEditor
 {
     [Serializable]
-    public class SimpleNodeBase:ScriptableObject
+    public class SimpleNodeBase
     {
-        public Vector2 Position;
+        [NonSerialized]
         public Rect Rect;
-        public int Id;
-
-        public List<Connection> InConnections;
+        [NonSerialized]
         public Connection OutConnection;
+
+        public Vector2 Position;
+        public int Id;
 
         // override object.Equals
         public override bool Equals(object obj)
         {
             var item = obj as SimpleNodeBase;
+            Debug.Log(item);
             if (item == null) return false;
 
             return item.Position == Position && item.Id == Id;

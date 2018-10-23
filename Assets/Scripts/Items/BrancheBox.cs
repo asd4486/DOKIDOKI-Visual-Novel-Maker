@@ -9,7 +9,6 @@ using UnityEngine;
 [Serializable]
 public class BrancheBox:NodeBase
 {
-    public ActionTypes ActionType = ActionTypes.BrancheBox;
 
     public string Dialogue;
 
@@ -24,8 +23,8 @@ public class BrancheBox:NodeBase
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickRemoveNode, int id)
     {
+        ActionType = ActionTypes.BrancheBox;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
-        Title = "Branches";
     }
 
     public override void Draw()

@@ -9,7 +9,7 @@ using UnityEngine;
 [Serializable]
 public class Delayer : NodeBase
 {
-    public ActionTypes ActionType = ActionTypes.Delayer;
+
 
     public float Delay;
 
@@ -19,8 +19,8 @@ public class Delayer : NodeBase
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickRemoveNode, int id)
     {
+        ActionType = ActionTypes.Delayer;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
-        Title = "Delayer";
     }
 
     public override void Draw()

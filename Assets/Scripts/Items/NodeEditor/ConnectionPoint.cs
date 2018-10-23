@@ -11,11 +11,15 @@ namespace NodeEditor
     [Serializable]
     public class ConnectionPoint
     {
+        [NonSerialized]
         public Rect Rect;
+        [NonSerialized]
         public ConnectionPointType Type;
         public SimpleNodeBase Node;
-        public GUIStyle Style;
 
+        [NonSerialized]
+        public GUIStyle Style;
+        [NonSerialized]
         public Action<ConnectionPoint> OnClickConnectionPoint;
 
         public ConnectionPoint(SimpleNodeBase node, ConnectionPointType type, GUIStyle style, Action<ConnectionPoint> onClickConnectionPoint)

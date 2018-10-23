@@ -9,7 +9,6 @@ using UnityEngine;
 [Serializable]
 public class BackgroundItem:NodeBase
 {
-    public ActionTypes ActionType = ActionTypes.BackgroundItem;
     [NonSerialized]
     public bool Initialize;
     [NonSerialized]
@@ -24,8 +23,9 @@ public class BackgroundItem:NodeBase
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickRemoveNode, int id)
     {
+
+        ActionType = ActionTypes.BackgroundItem;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
-        Title = "Background";
     }
 
     public override void Draw()

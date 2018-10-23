@@ -6,11 +6,11 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public class StoryLineNodeEditor:EditorWindow
+public class StoryLineNodeEditor : EditorWindow
 {
     static StoryLine CurrentStoryLine { get; set; }
 
-    private StartPoint StartNode;
+    private EditorStartPoint StartNode;
     private NodeBaseList _NodeBaseList;
 
     private float NodeWidth = 250;
@@ -45,7 +45,7 @@ public class StoryLineNodeEditor:EditorWindow
     static void Init()
     {
         var window = (StoryLineNodeEditor)GetWindow(typeof(StoryLineNodeEditor), false, "DokiDoki Story line");
-        window.minSize = new Vector2(800,500);
+        window.minSize = new Vector2(800, 500);
         window.Show();
     }
 
@@ -63,9 +63,15 @@ public class StoryLineNodeEditor:EditorWindow
         InitEditor();
     }
 
+    private void OnDisable()
+    {
+        CurrentStoryLine.OnSaveData(_NodeBaseList.Nodes, Connections);
+    }
+
     private void InitEditor()
     {
         _NodeBaseList = new NodeBaseList();
+        _NodeBaseList.Nodes = CurrentStoryLine.OnLoadNodes();
 
         //editor background color
         BackgroundColor = new Texture2D(1, 1, TextureFormat.RGBA32, false);
@@ -74,6 +80,7 @@ public class StoryLineNodeEditor:EditorWindow
 
         //node radius
         var radius = 10;
+
         InPointStyle = new GUIStyle();
         InPointStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn left.png") as Texture2D;
         InPointStyle.active.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn left on.png") as Texture2D;
@@ -85,37 +92,31 @@ public class StoryLineNodeEditor:EditorWindow
         OutPointStyle.border = new RectOffset(4, 4, radius, radius);
 
         //draw start node
-        var tex = new Texture2D(12, 12);
-        var fillColorArray = tex.GetPixels();
+        var starttex = new Texture2D(12, 12);
+        var fillColorArray = starttex.GetPixels();
         for (var i = 0; i < fillColorArray.Length; ++i)
         {
             fillColorArray[i] = new Color(0.2f, 0.8f, 0.2f, 0.7f);
         }
-        tex.SetPixels(fillColorArray);
-        tex.Apply();
+        starttex.SetPixels(fillColorArray);
+        starttex.Apply();
 
         var startNodeStyle = new GUIStyle();
-        startNodeStyle.normal.background = tex;
+        startNodeStyle.normal.background = starttex;
 
-        var tex2 = new Texture2D(12, 12);
-        var fillColorArray2 = tex2.GetPixels();
+        var starttex2 = new Texture2D(12, 12);
+        var fillColorArray2 = starttex2.GetPixels();
         for (var i = 0; i < fillColorArray2.Length; ++i)
         {
             fillColorArray2[i] = new Color(0.2f, 0.8f, 0.2f, 0.9f);
         }
-        tex2.SetPixels(fillColorArray2);
-        tex2.Apply();
+        starttex2.SetPixels(fillColorArray2);
+        starttex2.Apply();
 
         var startSelectedNodeStyle = new GUIStyle();
-        startSelectedNodeStyle.normal.background = tex2;
+        startSelectedNodeStyle.normal.background = starttex2;
 
-        var y = position.height / 5;
-
-        StartNode = new StartPoint(new Vector2(20, y), NodeWidth / 2, 30, startNodeStyle, startSelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
-        //add start node to action nodes
-        if (!_NodeBaseList.Nodes.Contains(StartNode)) _NodeBaseList.Nodes.Insert(0, StartNode);
-
-        tex = new Texture2D(12, 12);
+        var tex = new Texture2D(12, 12);
         fillColorArray = tex.GetPixels();
         for (var i = 0; i < fillColorArray.Length; ++i)
         {
@@ -129,7 +130,7 @@ public class StoryLineNodeEditor:EditorWindow
         NodeStyle.normal.textColor = Color.gray;
         NodeStyle.border = new RectOffset(radius, radius, radius, radius);
 
-        tex2 = new Texture2D(12, 12);
+        var tex2 = new Texture2D(12, 12);
         fillColorArray2 = tex2.GetPixels();
         for (var i = 0; i < fillColorArray2.Length; ++i)
         {
@@ -142,6 +143,65 @@ public class StoryLineNodeEditor:EditorWindow
         SelectedNodeStyle.normal.background = tex2;
         SelectedNodeStyle.normal.textColor = Color.yellow;
         SelectedNodeStyle.border = new RectOffset(radius, radius, radius, radius);
+
+        //import existed node 
+        if (_NodeBaseList.Nodes.Count > 0)
+        {
+            foreach (var n in _NodeBaseList.Nodes)
+            {
+                switch (n.ActionType)
+                {
+                    case ActionTypes.Start:
+                        n.SetNodeStyle(NodeWidth / 2, 30, startNodeStyle, startSelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode, false);
+                        break;
+                    case ActionTypes.CharcterSpriteInfos:
+                        n.SetNodeStyle(NodeWidth, 90, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+                        break;
+                    case ActionTypes.DialogBox:
+                        n.SetNodeStyle(NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+                        break;
+                    case ActionTypes.BrancheBox:
+                        n.SetNodeStyle(NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+                        break;
+                    case ActionTypes.BackgroundItem:
+                        n.SetNodeStyle(NodeWidth, 150, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+                        break;
+                    case ActionTypes.CGInfoItem:
+                        n.SetNodeStyle(NodeWidth, 170, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+                        break;
+                    case ActionTypes.Delayer:
+                        n.SetNodeStyle(NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+                        break;
+                    case ActionTypes.Audio:
+                        n.SetNodeStyle(NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+                        break;
+                    case ActionTypes.Sound:
+                        n.SetNodeStyle(NodeWidth, 70, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+                        break;
+                }
+            }
+
+            //import connections
+            Connections = CurrentStoryLine.OnLoadConnections();
+            foreach(var c in Connections)
+            {
+                c.OnClickRemoveConnection = OnClickRemoveConnection;
+                c.InPoint = _NodeBaseList.Nodes.Where(n => n.Id == c.InPoint.Node.Id).FirstOrDefault().InPoint;
+
+                var outNode = _NodeBaseList.Nodes.Where(n => n.Id == c.OutPoint.Node.Id).FirstOrDefault();
+                //set out connection(each node only have one out connection)
+                outNode.OutConnection = c;
+                c.OutPoint = outNode.OutPoint;
+            }
+        }
+        //or create new
+        else
+        {
+            var y = position.height / 5;
+            StartNode = new EditorStartPoint(new Vector2(20, y), NodeWidth / 2, 30, startNodeStyle, startSelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+            //add start node to action nodes
+            if (!_NodeBaseList.Nodes.Contains(StartNode)) _NodeBaseList.Nodes.Insert(0, StartNode);
+        }
     }
 
     private void OnGUI()
@@ -330,41 +390,41 @@ public class StoryLineNodeEditor:EditorWindow
         genericMenu.ShowAsContext();
     }
 
-    public void AddNewAction(ActionTypes type, Vector2 mousePosition)
+    public void AddNewAction(ActionTypes type, Vector2 position)
     {
         var id = _NodeBaseList.Nodes.Count;
         switch (type)
         {
             case ActionTypes.CharcterSpriteInfos:
-                _NodeBaseList.Nodes.Add(new CharcterSpriteInfos(mousePosition, NodeWidth, 90, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+                _NodeBaseList.Nodes.Add(new CharcterSpriteInfos(position, NodeWidth, 90, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
                                                         OnClickInPoint, OnClickOutPoint, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.DialogBox:
-                _NodeBaseList.Nodes.Add(new DialogBox(mousePosition, NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+                _NodeBaseList.Nodes.Add(new DialogBox(position, NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
                                                 OnClickInPoint, OnClickOutPoint, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.BrancheBox:
-                _NodeBaseList.Nodes.Add(new BrancheBox(mousePosition, NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle,
+                _NodeBaseList.Nodes.Add(new BrancheBox(position, NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle,
                                                 OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.BackgroundItem:
-                _NodeBaseList.Nodes.Add(new BackgroundItem(mousePosition, NodeWidth, 150, NodeStyle, SelectedNodeStyle, InPointStyle,
+                _NodeBaseList.Nodes.Add(new BackgroundItem(position, NodeWidth, 150, NodeStyle, SelectedNodeStyle, InPointStyle,
                                                 OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.CGInfoItem:
-                _NodeBaseList.Nodes.Add(new CGInfoItem(mousePosition, NodeWidth, 170, NodeStyle, SelectedNodeStyle, InPointStyle,
+                _NodeBaseList.Nodes.Add(new CGInfoItem(position, NodeWidth, 170, NodeStyle, SelectedNodeStyle, InPointStyle,
                                                 OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.Delayer:
-                _NodeBaseList.Nodes.Add(new Delayer(mousePosition, NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+                _NodeBaseList.Nodes.Add(new Delayer(position, NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
                                                 OnClickInPoint, OnClickOutPoint, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.Audio:
-                _NodeBaseList.Nodes.Add(new Audio(mousePosition, NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+                _NodeBaseList.Nodes.Add(new Audio(position, NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
                                                 OnClickInPoint, OnClickOutPoint, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.Sound:
-                _NodeBaseList.Nodes.Add(new Sound(mousePosition, NodeWidth, 70, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+                _NodeBaseList.Nodes.Add(new Sound(position, NodeWidth, 70, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
                                             OnClickInPoint, OnClickOutPoint, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
         }
@@ -439,7 +499,6 @@ public class StoryLineNodeEditor:EditorWindow
     {
         if (Connections.Contains(conn))
         {
-            conn.InPoint.Node.InConnections.Remove(conn);
             conn.OutPoint.Node.OutConnection = null;
             Connections.Remove(conn);
         }
@@ -462,13 +521,9 @@ public class StoryLineNodeEditor:EditorWindow
         SelectedOutPoint.Node.OutConnection = connection;
         if (!Connections.Contains(connection))
         {
-            //all connections
-            SelectedInPoint.Node.InConnections.Add(connection);
-            Connections.Add(SelectedInPoint.Node.InConnections.Where(c => c == connection).FirstOrDefault());
+            Connections.Add(connection);
         }
     }
-
-
 
     private void ClearConnectionSelection()
     {

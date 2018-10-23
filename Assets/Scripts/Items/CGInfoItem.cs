@@ -9,8 +9,6 @@ using UnityEngine;
 [Serializable]
 public class CGInfoItem : NodeBase
 {
-    public ActionTypes ActionType = ActionTypes.CGInfoItem;
-
     [NonSerialized]
     public bool Initialize;
 
@@ -27,8 +25,8 @@ public class CGInfoItem : NodeBase
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickRemoveNode, int id)
     {
+        ActionType = ActionTypes.CGInfoItem;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
-        Title = "CG";
     }
 
     public override void Draw()

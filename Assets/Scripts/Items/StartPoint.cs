@@ -5,22 +5,17 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class StartPoint:NodeBase
+[Serializable]
+public class EditorStartPoint:NodeBase
 {
-    public ActionTypes ActionType = ActionTypes.Start;
+    public EditorStartPoint() { }
 
-    public StartPoint() { }
-
-    public StartPoint(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+    public EditorStartPoint(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickRemoveNode)
     {
+        ActionType = ActionTypes.Start;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, null, canEdit:false);
-
-        WhiteTxtStyle = new GUIStyle();
-        WhiteTxtStyle.normal.textColor = Color.white;
-        WhiteTxtStyle.fontSize = 20;
-        WhiteTxtStyle.fontStyle = FontStyle.Bold;
     }
 
     public override void Draw()

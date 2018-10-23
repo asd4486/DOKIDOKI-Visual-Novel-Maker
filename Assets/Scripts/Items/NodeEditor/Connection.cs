@@ -12,7 +12,10 @@ namespace NodeEditor
     {
         public ConnectionPoint InPoint;
         public ConnectionPoint OutPoint;
+        [NonSerialized]
         public Action<Connection> OnClickRemoveConnection;
+
+        public Connection() { }
 
         public Connection(ConnectionPoint inPoint, ConnectionPoint outPoint, Action<Connection> OnClickRemoveConnection)
         {

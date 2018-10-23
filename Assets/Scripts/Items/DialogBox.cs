@@ -9,8 +9,6 @@ using UnityEngine;
 [Serializable]
 public class DialogBox : NodeBase
 {
-    public ActionTypes ActionType = ActionTypes.DialogBox;
-
     public string CharaName;
     public string Dialog;
 
@@ -28,8 +26,8 @@ public class DialogBox : NodeBase
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickRemoveNode, int id)
     {
+        ActionType = ActionTypes.DialogBox;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
-        Title = "Dialog";
     }
 
     public override void Draw()

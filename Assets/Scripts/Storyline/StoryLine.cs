@@ -3,20 +3,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StoryLine : MonoBehaviour
 {
-
     [HideInInspector]
     //story json data file name
-    public string DataFileName{ get { return "Story-" + SceneManager.GetActiveScene().name + '-' + gameObject.name + ".asset"; } }
+    public string DataFileName { get { return SceneManager.GetActiveScene().name + '-' + gameObject.name+ "-story" + ".json"; } }
+    public string ConnectionsDataFileName { get { return SceneManager.GetActiveScene().name + '-' + gameObject.name+ "-connection" + ".json"; } }
 
     #region save load data
-    public List<object> OnLoadData()
+    public List<NodeBase> OnLoadNodes()
     {
-        var actionList = new List<object>();
+        var nodeList = new List<NodeBase>();
 
         // Path.Combine combines strings into a file path
         // Application.StreamingAssets points to Assets/StreamingAssets in the Editor, and the StreamingAssets folder in a build
@@ -25,19 +27,25 @@ public class StoryLine : MonoBehaviour
         if (File.Exists(filePath))
         {
             //find all json data
-            string jsons = File.ReadAllText(filePath);
-            string[] datas = jsons.Remove(jsons.Length - 1).Remove(0, 1).Split(new string[] { ",{" }, StringSplitOptions.RemoveEmptyEntries);
+            string json = File.ReadAllText(filePath);
+            string[] datas = json.Remove(json.Length - 1).Remove(0, 1).Split(new string[] { ",{" }, StringSplitOptions.RemoveEmptyEntries);
+            //Debug.Log(json);
+            //Debug.Log(JsonHelper.FromJson<NodeBase>(json));
+            nodeList = new List<NodeBase>();
 
             for (var i = 0; i < datas.Length; i++)
             {
                 var d = datas[i];
                 if (d[0] != '{') { d = "{" + d; }
 
-                var type = JsonUtility.FromJson<ActionBase>(d);
+                var type = JsonUtility.FromJson<NodeBase>(d);
                 //check action type and load current class
-                var newAction = new object();
+                var newAction = new NodeBase();
                 switch (type.ActionType)
                 {
+                    case ActionTypes.Start:
+                        newAction = JsonUtility.FromJson<EditorStartPoint>(d);
+                        break;
                     case ActionTypes.Audio:
                         newAction = JsonUtility.FromJson<Audio>(d);
                         break;
@@ -69,35 +77,47 @@ public class StoryLine : MonoBehaviour
                         newAction = JsonUtility.FromJson<Sound>(d);
                         break;
                 }
-                actionList.Add(newAction);
+                nodeList.Add(newAction);
             }
-            // Pass the json to JsonUtility, and tell it to create a GameData object from it
-            //var loadedData = JsonHelper.FromJson<List<dynamic>>(dataAsJson);
-            //Debug.Log(loadedData.Count);
         }
 
-        return actionList;
+        return nodeList;
         //else
         //{
         //    Debug.Log("No data for this story line!");
         //}
     }
 
-    public void OnSaveData(List<NodeBase> actionList)
+    public List<Connection> OnLoadConnections()
     {
-        var json = JsonHelper.ToJson(actionList, true);
-        //Debug.Log(json);
+        var list = new List<Connection>();
+        string filePath = Path.Combine(ValueManager.GameDataPath, ConnectionsDataFileName);
 
-        File.WriteAllText(ValueManager.GameDataPath + "/" + DataFileName, json);
+        if (File.Exists(filePath))
+        {
+            //find all json data
+            string json = File.ReadAllText(filePath);
+            list = JsonHelper.FromJson<Connection>(json).ToList();
+            //string[] datas = json.Remove(json.Length - 1).Remove(0, 1).Split(new string[] { ",{" }, StringSplitOptions.RemoveEmptyEntries);
+            //Debug.Log(json);
+        }
+
+        return list;
+    }
+
+    public void OnSaveData(List<NodeBase> actionList, List<Connection> connections)
+    {
+        var json = JsonHelper.ToJson(actionList);
+        File.WriteAllText(ValueManager.GameDataPath + DataFileName, json);
+
+        var json2 = JsonHelper.ToJson(connections.ToArray());
+        File.WriteAllText(ValueManager.GameDataPath + ConnectionsDataFileName, json2);
+        //BinaryFormatter formatter = new BinaryFormatter();
+
+        //FileStream saveFile = File.Create(ValueManager.GameDataPath + DataFileName);
+
+        //formatter.Serialize(saveFile, actionList);
+        //saveFile.Close();
     }
     #endregion
-    //   // Use this for initialization
-    //void Start()
-    //{
-    //}
-
-    //// Update is called once per frame
-    //void Update () {
-
-    //}
 }

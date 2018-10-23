@@ -9,7 +9,6 @@ using UnityEngine;
 [Serializable]
 public class CharcterSpriteInfos : NodeBase
 {
-    public ActionTypes ActionType = ActionTypes.CharcterSpriteInfos;
     [NonSerialized]
     public bool Initialize;
 
@@ -32,8 +31,8 @@ public class CharcterSpriteInfos : NodeBase
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickRemoveNode, int id)
     {
+        ActionType = ActionTypes.CharcterSpriteInfos;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
-        Title = "Character sprite";
     }
 
     public override void Draw()
@@ -68,7 +67,7 @@ public class CharcterSpriteInfos : NodeBase
 
         //choose character
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Character" , WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        GUILayout.Label("Character", WhiteTxtStyle, GUILayout.Width(LabelWidth));
         Index = EditorGUILayout.Popup(Index, list.ToArray());
         GUILayout.EndHorizontal();
 
@@ -119,9 +118,9 @@ public class CharcterSpriteInfos : NodeBase
     public override bool Equals(object obj)
     {
         var item = obj as CharcterSpriteInfos;
-        if (item == null)return false;
-            
-        return Path == item.Path && SpriteIndex == item.SpriteIndex 
+        if (item == null) return false;
+
+        return Path == item.Path && SpriteIndex == item.SpriteIndex
             && FaceIndex == item.FaceIndex && Position == item.Position && IsWait == item.IsWait
             && Position == item.Position && Id == item.Id;
     }

@@ -1,11 +1,5 @@
 ﻿using System;
 
-[Serializable]
-public class ActionBase
-{
-    public ActionTypes ActionType;
-}
-
 public enum ActionTypes
 {
     CharcterSpriteInfos = 0,

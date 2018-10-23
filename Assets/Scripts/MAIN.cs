@@ -65,7 +65,7 @@ public class MAIN : MonoBehaviour {
 
         if(StartStoryLine != null)
         {
-            StoryActionList = StartStoryLine.GetComponent<StoryLine>().OnLoadData();
+            //StoryActionList = StartStoryLine.GetComponent<StoryLine>().OnLoadData();
         }
         PlayStoryLine();
     }

@@ -9,17 +9,15 @@ using UnityEngine;
 [Serializable]
 public class Audio:AudioBase
 {
-    //set action type
-    public ActionTypes ActionType = ActionTypes.Audio;
-
     public Audio() { }
 
     public Audio(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickRemoveNode, int id)
     {
+        //set action type
+        ActionType = ActionTypes.Audio;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
-        Title = "Background music";
     }
 
     public override void Draw()
