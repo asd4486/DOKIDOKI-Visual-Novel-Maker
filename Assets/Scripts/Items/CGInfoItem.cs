@@ -23,10 +23,10 @@ public class CGInfoItem : NodeBase
 
     public CGInfoItem(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode, int id)
+        Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
     {
         ActionType = ActionTypes.CGInfoItem;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
     }
 
     public override void Draw()
@@ -66,13 +66,13 @@ public class CGInfoItem : NodeBase
         //set cg path
         Path = ValueManager.CGPath + list[Index] + ".jpg";
 
-        GUILayout.BeginHorizontal();
-        GUILayout.FlexibleSpace();
+        //GUILayout.BeginHorizontal();
+        //GUILayout.FlexibleSpace();
         //load preview cg
-        string path = "Assets/GameSources/CGs/" + list[Index] + ".jpg";
+        string path = ValueManager.CGPath + list[Index] + ".jpg";
         var imgPriveiw = AssetDatabase.LoadAssetAtPath(path, typeof(Sprite)) as Sprite;
         if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(200), GUILayout.Height(113));
-        GUILayout.EndHorizontal();
+        //GUILayout.EndHorizontal();
 
         //is wait for CG appear
         GUILayout.BeginHorizontal();
@@ -88,20 +88,19 @@ public class CGInfoItem : NodeBase
         base.Draw();
     }
 
-
-    // override object.Equals
-    public override bool Equals(object obj)
+    public override NodeBase Clone(Vector2 pos, int newId)
     {
-        var item = obj as CGInfoItem;
-        if (obj == null) return false;
+        var clone = new CGInfoItem(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+            OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+            OnCopyNode, OnRemoveNode, newId)
+        {
 
-        return Path == item.Path && IsWait == item.IsWait && Position == item.Position && Id == item.Id;
-    }
+            Initialize = true,
+            Path = Path,
+            IsWait = IsWait,
+        };
 
-    // override object.GetHashCode
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
+        return clone;
     }
 }
 

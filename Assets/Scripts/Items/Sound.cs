@@ -15,10 +15,10 @@ public class Sound : AudioBase
 
     public Sound(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode, int id)
+        Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
     {
         ActionType = ActionTypes.Sound;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
     }
 
     public override void Draw()
@@ -33,6 +33,20 @@ public class Sound : AudioBase
         GUILayout.FlexibleSpace();
         GUILayout.BeginVertical();
         GUILayout.Space(SpacePixel);
+
+        //initialize
+        if (Initialize)
+        {
+            //find origin object
+            var origin = AssetDatabase.LoadAssetAtPath(AudioPath, typeof(AudioClip)) as AudioClip;
+
+            if (origin != null)
+            {
+                //set background image
+                MyAudio = origin;
+            }
+            Initialize = false;
+        }
 
         //Choose audio
         GUILayout.BeginHorizontal();
@@ -79,19 +93,34 @@ public class Sound : AudioBase
         base.Draw();
     }
 
+    public override NodeBase Clone(Vector2 pos, int newId)
+    {
+        var clone = new Sound(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+            OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+            OnCopyNode, OnRemoveNode, newId)
+        {
+            Initialize = true,
+            AudioPath = AudioPath,
+            Volume = Volume,
+            TrackIndex = TrackIndex
+        };
+
+        return clone;
+    }
+
     // override object.Equals
-    public override bool Equals(object obj)
-    {
-        var item = obj as Sound;
-        if (obj == null) return false;
+    //public override bool Equals(object obj)
+    //{
+    //    var item = obj as Sound;
+    //    if (obj == null) return false;
 
-        return MyAudio == item.MyAudio && Volume == item.Volume && TrackIndex == item.TrackIndex && Position == item.Position && Id == item.Id;
-    }
+    //    return MyAudio == item.MyAudio && Volume == item.Volume && TrackIndex == item.TrackIndex && Position == item.Position && Id == item.Id;
+    //}
 
-    // override object.GetHashCode
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
+    //// override object.GetHashCode
+    //public override int GetHashCode()
+    //{
+    //    return base.GetHashCode();
+    //}
 }
 

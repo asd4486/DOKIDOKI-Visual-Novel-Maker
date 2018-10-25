@@ -54,5 +54,21 @@ namespace NodeEditor
                 }
             }
         }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+
+            var item = obj as ConnectionPoint;
+
+            return Node.Equals(item.Node);
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            // TODO: write your implementation of GetHashCode() here
+            return base.GetHashCode();
+        }
     }
 }

@@ -24,10 +24,10 @@ public class DialogBox : NodeBase
 
     public DialogBox(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode, int id)
+        Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
     {
         ActionType = ActionTypes.DialogBox;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
     }
 
     public override void Draw()
@@ -46,7 +46,7 @@ public class DialogBox : NodeBase
         //character name
         GUILayout.BeginHorizontal();
         GUILayout.Label("Name", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        CharaName = EditorGUILayout.TextField( CharaName);
+        CharaName = EditorGUILayout.TextField(CharaName);
         GUILayout.EndHorizontal();
 
         //dialogue text box
@@ -60,7 +60,7 @@ public class DialogBox : NodeBase
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label("Font size", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-            FontSize = EditorGUILayout.IntField( FontSize);
+            FontSize = EditorGUILayout.IntField(FontSize);
             GUILayout.EndHorizontal();
             //dialogue text speed
             GUILayout.BeginHorizontal();
@@ -82,23 +82,40 @@ public class DialogBox : NodeBase
         base.Draw();
     }
 
+    public override NodeBase Clone(Vector2 pos, int newId)
+    {
+        var clone = new DialogBox(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+            OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+            OnCopyNode, OnRemoveNode, newId)
+        {
+            CharaName = CharaName,
+            Dialog = Dialog,
+            Color = Color,
+            FontSize = FontSize,
+            Speed = Speed,
+            NoWait = NoWait
+        };
+
+        return clone;
+    }
+
     // override object.Equals
-    public override bool Equals(object obj)
-    {
-        var item = obj as DialogBox;
-        if (item == null) return false;
+    //public override bool Equals(object obj)
+    //{
+    //    var item = obj as DialogBox;
+    //    if (item == null) return false;
 
-        return CharaName == item.CharaName && Dialog == item.Dialog
-            && Color == item.Color && FontSize == item.FontSize && Speed == item.Speed
-            && NoWait == item.NoWait && Position == item.Position && Id == item.Id;
-    }
+    //    return CharaName == item.CharaName && Dialog == item.Dialog
+    //        && Color == item.Color && FontSize == item.FontSize && Speed == item.Speed
+    //        && NoWait == item.NoWait && Position == item.Position && Id == item.Id;
+    //}
 
-    // override object.GetHashCode
-    public override int GetHashCode()
-    {
-        // TODO: write your implementation of GetHashCode() here
-        //throw new NotImplementedException();
-        return base.GetHashCode();
-    }
+    //// override object.GetHashCode
+    //public override int GetHashCode()
+    //{
+    //    // TODO: write your implementation of GetHashCode() here
+    //    //throw new NotImplementedException();
+    //    return base.GetHashCode();
+    //}
 }
 

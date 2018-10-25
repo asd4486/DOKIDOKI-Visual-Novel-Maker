@@ -21,11 +21,11 @@ public class BackgroundItem:NodeBase
 
     public BackgroundItem(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode, int id)
+        Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
     {
 
         ActionType = ActionTypes.BackgroundItem;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
     }
 
     public override void Draw()
@@ -60,8 +60,14 @@ public class BackgroundItem:NodeBase
         GUILayout.Label("Image", WhiteTxtStyle, GUILayout.Width(LabelWidth));
         Image = EditorGUILayout.ObjectField(Image, typeof(Sprite), false) as Sprite;
         GUILayout.EndHorizontal();
-        //get path
-        if (Image != null) Path = AssetDatabase.GetAssetPath(Image);
+            
+        if (Image != null)
+        {
+            //get path
+            Path = AssetDatabase.GetAssetPath(Image);
+            //show preview
+            GUILayout.Label(Image.texture, GUILayout.Width(200), GUILayout.Height(113));
+        }
 
         //is wait for background appear
         GUILayout.BeginHorizontal();
@@ -77,19 +83,33 @@ public class BackgroundItem:NodeBase
         base.Draw();
     }
 
+    public override NodeBase Clone(Vector2 pos, int newId)
+    {
+        var clone = new BackgroundItem(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+            OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+            OnCopyNode, OnRemoveNode, newId)
+        {
+            Initialize = true,
+            Path = Path,
+            IsWait = IsWait,
+        };
+
+        return clone;
+    }
+
     // override object.Equals
-    public override bool Equals(object obj)
-    {
-        var item = obj as BackgroundItem;
-        if (obj == null) return false;
+    //public override bool Equals(object obj)
+    //{
+    //    var item = obj as BackgroundItem;
+    //    if (obj == null) return false;
 
-        return Path == item.Path && IsWait == item.IsWait && Position == item.Position && Id == item.Id;
-    }
+    //    return Path == item.Path && IsWait == item.IsWait && Position == item.Position && Id == item.Id;
+    //}
 
-    // override object.GetHashCode
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
+    //// override object.GetHashCode
+    //public override int GetHashCode()
+    //{
+    //    return base.GetHashCode();
+    //}
 }
 

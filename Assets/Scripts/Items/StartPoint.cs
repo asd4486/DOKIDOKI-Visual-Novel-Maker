@@ -15,7 +15,7 @@ public class EditorStartPoint:NodeBase
         Action<NodeBase> onClickRemoveNode)
     {
         ActionType = ActionTypes.Start;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, null, canEdit:false);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, null, null, canEdit:false);
     }
 
     public override void Draw()

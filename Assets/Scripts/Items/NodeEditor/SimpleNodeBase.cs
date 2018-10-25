@@ -22,7 +22,6 @@ namespace NodeEditor
         public override bool Equals(object obj)
         {
             var item = obj as SimpleNodeBase;
-            Debug.Log(item);
             if (item == null) return false;
 
             return item.Position == Position && item.Id == Id;

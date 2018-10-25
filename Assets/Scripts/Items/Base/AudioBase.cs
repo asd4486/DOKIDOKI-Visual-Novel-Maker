@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class AudioBase:NodeBase
 {
+    public bool Initialize;
     public string AudioPath;
     [NonSerialized]
     public AudioClip MyAudio;

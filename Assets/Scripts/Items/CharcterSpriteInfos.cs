@@ -22,17 +22,19 @@ public class CharcterSpriteInfos : NodeBase
     public int SpriteIndex;
     public int FaceIndex;
 
+    //character position
     public CharacterPosition CharaPos;
+    public Vector2 CustomPos;
     public bool IsWait = true;
 
     public CharcterSpriteInfos() { }
 
     public CharcterSpriteInfos(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickRemoveNode, int id)
+        Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
     {
         ActionType = ActionTypes.CharcterSpriteInfos;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickRemoveNode, id);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
     }
 
     public override void Draw()
@@ -91,6 +93,7 @@ public class CharcterSpriteInfos : NodeBase
             var faceList = selected.transform.GetChild(SpriteIndex).GetComponentsInChildren<Transform>().
                             Where(f => f.GetComponent<CharaFaceSetting>() != null).
                             Select(f => f.name).ToArray();
+
             if (faceList.Length > 0)
             {
                 GUILayout.BeginHorizontal();
@@ -99,6 +102,24 @@ public class CharcterSpriteInfos : NodeBase
                 GUILayout.EndHorizontal();
             }
         }
+
+        //character postion
+        var charaPosList = Enum.GetValues(typeof(CharacterPosition))
+            .Cast<int>()
+            .Select(x =>  Enum.GetName(typeof(CharacterPosition), x))
+            .ToArray();
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Position", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        CharaPos = (CharacterPosition)EditorGUILayout.Popup((int)CharaPos, charaPosList);
+        GUILayout.EndHorizontal();
+
+        //custom position
+        if (CharaPos == CharacterPosition.Custom)
+        {
+            if(Rect.height == DefaultRectHeight) Rect.height = DefaultRectHeight+ 20;
+            CustomPos = EditorGUILayout.Vector2Field( "", CustomPos);
+        }
+        else { if (Rect.height != DefaultRectHeight) Rect.height = DefaultRectHeight; }
 
         //is wait for character appear
         GUILayout.BeginHorizontal();
@@ -114,24 +135,42 @@ public class CharcterSpriteInfos : NodeBase
         base.Draw();
     }
 
+    public override NodeBase Clone(Vector2 pos, int newId)
+    {
+        var clone = new CharcterSpriteInfos(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+            OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+            OnCopyNode, OnRemoveNode, newId)
+        {
+            ActionType = ActionTypes.CharcterSpriteInfos,
+            Initialize = true,
+            Path = Path,
+            SpriteIndex = SpriteIndex,
+            FaceIndex = FaceIndex,
+            CharaPos = CharaPos,
+            IsWait = IsWait
+        };
+
+        return clone;
+    }
+
     // override object.Equals
-    public override bool Equals(object obj)
-    {
-        var item = obj as CharcterSpriteInfos;
-        if (item == null) return false;
+    //public override bool Equals(object obj)
+    //{
+    //    var item = obj as CharcterSpriteInfos;
+    //    if (item == null) return false;
 
-        return Path == item.Path && SpriteIndex == item.SpriteIndex
-            && FaceIndex == item.FaceIndex && Position == item.Position && IsWait == item.IsWait
-            && Position == item.Position && Id == item.Id;
-    }
+    //    return Path == item.Path && SpriteIndex == item.SpriteIndex
+    //        && FaceIndex == item.FaceIndex && Position == item.Position && IsWait == item.IsWait
+    //        && Position == item.Position && Id == item.Id;
+    //}
 
-    // override object.GetHashCode
-    public override int GetHashCode()
-    {
-        // TODO: write your implementation of GetHashCode() here
-        //throw new NotImplementedException();
-        return base.GetHashCode();
-    }
+    //// override object.GetHashCode
+    //public override int GetHashCode()
+    //{
+    //    // TODO: write your implementation of GetHashCode() here
+    //    //throw new NotImplementedException();
+    //    return base.GetHashCode();
+    //}
 }
 
 //position of character
