@@ -98,24 +98,5 @@ public class DialogBox : NodeBase
 
         return clone;
     }
-
-    // override object.Equals
-    //public override bool Equals(object obj)
-    //{
-    //    var item = obj as DialogBox;
-    //    if (item == null) return false;
-
-    //    return CharaName == item.CharaName && Dialog == item.Dialog
-    //        && Color == item.Color && FontSize == item.FontSize && Speed == item.Speed
-    //        && NoWait == item.NoWait && Position == item.Position && Id == item.Id;
-    //}
-
-    //// override object.GetHashCode
-    //public override int GetHashCode()
-    //{
-    //    // TODO: write your implementation of GetHashCode() here
-    //    //throw new NotImplementedException();
-    //    return base.GetHashCode();
-    //}
 }
 

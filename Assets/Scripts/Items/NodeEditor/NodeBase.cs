@@ -97,11 +97,11 @@ namespace NodeEditor
             //set titles
             switch (ActionType)
             {
-                //case ActionTypes.Start:
-                //    Title = "START";
-                //    break;
                 case ActionTypes.CharcterSpriteInfos:
                     Title = "Character sprite";
+                    break;
+                case ActionTypes.CharacterOutInfos:
+                    Title = "Character out";
                     break;
                 case ActionTypes.DialogBox:
                     Title = "Dialog";
@@ -123,6 +123,12 @@ namespace NodeEditor
                     break;
                 case ActionTypes.Delayer:
                     Title = "Delayer";
+                    break;
+                case ActionTypes.ChangeStoryLine:
+                    Title = "Play storyline";
+                    break;
+                case ActionTypes.ChangeScene:
+                    Title = "Change scene";
                     break;
             }
         }
@@ -189,6 +195,15 @@ namespace NodeEditor
                         return true;
                     }
                     break;
+                case EventType.KeyDown:
+                    switch (e.keyCode)
+                    {
+                        //delete node if is selected
+                        case KeyCode.Delete:
+                            if (IsSelected) OnClickRemoveNode();
+                            break;
+                    }
+                    break;
             }
 
             return false;
@@ -219,21 +234,5 @@ namespace NodeEditor
                 OnRemoveNode(this);
             }
         }
-
-        // override object.Equals
-        //public override bool Equals(object obj)
-        //{
-        //    var item = obj as NodeBase;
-        //    Debug.Log(item);
-        //    if (item == null) return false;
-
-        //    return item.Position == Position && item.Id == Id;
-        //}
-
-        //// override object.GetHashCode
-        //public override int GetHashCode()
-        //{
-        //    return base.GetHashCode();
-        //}
     }
 }

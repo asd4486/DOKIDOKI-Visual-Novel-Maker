@@ -31,6 +31,30 @@ namespace NodeEditor
             Rect = new Rect(0, 0, 10f, 20f);
         }
 
+        public void CustomDraw(float x, float y)
+        {
+            Rect.y = Node.Rect.y - y;
+
+            switch (Type)
+            {
+                case ConnectionPointType.In:
+                    Rect.x = Node.Rect.x - Rect.width - x;
+                    break;
+
+                case ConnectionPointType.Out:
+                    Rect.x = Node.Rect.x + Node.Rect.width+ x;
+                    break;
+            }
+
+            if (GUI.Button(Rect, "", Style))
+            {
+                if (OnClickConnectionPoint != null)
+                {
+                    OnClickConnectionPoint(this);
+                }
+            }
+        }
+
         public void Draw()
         {
             Rect.y = Node.Rect.y + (Node.Rect.height * 0.5f) - Rect.height * 0.5f;

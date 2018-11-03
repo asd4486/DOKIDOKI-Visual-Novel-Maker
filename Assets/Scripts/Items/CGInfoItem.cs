@@ -66,6 +66,12 @@ public class CGInfoItem : NodeBase
         //set cg path
         Path = ValueManager.CGPath + list[Index] + ".jpg";
 
+        //is wait for CG appear
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Is wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        IsWait = EditorGUILayout.Toggle(IsWait);
+        GUILayout.EndHorizontal();
+
         //GUILayout.BeginHorizontal();
         //GUILayout.FlexibleSpace();
         //load preview cg
@@ -73,12 +79,6 @@ public class CGInfoItem : NodeBase
         var imgPriveiw = AssetDatabase.LoadAssetAtPath(path, typeof(Sprite)) as Sprite;
         if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(200), GUILayout.Height(113));
         //GUILayout.EndHorizontal();
-
-        //is wait for CG appear
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Is wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        IsWait = EditorGUILayout.Toggle(IsWait);
-        GUILayout.EndHorizontal();
 
         GUILayout.EndVertical();
         GUILayout.Space(SpacePixel);

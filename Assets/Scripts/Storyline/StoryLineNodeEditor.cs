@@ -33,6 +33,8 @@ public class StoryLineNodeEditor : EditorWindow
     float ZoomScale = 1.0f;
     Vector2 VanishingPoint = new Vector2(0, 21);
 
+    private Vector2 MousePos;
+
     private NodeBase NodeCopied;
 
     public static void InitWindow(StoryLine story)
@@ -162,14 +164,18 @@ public class StoryLineNodeEditor : EditorWindow
                     case ActionTypes.CharcterSpriteInfos:
                         n.SetNodeStyle(NodeWidth, 110, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                         break;
+                    case ActionTypes.CharacterOutInfos:
+                        n.SetNodeStyle(NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                        break;
                     case ActionTypes.DialogBox:
                         n.SetNodeStyle(NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                         break;
                     case ActionTypes.BrancheBox:
-                        n.SetNodeStyle(NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                        n.SetNodeStyle(NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                        (n as BrancheBox).SetOutPointStyle(OutPointStyle, OnClickInPoint);
                         break;
                     case ActionTypes.BackgroundItem:
-                        n.SetNodeStyle(NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                        n.SetNodeStyle(NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                         break;
                     case ActionTypes.CGInfoItem:
                         n.SetNodeStyle(NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
@@ -181,7 +187,13 @@ public class StoryLineNodeEditor : EditorWindow
                         n.SetNodeStyle(NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                         break;
                     case ActionTypes.Sound:
-                        n.SetNodeStyle(NodeWidth, 70, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                        n.SetNodeStyle(NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                        break;
+                    case ActionTypes.ChangeStoryLine:
+                        n.SetNodeStyle(NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                        break;
+                    case ActionTypes.ChangeScene:
+                        n.SetNodeStyle(NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                         break;
                 }
             }
@@ -193,10 +205,10 @@ public class StoryLineNodeEditor : EditorWindow
                 c.OnClickRemoveConnection = OnClickRemoveConnection;
                 c.InPoint = _NodeBaseList.Nodes.Where(n => n.Id == c.InPoint.Node.Id).FirstOrDefault().InPoint;
 
-                var outNode = _NodeBaseList.Nodes.Where(n => n.Id == c.OutPoint.Node.Id).FirstOrDefault();
+                var outNode = _NodeBaseList.Nodes.Where(n => n.Id == c.OutPoint.Node.Id && n.ParentId == c.OutPoint.Node.ParentId).FirstOrDefault();
                 //set out connection(each node only have one out connection)
                 outNode.OutConnection = c;
-                c.OutPoint = outNode.OutPoint;
+                c.OutPoint = outNode.OutPoint;                   
             }
         }
         //or create new
@@ -222,11 +234,24 @@ public class StoryLineNodeEditor : EditorWindow
         DrawConnections();
 
         DrawConnectionLine(Event.current);
-
+        //get mouse position if is in window
+        if ( Event.current.mousePosition.x > 0 && Event.current.mousePosition.y > 0)
+            MousePos = Event.current.mousePosition;
         ProcessNodeEvents(Event.current);
+  
         ProcessEvents(Event.current);
-
+        
         if (GUI.changed) Repaint();
+    }
+
+    void OnInspectorUpdate()
+    {
+        //repaint for get mouse position when cursor is in window
+        if (focusedWindow == this && mouseOverWindow == this)
+        {
+            Repaint();
+            //Debug.Log(MousePos);
+        }
     }
 
     private void Zoom()
@@ -338,7 +363,7 @@ public class StoryLineNodeEditor : EditorWindow
                 }
                 if (e.button == 1)
                 {
-                    ProcessContextMenu(e.mousePosition);
+                    ProcessContextMenu(MousePos);
                 }
                 break;
             //drag
@@ -357,11 +382,29 @@ public class StoryLineNodeEditor : EditorWindow
 
                 e.Use();
                 break;
-        }
-
-        //key down control
-        if (e.isKey)
-        {
+            case EventType.ValidateCommand:
+                // without this line we won't get ExecuteCommand
+                switch (e.commandName)
+                {
+                    case "Copy":
+                    case "Paste":
+                        e.Use();
+                        break;
+                }                   
+                break;
+            case EventType.ExecuteCommand:
+                switch (e.commandName)
+                {
+                    //copy selected node
+                    case "Copy":
+                        CopyAction();
+                        break;
+                    //past new node
+                    case "Paste":
+                        PasteAction(MousePos);
+                        break;
+                }               
+                break;
         }
     }
 
@@ -402,10 +445,10 @@ public class StoryLineNodeEditor : EditorWindow
         if (NodeCopied == null)
             genericMenu.AddDisabledItem(new GUIContent("Paste"));
         else
-            genericMenu.AddItem(new GUIContent("Paste"), false, () => PasteAction(NodeCopied, mousePosition));
+            genericMenu.AddItem(new GUIContent("Paste"), false, () => PasteAction(mousePosition));
 
         genericMenu.AddItem(new GUIContent("Character/Character sprite"), false, () => AddNewAction(ActionTypes.CharcterSpriteInfos, mousePosition));
-        genericMenu.AddItem(new GUIContent("Character/Character out"), false, () => AddNewAction(ActionTypes.CharcterSpriteInfos, mousePosition));
+        genericMenu.AddItem(new GUIContent("Character/Character out"), false, () => AddNewAction(ActionTypes.CharacterOutInfos, mousePosition));
 
         genericMenu.AddItem(new GUIContent("Dialog/Dialog box"), false, () => AddNewAction(ActionTypes.DialogBox, mousePosition));
         genericMenu.AddItem(new GUIContent("Dialog/Brahche"), false, () => AddNewAction(ActionTypes.BrancheBox, mousePosition));
@@ -418,19 +461,27 @@ public class StoryLineNodeEditor : EditorWindow
 
         genericMenu.AddItem(new GUIContent("Time/Delayer"), false, () => AddNewAction(ActionTypes.Delayer, mousePosition));
 
-        genericMenu.AddItem(new GUIContent("Story/Play storyline"), false, () => AddNewAction(ActionTypes.Delayer, mousePosition));
-        genericMenu.AddItem(new GUIContent("Story/Change scene"), false, () => AddNewAction(ActionTypes.CharcterSpriteInfos, mousePosition));
+        genericMenu.AddItem(new GUIContent("Story/Play storyline"), false, () => AddNewAction(ActionTypes.ChangeStoryLine, mousePosition));
+        genericMenu.AddItem(new GUIContent("Story/Change scene"), false, () => AddNewAction(ActionTypes.ChangeScene, mousePosition));
 
         genericMenu.ShowAsContext();
     }
 
-    private void PasteAction(NodeBase node, Vector2 pos)
+    //copy node
+    private void CopyAction()
+    {
+        var selected = _NodeBaseList.Nodes.Where(n => n.IsSelected == true).FirstOrDefault();
+        if (selected != null) NodeCopied = selected;
+
+    }
+
+    private void PasteAction(Vector2 pos)
     {
         //return if node is null
         if (NodeCopied == null) return;
 
         //clone node
-        var newNode = node.Clone(pos, _NodeBaseList.SetNodeId());
+        var newNode = NodeCopied.Clone(pos, _NodeBaseList.SetNodeId());
         _NodeBaseList.Nodes.Add(newNode);
     }
 
@@ -443,16 +494,20 @@ public class StoryLineNodeEditor : EditorWindow
                 _NodeBaseList.Nodes.Add(new CharcterSpriteInfos(position, NodeWidth, 105, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
                                                         OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
+            case ActionTypes.CharacterOutInfos:
+                _NodeBaseList.Nodes.Add(new CharacterOutInfos(position, NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+                                                        OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                break;
             case ActionTypes.DialogBox:
                 _NodeBaseList.Nodes.Add(new DialogBox(position, NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
                                                 OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.BrancheBox:
-                _NodeBaseList.Nodes.Add(new BrancheBox(position, NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle,
+                _NodeBaseList.Nodes.Add(new BrancheBox(position, NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle,
                                                 OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.BackgroundItem:
-                _NodeBaseList.Nodes.Add(new BackgroundItem(position, NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle,
+                _NodeBaseList.Nodes.Add(new BackgroundItem(position, NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle,
                                                 OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.CGInfoItem:
@@ -468,11 +523,21 @@ public class StoryLineNodeEditor : EditorWindow
                                                 OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
             case ActionTypes.Sound:
-                _NodeBaseList.Nodes.Add(new Sound(position, NodeWidth, 70, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+                _NodeBaseList.Nodes.Add(new Sound(position, NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
                                             OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                break;
+            case ActionTypes.ChangeStoryLine:
+                _NodeBaseList.Nodes.Add(new ChangeStoryLine(position, NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+                                            OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                break;
+            case ActionTypes.ChangeScene:
+                _NodeBaseList.Nodes.Add(new ChangeScene(position, NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+                                                OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                 break;
         }
     }
+
+
     #endregion
 
     #region node editor func
@@ -543,6 +608,8 @@ public class StoryLineNodeEditor : EditorWindow
 
         var removeNode = _NodeBaseList.Nodes.Where(n => n.Equals(node)).FirstOrDefault();
         if (removeNode != null) _NodeBaseList.Nodes.Remove(removeNode);
+
+        GUI.changed = true;
     }
 
     private void OnClickRemoveConnection(Connection conn)

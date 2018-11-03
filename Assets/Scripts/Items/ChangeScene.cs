@@ -7,16 +7,22 @@ using UnityEditor;
 using UnityEngine;
 
 [Serializable]
-public class Audio : AudioBase
+public class ChangeScene : NodeBase
 {
-    public Audio() { }
+    [NonSerialized]
+    public bool Initialize;
 
-    public Audio(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+    public string Path;
+    [NonSerialized]
+    public SceneAsset Scene;
+
+    public ChangeScene() { }
+
+    public ChangeScene(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
     {
-        //set action type
-        ActionType = ActionTypes.Audio;
+        ActionType = ActionTypes.ChangeScene;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
     }
 
@@ -37,30 +43,27 @@ public class Audio : AudioBase
         if (Initialize)
         {
             //find origin object
-            var origin = AssetDatabase.LoadAssetAtPath(AudioPath, typeof(AudioClip)) as AudioClip;
+            var origin = AssetDatabase.LoadAssetAtPath(Path, typeof(SceneAsset)) as SceneAsset;
 
             if (origin != null)
             {
-                //set background image
-                MyAudio = origin;
+                //set Scene
+                Scene = origin;
             }
             Initialize = false;
         }
 
-        //Choose audio
+        //Choose image
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Audio source", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        MyAudio = EditorGUILayout.ObjectField(MyAudio, typeof(AudioClip), false) as AudioClip;
+        GUILayout.Label("Scene", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        Scene = EditorGUILayout.ObjectField(Scene, typeof(SceneAsset), false) as SceneAsset;
         GUILayout.EndHorizontal();
 
-        //get audio path
-        if (MyAudio != null) AudioPath = AssetDatabase.GetAssetPath(MyAudio);
-
-        //audio volume
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Volume", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        Volume = EditorGUILayout.Slider(Volume, 0, 1);
-        GUILayout.EndHorizontal();
+        if (Scene != null)
+        {
+            //get path
+            Path = AssetDatabase.GetAssetPath(Scene);
+        }
 
         GUILayout.EndVertical();
         GUILayout.Space(SpacePixel);
@@ -72,13 +75,12 @@ public class Audio : AudioBase
 
     public override NodeBase Clone(Vector2 pos, int newId)
     {
-        var clone = new Audio(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+        var clone = new ChangeScene(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
             OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
             OnCopyNode, OnRemoveNode, newId)
         {
             Initialize = true,
-            AudioPath = AudioPath,
-            Volume = Volume,
+            Path = Path
         };
 
         return clone;

@@ -7,16 +7,22 @@ using UnityEditor;
 using UnityEngine;
 
 [Serializable]
-public class Audio : AudioBase
+public class ChangeStoryLine : NodeBase
 {
-    public Audio() { }
+    [NonSerialized]
+    public bool Initialize;
 
-    public Audio(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+    public string Name;
+    [NonSerialized]
+    public int Index;
+
+    public ChangeStoryLine() { }
+
+    public ChangeStoryLine(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
         GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
         Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
     {
-        //set action type
-        ActionType = ActionTypes.Audio;
+        ActionType = ActionTypes.ChangeStoryLine;
         Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
     }
 
@@ -33,33 +39,38 @@ public class Audio : AudioBase
         GUILayout.BeginVertical();
         GUILayout.Space(SpacePixel);
 
-        //initialize
+        //find all story line in main game
+        GameObject game = GameObject.FindGameObjectWithTag("dokidoki_vn_game");
+        var list = game.GetComponentsInChildren<StoryLine>().ToList();
+
+        //return if can't find any story line
+        if(list.Count < 1)
+        {
+            GUILayout.Label("OOOps!Can't find any story line!", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            GUILayout.Label("Please add a new one :)", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            return;
+        }
+
+        //set story line index if initialize request
         if (Initialize)
         {
             //find origin object
-            var origin = AssetDatabase.LoadAssetAtPath(AudioPath, typeof(AudioClip)) as AudioClip;
+            var origin = list.Where(s => s.name == Name && s.tag == "doki-storyline").FirstOrDefault();
 
             if (origin != null)
             {
-                //set background image
-                MyAudio = origin;
+                //set index
+                Index = list.IndexOf(origin);
             }
             Initialize = false;
         }
 
-        //Choose audio
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Audio source", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        MyAudio = EditorGUILayout.ObjectField(MyAudio, typeof(AudioClip), false) as AudioClip;
-        GUILayout.EndHorizontal();
+        //get all story lines names
+        var nameList = list.Select(s => s.gameObject.name).ToArray();
 
-        //get audio path
-        if (MyAudio != null) AudioPath = AssetDatabase.GetAssetPath(MyAudio);
-
-        //audio volume
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Volume", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        Volume = EditorGUILayout.Slider(Volume, 0, 1);
+        GUILayout.Label("Story line", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        Index = EditorGUILayout.Popup(Index, nameList);
         GUILayout.EndHorizontal();
 
         GUILayout.EndVertical();
@@ -72,13 +83,12 @@ public class Audio : AudioBase
 
     public override NodeBase Clone(Vector2 pos, int newId)
     {
-        var clone = new Audio(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+        var clone = new ChangeStoryLine(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
             OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
             OnCopyNode, OnRemoveNode, newId)
         {
             Initialize = true,
-            AudioPath = AudioPath,
-            Volume = Volume,
+            Name = Name,
         };
 
         return clone;

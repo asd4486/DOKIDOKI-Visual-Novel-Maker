@@ -67,6 +67,11 @@ public class StoryLine : MonoBehaviour
                         //initialize setting
                         (newAction as CharcterSpriteInfos).Initialize = true;
                         break;
+                    case ActionTypes.CharacterOutInfos:
+                        newAction = JsonUtility.FromJson<CharacterOutInfos>(d);
+                        //initialize setting
+                        (newAction as CharacterOutInfos).Initialize = true;
+                        break;
                     case ActionTypes.Delayer:
                         newAction = JsonUtility.FromJson<Delayer>(d);
                         break;
@@ -76,16 +81,22 @@ public class StoryLine : MonoBehaviour
                     case ActionTypes.Sound:
                         newAction = JsonUtility.FromJson<Sound>(d);
                         break;
+                    case ActionTypes.ChangeStoryLine:
+                        newAction = JsonUtility.FromJson<ChangeStoryLine>(d);
+                        //initialize setting
+                        (newAction as ChangeStoryLine).Initialize = true;
+                        break;
+                    case ActionTypes.ChangeScene:
+                        newAction = JsonUtility.FromJson<ChangeScene>(d);
+                        //initialize setting
+                        (newAction as ChangeScene).Initialize = true;
+                        break;
                 }
                 nodeList.Add(newAction);
             }
         }
 
         return nodeList;
-        //else
-        //{
-        //    Debug.Log("No data for this story line!");
-        //}
     }
 
     public List<Connection> OnLoadConnections()

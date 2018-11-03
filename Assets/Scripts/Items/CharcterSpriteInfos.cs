@@ -152,25 +152,6 @@ public class CharcterSpriteInfos : NodeBase
 
         return clone;
     }
-
-    // override object.Equals
-    //public override bool Equals(object obj)
-    //{
-    //    var item = obj as CharcterSpriteInfos;
-    //    if (item == null) return false;
-
-    //    return Path == item.Path && SpriteIndex == item.SpriteIndex
-    //        && FaceIndex == item.FaceIndex && Position == item.Position && IsWait == item.IsWait
-    //        && Position == item.Position && Id == item.Id;
-    //}
-
-    //// override object.GetHashCode
-    //public override int GetHashCode()
-    //{
-    //    // TODO: write your implementation of GetHashCode() here
-    //    //throw new NotImplementedException();
-    //    return base.GetHashCode();
-    //}
 }
 
 //position of character

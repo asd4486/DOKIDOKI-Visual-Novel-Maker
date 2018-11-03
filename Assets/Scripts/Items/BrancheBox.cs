@@ -11,10 +11,16 @@ public class BrancheBox : NodeBase
 {
     public string Dialogue;
 
-    public List<string> Branches;
+    public List<BrancheItem> Branches;
 
     public Color Color;
     public int FontSize = ValueManager.DefaultFontSize;
+
+    //branche out point style
+    [NonSerialized]
+    private GUIStyle BranchePointStyle;
+    [NonSerialized]
+    private Action<ConnectionPoint> BracheClickConnectionPoint;
 
     public BrancheBox() { }
 
@@ -23,7 +29,14 @@ public class BrancheBox : NodeBase
         Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
     {
         ActionType = ActionTypes.BrancheBox;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
+        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, null, onClickInPoint, null, onClickCopyNode, onClickRemoveNode, id);
+        SetOutPointStyle(outPointStyle, onClickOutPoint);
+    }
+
+    public void SetOutPointStyle(GUIStyle outPointStyle, Action<ConnectionPoint> onClickOutPoint)
+    {
+        BranchePointStyle = outPointStyle;
+        BracheClickConnectionPoint = onClickOutPoint;
     }
 
     public override void Draw()
@@ -38,33 +51,33 @@ public class BrancheBox : NodeBase
         GUILayout.BeginVertical();
         GUILayout.Space(SpacePixel);
 
-        //init branches
+        //init branches if null
         if (Branches == null)
-        { Branches = new List<string>() { "", "" }; }
+        {
+            Branches = new List<BrancheItem>();
+            Branches.Add(CreateNewBranche());
+            Branches.Add(CreateNewBranche());
+        }
 
-        GUILayout.Label("Branches");
-        GUILayout.BeginVertical("Box");
+        GUILayout.Label("Branches", WhiteTxtStyle);
+
         for (int i = 0; i < Branches.Count; i++)
         {
             GUILayout.BeginHorizontal();
-            var branche = Branches[i];
-            Branches[i] = EditorGUILayout.TextField(i + ".", branche);
-            //delete branch
-            if (i >= 2)
-            {
-                if (GUILayout.Button("x", GUILayout.Width(20)))
-                {
-                    Branches.RemoveAt(i);
-                }
-            }
+            GUILayout.Label(i + 1 + ".", WhiteTxtStyle, GUILayout.Width(30));
+            Branches[i].Draw();
             GUILayout.EndHorizontal();
+
+            Rect.height = DefaultRectHeight + 20 * i;
         }
 
-        GUILayout.EndVertical();
-        //add new branche
+        //add new branche(6 maximun)
         if (GUILayout.Button("+"))
         {
-            Branches.Add("");
+            if (Branches.Count < 6)
+            {
+                Branches.Add(CreateNewBranche());
+            }
         }
 
         //FontSize = EditorGUILayout.IntField("Font size:", FontSize);
@@ -78,6 +91,32 @@ public class BrancheBox : NodeBase
         GUILayout.EndArea();
 
         base.Draw();
+    }
+
+    private BrancheItem CreateNewBranche()
+    {
+        var branche = new BrancheItem(OnDeleteBranche, Id, SetBracheId());
+        branche.OutPoint = new ConnectionPoint(branche, ConnectionPointType.Out, BranchePointStyle, BracheClickConnectionPoint);
+        return branche;
+    }
+
+    private void OnDeleteBranche(BrancheItem branche)
+    {
+        if (Branches.Contains(branche))
+        {
+            Branches.Remove(branche);
+        }
+    }
+
+    private int SetBracheId()
+    {
+        if (Branches == null) return 0;
+        var id = 0;
+        foreach (var n in Branches)
+        {
+            if (id <= n.Id) id = n.Id + 1;
+        }
+        return id;
     }
 
     public override NodeBase Clone(Vector2 pos, int newId)
@@ -94,21 +133,5 @@ public class BrancheBox : NodeBase
 
         return clone;
     }
-
-    // override object.Equals
-    //public override bool Equals(object obj)
-    //{
-    //    var item = obj as BrancheBox;
-    //    if (obj == null) return false;
-
-    //    return Dialogue == item.Dialogue && Branches.SequenceEqual(item.Branches) && Color == item.Color && FontSize == item.FontSize
-    //        && Position == item.Position && Id == item.Id;
-    //}
-
-    //// override object.GetHashCode
-    //public override int GetHashCode()
-    //{
-    //    return base.GetHashCode();
-    //}
 }
 

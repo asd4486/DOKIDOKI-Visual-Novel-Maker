@@ -60,20 +60,27 @@ public class BackgroundItem:NodeBase
         GUILayout.Label("Image", WhiteTxtStyle, GUILayout.Width(LabelWidth));
         Image = EditorGUILayout.ObjectField(Image, typeof(Sprite), false) as Sprite;
         GUILayout.EndHorizontal();
-            
+
+        //is wait for background appear
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Is wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+        IsWait = EditorGUILayout.Toggle(IsWait);
+        GUILayout.EndHorizontal();
+
         if (Image != null)
         {
             //get path
             Path = AssetDatabase.GetAssetPath(Image);
             //show preview
             GUILayout.Label(Image.texture, GUILayout.Width(200), GUILayout.Height(113));
+            if(Rect.height == DefaultRectHeight) Rect.height = DefaultRectHeight + 110;
         }
-
-        //is wait for background appear
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Is wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        IsWait = EditorGUILayout.Toggle( IsWait);
-        GUILayout.EndHorizontal();
+        else
+        {
+            //clear path
+            Path = "";
+            if (Rect.height != DefaultRectHeight) Rect.height = DefaultRectHeight;
+        }
 
         GUILayout.EndVertical();
         GUILayout.Space(SpacePixel);
@@ -96,20 +103,5 @@ public class BackgroundItem:NodeBase
 
         return clone;
     }
-
-    // override object.Equals
-    //public override bool Equals(object obj)
-    //{
-    //    var item = obj as BackgroundItem;
-    //    if (obj == null) return false;
-
-    //    return Path == item.Path && IsWait == item.IsWait && Position == item.Position && Id == item.Id;
-    //}
-
-    //// override object.GetHashCode
-    //public override int GetHashCode()
-    //{
-    //    return base.GetHashCode();
-    //}
 }
 

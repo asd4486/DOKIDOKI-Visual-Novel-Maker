@@ -259,7 +259,7 @@ public class MAIN : MonoBehaviour {
             }
 
             //set item text and show
-            Branches[i].transform.GetChild(1).GetComponent<Text>().text = branche.Branches[i];
+            Branches[i].transform.GetChild(1).GetComponent<Text>().text = branche.Branches[i].Text;
             Branches[i].SetActive(true);
         }
     }
@@ -285,17 +285,54 @@ public class MAIN : MonoBehaviour {
     {
         //find character object in scene
         var o = GameObject.Find(chara.Name);
+
         //if null instantiate new chara object in scene
         if (o == null)
         {
             o = AssetDatabase.LoadAssetAtPath(chara.Path, typeof(GameObject)) as GameObject;
-            //default left
-            var newChara = Instantiate(o, new Vector3(-5, 0, 0), Quaternion.identity);
+
+            //new chara
+            var newChara = Instantiate(o);   
             newChara.name = o.name;
-            newChara.transform.parent = GameObject.Find("Character_group").transform;
+            o = newChara;
+            o.transform.parent = GameObject.Find("Character_group").transform;
+
         }
         o.SetActive(true);
+
+        //active face
+        var faces = o.transform.GetChild(0).GetChild(0).GetComponentsInChildren<SpriteRenderer>();
         
+        if(faces.Length > 0)
+        {
+            //inactive all
+            foreach (var f in faces)
+            {
+                f.gameObject.SetActive(false);
+            }
+            //active current face
+            faces[chara.FaceIndex].gameObject.SetActive(true);
+        }
+
+
+
+        //set position
+        switch (chara.CharaPos)
+        {
+            case CharacterPosition.Left:
+               o.transform.position =  new Vector3(-5, 0);
+                break;
+            case CharacterPosition.Right:
+                o.transform.position = new Vector3(5, 0);
+                break;
+            case CharacterPosition.Center:
+                o.transform.position = Vector2.zero;
+                break;
+            case CharacterPosition.Custom:
+                o.transform.position = chara.CustomPos;
+                break;
+        }
+
         //start next step
         if (chara.IsWait)
            StartCoroutine(StartNextStepDelay(1));

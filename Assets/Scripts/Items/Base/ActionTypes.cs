@@ -10,6 +10,9 @@ public enum ActionTypes
     Delayer = 5,
     Audio = 6,
     Sound = 7,
-    Start = 8
+    Start = 8,
+    CharacterOutInfos = 9,
+    ChangeStoryLine = 10,
+    ChangeScene = 11,
 }
 
