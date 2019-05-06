@@ -1,1 +1,126 @@
-{"CharcterSpriteInfoList":[],"DialogBoxList":[{"CharaName":"sssssss","Dialog":"yolo!!!","FontSize":15,"Speed":3,"NoWait":false,"ActionType":1,"Position":{"x":330.0,"y":78.0},"ParentId":-1,"Id":2},{"CharaName":"kira","Dialog":"hellllllllllllloooooo!!!!","FontSize":15,"Speed":3,"NoWait":false,"ActionType":1,"Position":{"x":640.0,"y":212.0},"ParentId":-1,"Id":4}],"BrancheBoxList":[],"BackgroundItemList":[{"Path":"Assets/Images/CG/persona_4_by_auraian-d57h8t7.png","IsWait":false,"ActionType":3,"Position":{"x":960.0,"y":159.0},"ParentId":-1,"Id":3}],"CGInfoItemList":[],"DelayerList":[],"AudioList":[],"SoundList":[],"CharacterOutInfoList":[],"ChangeStoryLineList":[],"ChangeSceneList":[],"StartPoint":{"ActionType":8,"Position":{"x":85.80005,"y":194.0},"ParentId":-1,"Id":0}}
+{
+  "CharcterSpriteInfoList": [],
+  "DialogBoxList": [
+    {
+      "CharaName": "sssssss",
+      "Dialog": "yolo!!!",
+      "FontSize": 15,
+      "Speed": 3,
+      "NoWait": false,
+      "ActionType": 1,
+      "Position": {
+        "x": 176.7273,
+        "y": -40.6363525
+      },
+      "ParentId": -1,
+      "Id": 2
+    },
+    {
+      "CharaName": "kira",
+      "Dialog": "hellllllllllllloooooo!!!!",
+      "FontSize": 15,
+      "Speed": 3,
+      "NoWait": false,
+      "ActionType": 1,
+      "Position": {
+        "x": 537.7273,
+        "y": -19.6363525
+      },
+      "ParentId": -1,
+      "Id": 4
+    }
+  ],
+  "BrancheBoxList": [
+    {
+      "dialogue": null,
+      "brancheList": [
+        {
+          "Text": null,
+          "Position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "ParentId": 5,
+          "Id": 0
+        },
+        {
+          "Text": null,
+          "Position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "ParentId": 5,
+          "Id": 1
+        }
+      ],
+      "fontSize": 15,
+      "ActionType": 2,
+      "Position": {
+        "x": 231.0,
+        "y": 282.0
+      },
+      "ParentId": -1,
+      "Id": 5
+    },
+    {
+      "dialogue": null,
+      "brancheList": [
+        {
+          "Text": null,
+          "Position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "ParentId": 6,
+          "Id": 0
+        },
+        {
+          "Text": null,
+          "Position": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "ParentId": 6,
+          "Id": 1
+        }
+      ],
+      "fontSize": 15,
+      "ActionType": 2,
+      "Position": {
+        "x": 593.0,
+        "y": 288.0
+      },
+      "ParentId": -1,
+      "Id": 6
+    }
+  ],
+  "BackgroundItemList": [
+    {
+      "Path": "Assets/Images/CG/persona_4_by_auraian-d57h8t7.png",
+      "IsWait": false,
+      "ActionType": 3,
+      "Position": {
+        "x": 938.727051,
+        "y": 130.363647
+      },
+      "ParentId": -1,
+      "Id": 3
+    }
+  ],
+  "CGInfoItemList": [],
+  "DelayerList": [],
+  "AudioList": [],
+  "SoundList": [],
+  "CharacterOutInfoList": [],
+  "ChangeStoryLineList": [],
+  "ChangeSceneList": [],
+  "StartPoint": {
+    "ActionType": 8,
+    "Position": {
+      "x": -28.4726563,
+      "y": 101.363647
+    },
+    "ParentId": -1,
+    "Id": 0
+  }
+}

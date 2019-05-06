@@ -22,12 +22,12 @@ namespace DokiVnMaker.MyEditor.Items
         [NonSerialized]
         public Action<ConnectionPoint> OnClickConnectionPoint;
 
-        public ConnectionPoint(SimpleNodeBase node, ConnectionPointType type, GUIStyle style, Action<ConnectionPoint> onClickConnectionPoint)
+        public ConnectionPoint(SimpleNodeBase _node, ConnectionPointType _type, GUIStyle _style, Action<ConnectionPoint> _onClickConnectionPoint)
         {
-            Node = node;
-            Type = type;
-            Style = style;
-            OnClickConnectionPoint = onClickConnectionPoint;
+            Node = _node;
+            Type = _type;
+            Style = _style;
+            OnClickConnectionPoint = _onClickConnectionPoint;
             Rect = new Rect(0, 0, 13f, 13f);
         }
 
@@ -47,8 +47,7 @@ namespace DokiVnMaker.MyEditor.Items
 
             if (GUI.Button(Rect, "", Style))
             {
-                if (OnClickConnectionPoint != null)        
-                    OnClickConnectionPoint(this);         
+                OnClickConnectionPoint?.Invoke(this);
             }
         }
 
@@ -68,9 +67,7 @@ namespace DokiVnMaker.MyEditor.Items
 
             if (GUI.Button(Rect, "", Style))
             {
-                if (OnClickConnectionPoint != null)         
-                    OnClickConnectionPoint(this);
-                
+                OnClickConnectionPoint?.Invoke(this);
             }
         }
     }

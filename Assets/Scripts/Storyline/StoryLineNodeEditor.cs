@@ -164,41 +164,53 @@ namespace DokiVnMaker.MyEditor
                     switch (n.ActionType)
                     {
                         case ActionTypes.Start:
-                            n.SetNodeStyle(NodeWidth / 2, 30, startNodeStyle, startSelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, false);
+                            n.SetNodeStyle(NodeWidth / 2, 30, 
+                                startNodeStyle, startSelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, false);
                             break;
                         case ActionTypes.CharcterSpriteInfos:
-                            n.SetNodeStyle(NodeWidth, 110, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 110, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                         case ActionTypes.CharacterOutInfos:
-                            n.SetNodeStyle(NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 60, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                         case ActionTypes.DialogBox:
-                            n.SetNodeStyle(NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 180, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                         case ActionTypes.BrancheBox:
-                            n.SetNodeStyle(NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 80, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             (n as BrancheBox).SetOutPointStyle(OutPointStyle, OnClickInPoint);
                             break;
                         case ActionTypes.BackgroundItem:
-                            n.SetNodeStyle(NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 60, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                         case ActionTypes.CGInfoItem:
-                            n.SetNodeStyle(NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 180, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                         case ActionTypes.Delayer:
-                            n.SetNodeStyle(NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 40,
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                         case ActionTypes.Audio:
-                            n.SetNodeStyle(NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 60, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                         case ActionTypes.Sound:
-                            n.SetNodeStyle(NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 80, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                         case ActionTypes.ChangeStoryLine:
-                            n.SetNodeStyle(NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 40, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                         case ActionTypes.ChangeScene:
-                            n.SetNodeStyle(NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetNodeStyle(NodeWidth, 40, 
+                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                             break;
                     }
                 }
@@ -508,8 +520,8 @@ namespace DokiVnMaker.MyEditor
                                                     OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                     break;
                 case ActionTypes.BrancheBox:
-                    _NodeBaseList.Nodes.Add(new BrancheBox(position, NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle,
-                                                    OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    _NodeBaseList.Nodes.Add(new BrancheBox(position, NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, 
+                                                    OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
                     break;
                 case ActionTypes.BackgroundItem:
                     _NodeBaseList.Nodes.Add(new BackgroundItem(position, NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle,

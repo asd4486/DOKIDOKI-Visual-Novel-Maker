@@ -2,6 +2,37 @@
   {
     "InPoint": {
       "Node": {
+        "Path": "Assets/Images/CG/persona_4_by_auraian-d57h8t7.png",
+        "IsWait": false,
+        "ActionType": 3,
+        "Position": {
+          "x": 938.727051,
+          "y": 130.363647
+        },
+        "ParentId": -1,
+        "Id": 3
+      }
+    },
+    "OutPoint": {
+      "Node": {
+        "CharaName": "kira",
+        "Dialog": "hellllllllllllloooooo!!!!",
+        "FontSize": 15,
+        "Speed": 3,
+        "NoWait": false,
+        "ActionType": 1,
+        "Position": {
+          "x": 537.7273,
+          "y": -19.6363525
+        },
+        "ParentId": -1,
+        "Id": 4
+      }
+    }
+  },
+  {
+    "InPoint": {
+      "Node": {
         "CharaName": "sssssss",
         "Dialog": "yolo!!!",
         "FontSize": 15,
@@ -9,8 +40,8 @@
         "NoWait": false,
         "ActionType": 1,
         "Position": {
-          "x": 330.0,
-          "y": 78.0
+          "x": 176.7273,
+          "y": -40.6363525
         },
         "ParentId": -1,
         "Id": 2
@@ -20,8 +51,8 @@
       "Node": {
         "ActionType": 8,
         "Position": {
-          "x": 85.80005,
-          "y": 194.0
+          "x": -28.4726563,
+          "y": 101.363647
         },
         "ParentId": -1,
         "Id": 0
@@ -38,8 +69,8 @@
         "NoWait": false,
         "ActionType": 1,
         "Position": {
-          "x": 640.0,
-          "y": 212.0
+          "x": 537.7273,
+          "y": -19.6363525
         },
         "ParentId": -1,
         "Id": 4
@@ -54,42 +85,11 @@
         "NoWait": false,
         "ActionType": 1,
         "Position": {
-          "x": 330.0,
-          "y": 78.0
+          "x": 176.7273,
+          "y": -40.6363525
         },
         "ParentId": -1,
         "Id": 2
-      }
-    }
-  },
-  {
-    "InPoint": {
-      "Node": {
-        "Path": "Assets/Images/CG/persona_4_by_auraian-d57h8t7.png",
-        "IsWait": false,
-        "ActionType": 3,
-        "Position": {
-          "x": 960.0,
-          "y": 159.0
-        },
-        "ParentId": -1,
-        "Id": 3
-      }
-    },
-    "OutPoint": {
-      "Node": {
-        "CharaName": "kira",
-        "Dialog": "hellllllllllllloooooo!!!!",
-        "FontSize": 15,
-        "Speed": 3,
-        "NoWait": false,
-        "ActionType": 1,
-        "Position": {
-          "x": 640.0,
-          "y": 212.0
-        },
-        "ParentId": -1,
-        "Id": 4
       }
     }
   }
