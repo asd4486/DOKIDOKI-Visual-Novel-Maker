@@ -1,18 +1,19 @@
 ﻿using System;
-
-public enum ActionTypes
+namespace DokiVnMaker.MyEditor.Items
 {
-    CharcterSpriteInfos = 0,
-    DialogBox = 1,
-    BrancheBox = 2,
-    BackgroundItem = 3,
-    CGInfoItem = 4,
-    Delayer = 5,
-    Audio = 6,
-    Sound = 7,
-    Start = 8,
-    CharacterOutInfos = 9,
-    ChangeStoryLine = 10,
-    ChangeScene = 11,
+    public enum ActionTypes
+    {
+        CharcterSpriteInfos = 0,
+        DialogBox = 1,
+        BrancheBox = 2,
+        BackgroundItem = 3,
+        CGInfoItem = 4,
+        Delayer = 5,
+        Audio = 6,
+        Sound = 7,
+        Start = 8,
+        CharacterOutInfos = 9,
+        ChangeStoryLine = 10,
+        ChangeScene = 11,
+    }
 }
-

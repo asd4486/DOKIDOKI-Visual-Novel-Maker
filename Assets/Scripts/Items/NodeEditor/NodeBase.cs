@@ -5,7 +5,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace NodeEditor
+namespace DokiVnMaker.MyEditor.Items
 {
     [Serializable]
     public class NodeBase : SimpleNodeBase
@@ -46,6 +46,9 @@ namespace NodeEditor
         public Action<NodeBase> OnRemoveNode;
         [NonSerialized]
         public bool CanEdit;
+
+        [NonSerialized]
+        public bool Initialize;
 
         public NodeBase() { }
 

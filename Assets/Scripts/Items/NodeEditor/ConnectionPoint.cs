@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace NodeEditor
+namespace DokiVnMaker.MyEditor.Items
 {
     public enum ConnectionPointType { In, Out }
 
@@ -24,35 +24,11 @@ namespace NodeEditor
 
         public ConnectionPoint(SimpleNodeBase node, ConnectionPointType type, GUIStyle style, Action<ConnectionPoint> onClickConnectionPoint)
         {
-            this.Node = node;
-            this.Type = type;
-            this.Style = style;
-            this.OnClickConnectionPoint = onClickConnectionPoint;
-            Rect = new Rect(0, 0, 10f, 20f);
-        }
-
-        public void CustomDraw(float x, float y)
-        {
-            Rect.y = Node.Rect.y - y;
-
-            switch (Type)
-            {
-                case ConnectionPointType.In:
-                    Rect.x = Node.Rect.x - Rect.width - x;
-                    break;
-
-                case ConnectionPointType.Out:
-                    Rect.x = Node.Rect.x + Node.Rect.width+ x;
-                    break;
-            }
-
-            if (GUI.Button(Rect, "", Style))
-            {
-                if (OnClickConnectionPoint != null)
-                {
-                    OnClickConnectionPoint(this);
-                }
-            }
+            Node = node;
+            Type = type;
+            Style = style;
+            OnClickConnectionPoint = onClickConnectionPoint;
+            Rect = new Rect(0, 0, 13f, 13f);
         }
 
         public void Draw()
@@ -62,37 +38,40 @@ namespace NodeEditor
             switch (Type)
             {
                 case ConnectionPointType.In:
-                    Rect.x = Node.Rect.x - Rect.width;
+                    Rect.x = Node.Rect.x - Rect.width + 6;
                     break;
-
                 case ConnectionPointType.Out:
-                    Rect.x = Node.Rect.x + Node.Rect.width;
+                    Rect.x = Node.Rect.x + Node.Rect.width - 6;
                     break;
             }
 
             if (GUI.Button(Rect, "", Style))
             {
-                if (OnClickConnectionPoint != null)
-                {
-                    OnClickConnectionPoint(this);
-                }
+                if (OnClickConnectionPoint != null)        
+                    OnClickConnectionPoint(this);         
             }
         }
 
-        // override object.Equals
-        public override bool Equals(object obj)
+        public void Draw(float x, float y)
         {
+            Rect.y = Node.Rect.y + y;
 
-            var item = obj as ConnectionPoint;
+            switch (Type)
+            {
+                case ConnectionPointType.In:
+                    Rect.x = Node.Rect.x - Rect.width + 6 + x;
+                    break;
+                case ConnectionPointType.Out:
+                    Rect.x = Node.Rect.x + Node.Rect.width - 6 + x;
+                    break;
+            }
 
-            return Node.Equals(item.Node);
-        }
-
-        // override object.GetHashCode
-        public override int GetHashCode()
-        {
-            // TODO: write your implementation of GetHashCode() here
-            return base.GetHashCode();
+            if (GUI.Button(Rect, "", Style))
+            {
+                if (OnClickConnectionPoint != null)         
+                    OnClickConnectionPoint(this);
+                
+            }
         }
     }
 }

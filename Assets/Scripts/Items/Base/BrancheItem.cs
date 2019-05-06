@@ -1,42 +1,44 @@
-﻿using NodeEditor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using UnityEditor;
 using UnityEngine;
 
-[Serializable]
-public class BrancheItem: SimpleNodeBase
+namespace DokiVnMaker.MyEditor.Items
 {
-    public string Text;
-
-    [NonSerialized]
-    public ConnectionPoint OutPoint;
-    [NonSerialized]
-    public Action<BrancheItem> OnDeleteBranche;
-
-    public BrancheItem() { }
-
-    public BrancheItem(Action<BrancheItem> onDeleteBranche, int parentId, int id)
+    [Serializable]
+    public class BrancheItem : SimpleNodeBase
     {
-        OnDeleteBranche = onDeleteBranche;
-        ParentId = parentId;
-        Id = id;
-    }
+        public string Text;
 
-    public void Draw()
-    {
-        Text = EditorGUILayout.TextField(Text);
-        //delete branch
-        if (Id > 1)
+        [NonSerialized]
+        public ConnectionPoint OutPoint;
+        [NonSerialized]
+        public Action<BrancheItem> OnDeleteBranche;
+
+        public BrancheItem() { }
+
+        public BrancheItem(Action<BrancheItem> onDeleteBranche, int parentId, int id)
         {
-            if (GUILayout.Button("x", GUILayout.Width(20)))
-            {
-               if(OnDeleteBranche != null)  OnDeleteBranche(this);
-            }
+            OnDeleteBranche = onDeleteBranche;
+            ParentId = parentId;
+            Id = id;
         }
-        OutPoint.CustomDraw(50, 20);
+
+        public void Draw()
+        {
+            GUILayout.BeginVertical();
+            GUILayout.BeginHorizontal();
+            Text = EditorGUILayout.TextField(Text);
+            //delete branch
+            if (Id > 1)
+            {
+                if (GUILayout.Button("x", GUILayout.Width(20)))
+                {
+                    if (OnDeleteBranche != null) OnDeleteBranche(this);
+                }
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.Space(4);
+            GUILayout.EndVertical();
+        }
     }
 }
-

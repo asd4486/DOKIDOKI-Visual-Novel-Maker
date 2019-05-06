@@ -1,134 +1,83 @@
-﻿using NodeEditor;
-using System;
-using System.Collections;
+﻿using DokiVnMaker.MyEditor.Items;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StoryLine : MonoBehaviour
+namespace DokiVnMaker.MyEditor
 {
-    [HideInInspector]
-    //story json data file name
-    public string DataFileName { get { return SceneManager.GetActiveScene().name + '-' + gameObject.name+ "-story" + ".json"; } }
-    public string ConnectionsDataFileName { get { return SceneManager.GetActiveScene().name + '-' + gameObject.name+ "-connection" + ".json"; } }
-
-    #region save load data
-    public List<NodeBase> OnLoadNodes()
+    public class StoryLine : MonoBehaviour
     {
-        var nodeList = new List<NodeBase>();
+        [HideInInspector]
+        //story json data file name
+        public string DataFileName { get { return SceneManager.GetActiveScene().name + '-' + gameObject.name + "-story" + ".json"; } }
+        public string ConnectionsDataFileName { get { return SceneManager.GetActiveScene().name + '-' + gameObject.name + "-connection" + ".json"; } }
 
-        // Path.Combine combines strings into a file path
-        // Application.StreamingAssets points to Assets/StreamingAssets in the Editor, and the StreamingAssets folder in a build
-        string filePath = Path.Combine(ValueManager.GameDataPath, DataFileName);
-
-        if (File.Exists(filePath))
+        #region save load data
+        public List<NodeBase> OnLoadNodes()
         {
-            //find all json data
-            string json = File.ReadAllText(filePath);
-            string[] datas = json.Remove(json.Length - 1).Remove(0, 1).Split(new string[] { ",{" }, StringSplitOptions.RemoveEmptyEntries);
-            //Debug.Log(json);
-            //Debug.Log(JsonHelper.FromJson<NodeBase>(json));
-            nodeList = new List<NodeBase>();
+            var nodeList = new List<NodeBase>();
 
-            for (var i = 0; i < datas.Length; i++)
+            // Path.Combine combines strings into a file path
+            // Application.StreamingAssets points to Assets/StreamingAssets in the Editor, and the StreamingAssets folder in a build
+            string filePath = Path.Combine(ValueManager.GameDataPath, DataFileName);
+
+            if (File.Exists(filePath))
             {
-                var d = datas[i];
-                if (d[0] != '{') { d = "{" + d; }
+                //find all json data
+                string json = File.ReadAllText(filePath);
+                var actions = JsonConvert.DeserializeObject<StoryLineActions>(json);
 
-                var type = JsonUtility.FromJson<NodeBase>(d);
-                //check action type and load current class
-                var newAction = new NodeBase();
-                switch (type.ActionType)
-                {
-                    case ActionTypes.Start:
-                        newAction = JsonUtility.FromJson<EditorStartPoint>(d);
-                        break;
-                    case ActionTypes.Audio:
-                        newAction = JsonUtility.FromJson<Audio>(d);
-                        break;
-                    case ActionTypes.BrancheBox:
-                        newAction = JsonUtility.FromJson<BrancheBox>(d);
-                        break;
-                    case ActionTypes.BackgroundItem:
-                        newAction = JsonUtility.FromJson<BackgroundItem>(d);
-                        //initialize setting
-                        (newAction as BackgroundItem).Initialize = true;
-                        break;
-                    case ActionTypes.CGInfoItem:
-                        newAction = JsonUtility.FromJson<CGInfoItem>(d);
-                        //initialize setting
-                        (newAction as CGInfoItem).Initialize = true;
-                        break;
-                    case ActionTypes.CharcterSpriteInfos:
-                        newAction = JsonUtility.FromJson<CharcterSpriteInfos>(d);
-                        //initialize setting
-                        (newAction as CharcterSpriteInfos).Initialize = true;
-                        break;
-                    case ActionTypes.CharacterOutInfos:
-                        newAction = JsonUtility.FromJson<CharacterOutInfos>(d);
-                        //initialize setting
-                        (newAction as CharacterOutInfos).Initialize = true;
-                        break;
-                    case ActionTypes.Delayer:
-                        newAction = JsonUtility.FromJson<Delayer>(d);
-                        break;
-                    case ActionTypes.DialogBox:
-                        newAction = JsonUtility.FromJson<DialogBox>(d);
-                        break;
-                    case ActionTypes.Sound:
-                        newAction = JsonUtility.FromJson<Sound>(d);
-                        break;
-                    case ActionTypes.ChangeStoryLine:
-                        newAction = JsonUtility.FromJson<ChangeStoryLine>(d);
-                        //initialize setting
-                        (newAction as ChangeStoryLine).Initialize = true;
-                        break;
-                    case ActionTypes.ChangeScene:
-                        newAction = JsonUtility.FromJson<ChangeScene>(d);
-                        //initialize setting
-                        (newAction as ChangeScene).Initialize = true;
-                        break;
-                }
-                nodeList.Add(newAction);
+                nodeList.Add(actions.StartPoint);
+                foreach (var n in actions.CharcterSpriteInfoList) { nodeList.Add(n); }
+                foreach (var n in actions.DialogBoxList) { nodeList.Add(n); }
+                foreach (var n in actions.BrancheBoxList) { nodeList.Add(n); }
+                foreach (var n in actions.BackgroundItemList) { nodeList.Add(n); }
+                foreach (var n in actions.CGInfoItemList) { nodeList.Add(n); }
+                foreach (var n in actions.DelayerList) nodeList.Add(n);
+                foreach (var n in actions.AudioList) nodeList.Add(n);
+                foreach (var n in actions.SoundList) nodeList.Add(n);
+                foreach (var n in actions.CharacterOutInfoList) nodeList.Add(n);
+                foreach (var n in actions.ChangeStoryLineList) nodeList.Add(n);
+                foreach (var n in actions.ChangeSceneList) nodeList.Add(n);
+
+                foreach (var n in nodeList) n.Initialize = true;
+
+                nodeList = nodeList.OrderBy(n => n.Id).ToList();
             }
+
+            return nodeList;
         }
 
-        return nodeList;
-    }
-
-    public List<Connection> OnLoadConnections()
-    {
-        var list = new List<Connection>();
-        string filePath = Path.Combine(ValueManager.GameDataPath, ConnectionsDataFileName);
-
-        if (File.Exists(filePath))
+        public List<Connection> OnLoadConnections()
         {
-            //find all json data
-            string json = File.ReadAllText(filePath);
-            list = JsonHelper.FromJson<Connection>(json).ToList();
-            //string[] datas = json.Remove(json.Length - 1).Remove(0, 1).Split(new string[] { ",{" }, StringSplitOptions.RemoveEmptyEntries);
-            //Debug.Log(json);
+            var list = new List<Connection>();
+            string filePath = Path.Combine(ValueManager.GameDataPath, ConnectionsDataFileName);
+
+            if (File.Exists(filePath))
+            {
+                //find all json data
+                string json = File.ReadAllText(filePath);
+                list = JsonConvert.DeserializeObject<List<Connection>>(json);
+                //string[] datas = json.Remove(json.Length - 1).Remove(0, 1).Split(new string[] { ",{" }, StringSplitOptions.RemoveEmptyEntries);
+                //Debug.Log(json);
+            }
+
+            return list;
         }
 
-        return list;
+        public void OnSaveData(StoryLineActions actions, List<Connection> connections)
+        {
+            var json = JsonConvert.SerializeObject(actions);
+            File.WriteAllText(ValueManager.GameDataPath + DataFileName, json);
+
+            var json2 = JsonConvert.SerializeObject(connections, Formatting.Indented);
+            //Debug.Log
+            File.WriteAllText(ValueManager.GameDataPath + ConnectionsDataFileName, json2);
+
+        }
+        #endregion
     }
-
-    public void OnSaveData(List<NodeBase> actionList, List<Connection> connections)
-    {
-        var json = JsonHelper.ToJson(actionList);
-        File.WriteAllText(ValueManager.GameDataPath + DataFileName, json);
-
-        var json2 = JsonHelper.ToJson(connections.ToArray());
-        File.WriteAllText(ValueManager.GameDataPath + ConnectionsDataFileName, json2);
-        //BinaryFormatter formatter = new BinaryFormatter();
-
-        //FileStream saveFile = File.Create(ValueManager.GameDataPath + DataFileName);
-
-        //formatter.Serialize(saveFile, actionList);
-        //saveFile.Close();
-    }
-    #endregion
 }

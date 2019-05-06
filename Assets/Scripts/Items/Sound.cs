@@ -1,111 +1,112 @@
-﻿using NodeEditor;
+﻿using DokiVnMaker.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-[Serializable]
-public class Sound : AudioBase
+namespace DokiVnMaker.MyEditor.Items
 {
-    public int TrackIndex;
-
-    public Sound() { }
-
-    public Sound(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
-        GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
+    [Serializable]
+    public class Sound : AudioBase
     {
-        ActionType = ActionTypes.Sound;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
-    }
+        public int TrackIndex;
 
-    public override void Draw()
-    {
-        InPoint.Draw();
-        OutPoint.Draw();
+        public Sound() { }
 
-        GUILayout.BeginArea(Rect, Title, Style);
-        GUILayout.Space(5);
-        GUILayout.BeginHorizontal();
-        GUILayout.Space(SpacePixel);
-        GUILayout.FlexibleSpace();
-        GUILayout.BeginVertical();
-        GUILayout.Space(SpacePixel);
-
-        //initialize
-        if (Initialize)
+        public Sound(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+            GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
+            Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
         {
-            //find origin object
-            var origin = AssetDatabase.LoadAssetAtPath(AudioPath, typeof(AudioClip)) as AudioClip;
-
-            if (origin != null)
-            {
-                //set background image
-                MyAudio = origin;
-            }
-            Initialize = false;
+            ActionType = ActionTypes.Sound;
+            Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
         }
 
-        //Choose audio
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Sound source", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        MyAudio = EditorGUILayout.ObjectField( MyAudio, typeof(AudioClip), false) as AudioClip;
-        GUILayout.EndHorizontal();
-
-        //get audio path
-        if (MyAudio != null) AudioPath = AssetDatabase.GetAssetPath(MyAudio);
-
-        //audio volume
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Volume", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        Volume = EditorGUILayout.Slider(Volume, 0, 1);
-        GUILayout.EndHorizontal();
-
-        //find sound manager object
-        var obj = GameObject.FindGameObjectsWithTag("doki_sound_manager").FirstOrDefault();
-        if (obj != null)
+        public override void Draw()
         {
-            var soundManager = obj.GetComponent<SoundManager>();
+            GUILayout.BeginArea(Rect, Title, Style);
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(SpacePixel);
+            GUILayout.FlexibleSpace();
+            GUILayout.BeginVertical();
+            GUILayout.Space(SpacePixel);
 
-            //find all sound tracks
-            if (soundManager.AudioTracks != null && soundManager.AudioTracks.Length > 0)
+            //initialize
+            if (Initialize)
             {
-                //sound track list for seletion
-                var list = new List<string>();
-                for (int i = 0; i < soundManager.AudioTracks.Length; i++)
+                //find origin object
+                var origin = AssetDatabase.LoadAssetAtPath(AudioPath, typeof(AudioClip)) as AudioClip;
+
+                if (origin != null)
                 {
-                    list.Add((i + 1).ToString());
+                    //set background image
+                    MyAudio = origin;
                 }
-                GUILayout.BeginHorizontal();
-                GUILayout.Label("Track", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-                TrackIndex = EditorGUILayout.Popup( TrackIndex, list.ToArray());
-                GUILayout.EndHorizontal();
+                Initialize = false;
             }
+
+            //Choose audio
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Sound source", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            MyAudio = EditorGUILayout.ObjectField(MyAudio, typeof(AudioClip), false) as AudioClip;
+            GUILayout.EndHorizontal();
+
+            //get audio path
+            if (MyAudio != null) AudioPath = AssetDatabase.GetAssetPath(MyAudio);
+
+            //audio volume
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Volume", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            Volume = EditorGUILayout.Slider(Volume, 0, 1);
+            GUILayout.EndHorizontal();
+
+            //find sound manager object
+            var obj = GameObject.FindGameObjectsWithTag("doki_sound_manager").FirstOrDefault();
+            if (obj != null)
+            {
+                var soundManager = obj.GetComponent<SoundManager>();
+
+                //find all sound tracks
+                if (soundManager.AudioTracks != null && soundManager.AudioTracks.Length > 0)
+                {
+                    //sound track list for seletion
+                    var list = new List<string>();
+                    for (int i = 0; i < soundManager.AudioTracks.Length; i++)
+                    {
+                        list.Add((i + 1).ToString());
+                    }
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Label("Track", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+                    TrackIndex = EditorGUILayout.Popup(TrackIndex, list.ToArray());
+                    GUILayout.EndHorizontal();
+                }
+            }
+
+            GUILayout.EndVertical();
+            GUILayout.Space(SpacePixel);
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+
+            InPoint.Draw();
+            OutPoint.Draw();
+
+            base.Draw();
         }
 
-        GUILayout.EndVertical();
-        GUILayout.Space(SpacePixel);
-        GUILayout.EndHorizontal();
-        GUILayout.EndArea();
-
-        base.Draw();
-    }
-
-    public override NodeBase Clone(Vector2 pos, int newId)
-    {
-        var clone = new Sound(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
-            OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
-            OnCopyNode, OnRemoveNode, newId)
+        public override NodeBase Clone(Vector2 pos, int newId)
         {
-            Initialize = true,
-            AudioPath = AudioPath,
-            Volume = Volume,
-            TrackIndex = TrackIndex
-        };
+            var clone = new Sound(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+                OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+                OnCopyNode, OnRemoveNode, newId)
+            {
+                Initialize = true,
+                AudioPath = AudioPath,
+                Volume = Volume,
+                TrackIndex = TrackIndex
+            };
 
-        return clone;
+            return clone;
+        }
     }
 }
-

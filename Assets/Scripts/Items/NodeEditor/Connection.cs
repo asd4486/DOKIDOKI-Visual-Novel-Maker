@@ -5,7 +5,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace NodeEditor
+namespace DokiVnMaker.MyEditor.Items
 {
     [Serializable]
     public class Connection

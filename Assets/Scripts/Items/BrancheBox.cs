@@ -1,137 +1,155 @@
-﻿using NodeEditor;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEditor;
 using UnityEngine;
 
-[Serializable]
-public class BrancheBox : NodeBase
+namespace DokiVnMaker.MyEditor.Items
 {
-    public string Dialogue;
-
-    public List<BrancheItem> Branches;
-
-    public Color Color;
-    public int FontSize = ValueManager.DefaultFontSize;
-
-    //branche out point style
-    [NonSerialized]
-    private GUIStyle BranchePointStyle;
-    [NonSerialized]
-    private Action<ConnectionPoint> BracheClickConnectionPoint;
-
-    public BrancheBox() { }
-
-    public BrancheBox(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
-        GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
+    [Serializable]
+    public class BrancheBox : NodeBase
     {
-        ActionType = ActionTypes.BrancheBox;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, null, onClickInPoint, null, onClickCopyNode, onClickRemoveNode, id);
-        SetOutPointStyle(outPointStyle, onClickOutPoint);
-    }
+        public string Dialogue;
 
-    public void SetOutPointStyle(GUIStyle outPointStyle, Action<ConnectionPoint> onClickOutPoint)
-    {
-        BranchePointStyle = outPointStyle;
-        BracheClickConnectionPoint = onClickOutPoint;
-    }
+        public List<BrancheItem> Branches;
 
-    public override void Draw()
-    {
-        InPoint.Draw();
+        [NonSerialized]
+        public Color Color;
+        public int FontSize = ValueManager.DefaultFontSize;
 
-        GUILayout.BeginArea(Rect, Title, Style);
-        GUILayout.Space(5);
-        GUILayout.BeginHorizontal();
-        GUILayout.Space(SpacePixel);
-        GUILayout.FlexibleSpace();
-        GUILayout.BeginVertical();
-        GUILayout.Space(SpacePixel);
+        //branche out point style
+        [NonSerialized]
+        private GUIStyle OutPointStyle;
+        [NonSerialized]
+        private Action<ConnectionPoint> BracheClickConnectionPoint;
 
-        //init branches if null
-        if (Branches == null)
+        public BrancheBox() { }
+
+        public BrancheBox(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+            GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
+            Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
         {
-            Branches = new List<BrancheItem>();
-            Branches.Add(CreateNewBranche());
-            Branches.Add(CreateNewBranche());
-        }
+            ActionType = ActionTypes.BrancheBox;
 
-        GUILayout.Label("Branches", WhiteTxtStyle);
+            Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, null, onClickCopyNode, onClickRemoveNode, id);
+            SetOutPointStyle(OutPointStyle, onClickOutPoint);
 
-        for (int i = 0; i < Branches.Count; i++)
-        {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(i + 1 + ".", WhiteTxtStyle, GUILayout.Width(30));
-            Branches[i].Draw();
-            GUILayout.EndHorizontal();
-
-            Rect.height = DefaultRectHeight + 20 * i;
-        }
-
-        //add new branche(6 maximun)
-        if (GUILayout.Button("+"))
-        {
-            if (Branches.Count < 6)
+            //init branches if null
+            if (Branches == null)
             {
+                Branches = new List<BrancheItem>();
+                Branches.Add(CreateNewBranche());
                 Branches.Add(CreateNewBranche());
             }
         }
 
-        //FontSize = EditorGUILayout.IntField("Font size:", FontSize);
-        ////dialogue text box
-        //GUILayout.Label("Dialogue");
-        //Dialogue = EditorGUILayout.TextArea(Dialogue, GUILayout.Height(50));
-
-        GUILayout.EndVertical();
-        GUILayout.Space(SpacePixel);
-        GUILayout.EndHorizontal();
-        GUILayout.EndArea();
-
-        base.Draw();
-    }
-
-    private BrancheItem CreateNewBranche()
-    {
-        var branche = new BrancheItem(OnDeleteBranche, Id, SetBracheId());
-        branche.OutPoint = new ConnectionPoint(branche, ConnectionPointType.Out, BranchePointStyle, BracheClickConnectionPoint);
-        return branche;
-    }
-
-    private void OnDeleteBranche(BrancheItem branche)
-    {
-        if (Branches.Contains(branche))
+        public void SetOutPointStyle(GUIStyle outPointStyle, Action<ConnectionPoint> onClickOutPoint)
         {
-            Branches.Remove(branche);
+            OutPointStyle = outPointStyle;
+            BracheClickConnectionPoint = onClickOutPoint;
         }
-    }
 
-    private int SetBracheId()
-    {
-        if (Branches == null) return 0;
-        var id = 0;
-        foreach (var n in Branches)
+        public override void Draw()
         {
-            if (id <= n.Id) id = n.Id + 1;
+            //add functions for braches if initialize
+            if (Initialize)
+            {
+                var list = new List<BrancheItem>();
+                foreach (var b in Branches)
+                {
+                    var bText = b.Text;
+                    var bId = b.Id;
+                    var newBrache = CreateNewBranche();
+                    newBrache.Text = bText;
+                    newBrache.Id = bId;
+                    list.Add(newBrache);
+                }
+                Branches = list;
+
+                Initialize = false;
+            }
+
+            GUILayout.BeginArea(Rect, Title, Style);
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(SpacePixel);
+            GUILayout.FlexibleSpace();
+            GUILayout.BeginVertical();
+            GUILayout.Space(SpacePixel);
+
+            GUILayout.Label("Branches", WhiteTxtStyle);
+
+            for (int i = 0; i < Branches.Count; i++)
+            {
+                Rect.height = DefaultRectHeight + 20 * i;
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label(i + 1 + ".", WhiteTxtStyle, GUILayout.Width(30));
+                Branches[i].Draw();
+                GUILayout.EndHorizontal();
+            }
+
+            //add new branche(6 maximun)
+            if (Branches.Count < 6)
+            {
+                if (GUILayout.Button("+")) Branches.Add(CreateNewBranche());
+            }
+
+            //FontSize = EditorGUILayout.IntField("Font size:", FontSize);
+            ////dialogue text box
+            //GUILayout.Label("Dialogue");
+            //Dialogue = EditorGUILayout.TextArea(Dialogue, GUILayout.Height(50));
+
+            GUILayout.EndVertical();
+            GUILayout.Space(SpacePixel);
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+
+            InPoint.Draw();
+            for (int i = 0; i < Branches.Count; i++) Branches[i].OutPoint.Draw(-5, 32 + 21.5f * i);
+
+            base.Draw();
         }
-        return id;
-    }
 
-    public override NodeBase Clone(Vector2 pos, int newId)
-    {
-        var clone = new BrancheBox(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
-            OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
-            OnCopyNode, OnRemoveNode, newId)
+        private BrancheItem CreateNewBranche()
         {
-            Dialogue = Dialogue,
-            Branches = Branches,
-            Color = Color,
-            FontSize = FontSize,
-        };
+            var branche = new BrancheItem(OnDeleteBranche, Id, SetBracheId());
 
-        return clone;
+
+            branche.OutPoint = new ConnectionPoint(this, ConnectionPointType.Out, OutPointStyle, BracheClickConnectionPoint);
+            return branche;
+        }
+
+        private void OnDeleteBranche(BrancheItem branche)
+        {
+            if (Branches.Contains(branche))
+            {
+                Branches.Remove(branche);
+            }
+        }
+
+        private int SetBracheId()
+        {
+            if (Branches == null) return 0;
+            var id = 0;
+            foreach (var n in Branches)
+            {
+                if (id <= n.Id) id = n.Id + 1;
+            }
+            return id;
+        }
+
+        public override NodeBase Clone(Vector2 pos, int newId)
+        {
+            var clone = new BrancheBox(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+                OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+                OnCopyNode, OnRemoveNode, newId)
+            {
+                Dialogue = Dialogue,
+                Branches = Branches,
+                Color = Color,
+                FontSize = FontSize,
+            };
+
+            return clone;
+        }
     }
 }
-

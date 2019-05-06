@@ -1,1 +1,96 @@
-{"Items":[{"InPoint":{"Node":{"Position":{"x":226.0,"y":71.0},"ParentId":-1,"Id":1}},"OutPoint":{"Node":{"Position":{"x":20.0,"y":48.0},"ParentId":-1,"Id":0}}},{"InPoint":{"Node":{"Position":{"x":282.0,"y":269.0},"ParentId":-1,"Id":2}},"OutPoint":{"Node":{"Position":{"x":226.0,"y":71.0},"ParentId":-1,"Id":1}}},{"InPoint":{"Node":{"Position":{"x":637.0,"y":186.0},"ParentId":-1,"Id":3}},"OutPoint":{"Node":{"Position":{"x":282.0,"y":269.0},"ParentId":-1,"Id":2}}},{"InPoint":{"Node":{"Position":{"x":671.0,"y":374.0},"ParentId":-1,"Id":4}},"OutPoint":{"Node":{"Position":{"x":637.0,"y":186.0},"ParentId":-1,"Id":3}}},{"InPoint":{"Node":{"Position":{"x":615.0,"y":692.0},"ParentId":-1,"Id":5}},"OutPoint":{"Node":{"Position":{"x":671.0,"y":374.0},"ParentId":-1,"Id":4}}}]}
+[
+  {
+    "InPoint": {
+      "Node": {
+        "CharaName": "sssssss",
+        "Dialog": "yolo!!!",
+        "FontSize": 15,
+        "Speed": 3,
+        "NoWait": false,
+        "ActionType": 1,
+        "Position": {
+          "x": 330.0,
+          "y": 78.0
+        },
+        "ParentId": -1,
+        "Id": 2
+      }
+    },
+    "OutPoint": {
+      "Node": {
+        "ActionType": 8,
+        "Position": {
+          "x": 85.80005,
+          "y": 194.0
+        },
+        "ParentId": -1,
+        "Id": 0
+      }
+    }
+  },
+  {
+    "InPoint": {
+      "Node": {
+        "CharaName": "kira",
+        "Dialog": "hellllllllllllloooooo!!!!",
+        "FontSize": 15,
+        "Speed": 3,
+        "NoWait": false,
+        "ActionType": 1,
+        "Position": {
+          "x": 640.0,
+          "y": 212.0
+        },
+        "ParentId": -1,
+        "Id": 4
+      }
+    },
+    "OutPoint": {
+      "Node": {
+        "CharaName": "sssssss",
+        "Dialog": "yolo!!!",
+        "FontSize": 15,
+        "Speed": 3,
+        "NoWait": false,
+        "ActionType": 1,
+        "Position": {
+          "x": 330.0,
+          "y": 78.0
+        },
+        "ParentId": -1,
+        "Id": 2
+      }
+    }
+  },
+  {
+    "InPoint": {
+      "Node": {
+        "Path": "Assets/Images/CG/persona_4_by_auraian-d57h8t7.png",
+        "IsWait": false,
+        "ActionType": 3,
+        "Position": {
+          "x": 960.0,
+          "y": 159.0
+        },
+        "ParentId": -1,
+        "Id": 3
+      }
+    },
+    "OutPoint": {
+      "Node": {
+        "CharaName": "kira",
+        "Dialog": "hellllllllllllloooooo!!!!",
+        "FontSize": 15,
+        "Speed": 3,
+        "NoWait": false,
+        "ActionType": 1,
+        "Position": {
+          "x": 640.0,
+          "y": 212.0
+        },
+        "ParentId": -1,
+        "Id": 4
+      }
+    }
+  }
+]

@@ -1,102 +1,101 @@
-﻿using NodeEditor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using UnityEditor;
 using UnityEngine;
 
-[Serializable]
-public class DialogBox : NodeBase
+namespace DokiVnMaker.MyEditor.Items
 {
-    public string CharaName;
-    public string Dialog;
-
-    [NonSerialized]
-    public bool ShowCharParam;
-    public Color Color;
-    public int FontSize = ValueManager.DefaultFontSize;
-    public int Speed = 3;
-
-    public bool NoWait;
-
-    public DialogBox() { }
-
-    public DialogBox(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
-        GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-        Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
+    [Serializable]
+    public class DialogBox : NodeBase
     {
-        ActionType = ActionTypes.DialogBox;
-        Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
-    }
+        public string CharaName;
+        public string Dialog;
 
-    public override void Draw()
-    {
-        InPoint.Draw();
-        OutPoint.Draw();
+        [NonSerialized]
+        public bool ShowCharParam;
+        [NonSerialized]
+        public Color Color;
+        public int FontSize = ValueManager.DefaultFontSize;
+        public int Speed = 3;
 
-        GUILayout.BeginArea(Rect, Title, Style);
-        GUILayout.Space(5);
-        GUILayout.BeginHorizontal();
-        GUILayout.Space(SpacePixel);
-        GUILayout.FlexibleSpace();
-        GUILayout.BeginVertical();
-        GUILayout.Space(SpacePixel);
+        public bool NoWait;
 
-        //character name
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Name", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        CharaName = EditorGUILayout.TextField(CharaName);
-        GUILayout.EndHorizontal();
+        public DialogBox() { }
 
-        //dialogue text box
-        GUILayout.Label("Dialogue", WhiteTxtStyle);
-        Dialog = EditorGUILayout.TextArea(Dialog, GUILayout.Height(50));
-
-        //show character parameter
-        ShowCharParam = EditorGUILayout.Foldout(ShowCharParam, "Character +", true, WhiteTxtStyle);
-
-        if (ShowCharParam)
+        public DialogBox(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+            GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
+            Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
         {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Font size", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-            FontSize = EditorGUILayout.IntField(FontSize);
-            GUILayout.EndHorizontal();
-            //dialogue text speed
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Text speed", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-            Speed = EditorGUILayout.IntSlider(Speed, 1, 5);
-            GUILayout.EndHorizontal();
+            ActionType = ActionTypes.DialogBox;
+            Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
         }
-        //dialog show in one shot
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("No wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-        NoWait = EditorGUILayout.Toggle(NoWait);
-        GUILayout.EndHorizontal();
 
-        GUILayout.EndVertical();
-        GUILayout.Space(SpacePixel);
-        GUILayout.EndHorizontal();
-        GUILayout.EndArea();
-
-        base.Draw();
-    }
-
-    public override NodeBase Clone(Vector2 pos, int newId)
-    {
-        var clone = new DialogBox(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
-            OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
-            OnCopyNode, OnRemoveNode, newId)
+        public override void Draw()
         {
-            CharaName = CharaName,
-            Dialog = Dialog,
-            Color = Color,
-            FontSize = FontSize,
-            Speed = Speed,
-            NoWait = NoWait
-        };
+            GUILayout.BeginArea(Rect, Title, Style);
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(SpacePixel);
+            GUILayout.FlexibleSpace();
+            GUILayout.BeginVertical();
+            GUILayout.Space(SpacePixel);
 
-        return clone;
+            //character name
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Name", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            CharaName = EditorGUILayout.TextField(CharaName);
+            GUILayout.EndHorizontal();
+
+            //dialogue text box
+            GUILayout.Label("Dialogue", WhiteTxtStyle);
+            Dialog = EditorGUILayout.TextArea(Dialog, GUILayout.Height(50));
+
+            //show character parameter
+            ShowCharParam = EditorGUILayout.Foldout(ShowCharParam, "Character +", true, WhiteTxtStyle);
+
+            if (ShowCharParam)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Font size", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+                FontSize = EditorGUILayout.IntField(FontSize);
+                GUILayout.EndHorizontal();
+                //dialogue text speed
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Text speed", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+                Speed = EditorGUILayout.IntSlider(Speed, 1, 5);
+                GUILayout.EndHorizontal();
+            }
+            //dialog show in one shot
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("No wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            NoWait = EditorGUILayout.Toggle(NoWait);
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndVertical();
+            GUILayout.Space(SpacePixel);
+            GUILayout.EndHorizontal();
+            GUILayout.EndArea();
+
+            InPoint.Draw();
+            OutPoint.Draw();
+
+            base.Draw();
+        }
+
+        public override NodeBase Clone(Vector2 pos, int newId)
+        {
+            var clone = new DialogBox(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+                OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+                OnCopyNode, OnRemoveNode, newId)
+            {
+                CharaName = CharaName,
+                Dialog = Dialog,
+                Color = Color,
+                FontSize = FontSize,
+                Speed = Speed,
+                NoWait = NoWait
+            };
+
+            return clone;
+        }
     }
 }
-
