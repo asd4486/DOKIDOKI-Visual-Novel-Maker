@@ -70,7 +70,7 @@ namespace DokiVnMaker.MyEditor
 
         public void OnSaveData(StoryLineActions actions, List<Connection> connections)
         {
-            var json = JsonConvert.SerializeObject(actions, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(actions);
             File.WriteAllText(ValueManager.GameDataPath + DataFileName, json);
 
             var json2 = JsonConvert.SerializeObject(connections, Formatting.Indented);

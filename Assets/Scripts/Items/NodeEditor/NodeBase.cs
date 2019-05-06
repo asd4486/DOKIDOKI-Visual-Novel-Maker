@@ -52,31 +52,32 @@ namespace DokiVnMaker.MyEditor.Items
 
         public NodeBase() { }
 
-        public NodeBase(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
-            GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-            Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id = 0, bool canEdit = true)
-        {
-            Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id, canEdit);
-        }
 
         //init node(NEW)
-        public void Init(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+        public void Init(Vector2 _position, float _width, float _height, GUIStyle nodeStyle, GUIStyle selectedStyle,
             GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-            Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id = 0, bool canEdit = true)
+            Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int _id, bool _canEdit = true)
         {
-            Position = position;
-            Id = id;
-
-            SetNodeStyle(width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, canEdit);
+            Id = _id;
+            CanEdit = _canEdit;
+            Position = _position;
+            SetRectInfo( _width, _height);
+            SetNodeStyle(nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode);
         }
 
-        //set node basic style (Imported)
-        public void SetNodeStyle(float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
-            GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-           Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, bool canEdit = true)
+
+        public void SetRectInfo( float width, float height)
         {
             DefaultRectHeight = height;
             Rect = new Rect(Position.x, Position.y, width, height);
+        }
+
+        //set node basic style (Imported)
+        public void SetNodeStyle(GUIStyle nodeStyle, GUIStyle selectedStyle,
+            GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
+           Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode)
+        {
+
             Style = nodeStyle;
             InPoint = new ConnectionPoint(this, ConnectionPointType.In, inPointStyle, onClickInPoint);
             OutPoint = new ConnectionPoint(this, ConnectionPointType.Out, outPointStyle, onClickOutPoint);
@@ -94,8 +95,6 @@ namespace DokiVnMaker.MyEditor.Items
                 WhiteTxtStyle.fontSize = 20;
                 WhiteTxtStyle.fontStyle = FontStyle.Bold;
             }
-
-            CanEdit = canEdit;
 
             //set titles
             switch (ActionType)
@@ -136,20 +135,24 @@ namespace DokiVnMaker.MyEditor.Items
             }
         }
 
+
         public void Drag(Vector2 delta)
         {
             Rect.position += delta;
             Position = Rect.position;
         }
 
-        public virtual NodeBase Clone(Vector2 pos ,int newId)
+        public virtual NodeBase Clone(Vector2 pos, int newId)
         {
-            return new NodeBase(pos, Rect.width,  Rect.height, Style, SelectedNodeStyle, InPoint.Style,  
+            var node = new NodeBase();
+            node.Init(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId, CanEdit);
+
+            return node;
         }
 
-        public virtual void Draw(){ }
+        public virtual void Draw() { }
 
         public bool ProcessEvents(Event e)
         {
@@ -175,9 +178,9 @@ namespace DokiVnMaker.MyEditor.Items
                         }
                     }
 
-                    if (e.button == 1 )
+                    if (e.button == 1)
                     {
-                        if(Rect.Contains(e.mousePosition))
+                        if (Rect.Contains(e.mousePosition))
                         {
                             ProcessContextMenu();
                             e.Use();

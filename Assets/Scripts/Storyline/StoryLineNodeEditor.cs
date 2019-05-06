@@ -26,9 +26,9 @@ namespace DokiVnMaker.MyEditor
         private ConnectionPoint SelectedOutPoint;
 
         private Vector2 Offset;
-        private Vector2 Drag;
+        private Vector2 dragPos;
 
-        private Texture2D BackgroundColor;
+        private Texture2D backgroundColor;
 
         float ZoomScale = 1.0f;
         Vector2 VanishingPoint = new Vector2(0, 21);
@@ -82,9 +82,9 @@ namespace DokiVnMaker.MyEditor
             _NodeBaseList.Nodes = CurrentStoryLine.OnLoadNodes();
 
             //editor background color
-            BackgroundColor = new Texture2D(1, 1, TextureFormat.RGBA32, false);
-            BackgroundColor.SetPixel(0, 0, new Color(0.2f, 0.2f, 0.2f));
-            BackgroundColor.Apply();
+            backgroundColor = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+            backgroundColor.SetPixel(0, 0, new Color(0.2f, 0.2f, 0.2f));
+            backgroundColor.Apply();
 
             //node radius
             var radius = 10;
@@ -164,54 +164,52 @@ namespace DokiVnMaker.MyEditor
                     switch (n.ActionType)
                     {
                         case ActionTypes.Start:
-                            n.SetNodeStyle(NodeWidth / 2, 30, 
-                                startNodeStyle, startSelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, false);
+                            n.SetRectInfo(NodeWidth / 2, 30);
+                            n.CanEdit = false;
                             break;
                         case ActionTypes.CharcterSpriteInfos:
-                            n.SetNodeStyle(NodeWidth, 110, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 110);
                             break;
                         case ActionTypes.CharacterOutInfos:
-                            n.SetNodeStyle(NodeWidth, 60, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 60);
                             break;
                         case ActionTypes.DialogBox:
-                            n.SetNodeStyle(NodeWidth, 180, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 180);
                             break;
                         case ActionTypes.BrancheBox:
-                            n.SetNodeStyle(NodeWidth, 80, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 80);
                             (n as BrancheBox).SetOutPointStyle(OutPointStyle, OnClickInPoint);
                             break;
                         case ActionTypes.BackgroundItem:
-                            n.SetNodeStyle(NodeWidth, 60, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 60);
                             break;
                         case ActionTypes.CGInfoItem:
-                            n.SetNodeStyle(NodeWidth, 180, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 180);
                             break;
                         case ActionTypes.Delayer:
-                            n.SetNodeStyle(NodeWidth, 40,
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 40);
                             break;
                         case ActionTypes.Audio:
-                            n.SetNodeStyle(NodeWidth, 60, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 60);
                             break;
                         case ActionTypes.Sound:
-                            n.SetNodeStyle(NodeWidth, 80, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 80);
                             break;
                         case ActionTypes.ChangeStoryLine:
-                            n.SetNodeStyle(NodeWidth, 40, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 40);
                             break;
                         case ActionTypes.ChangeScene:
-                            n.SetNodeStyle(NodeWidth, 40, 
-                                NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                            n.SetRectInfo(NodeWidth, 40);
                             break;
+                    }
+
+                    if (n.ActionType == ActionTypes.Start)
+                    {
+                        n.SetNodeStyle(startNodeStyle, startSelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                    }
+                    else
+                    {
+                        n.SetNodeStyle(NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                     }
                 }
 
@@ -232,8 +230,13 @@ namespace DokiVnMaker.MyEditor
             else
             {
                 var y = position.height / 5;
-                StartNode = new EditorStartPoint(new Vector2(20, y), NodeWidth / 2, 30, startNodeStyle, startSelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+                StartNode = new EditorStartPoint();
                 //add start node to action nodes
+                StartNode.Init(
+                    new Vector2(20, y), NodeWidth / 2, 30,
+                    startNodeStyle, startSelectedNodeStyle, null, OutPointStyle, null, OnClickOutPoint, null, null,
+                    0, _canEdit: false);
+
                 if (!_NodeBaseList.Nodes.Contains(StartNode)) _NodeBaseList.Nodes.Insert(0, StartNode);
             }
         }
@@ -242,7 +245,7 @@ namespace DokiVnMaker.MyEditor
         {
             Zoom();
 
-            GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), BackgroundColor, ScaleMode.StretchToFill);
+            GUI.DrawTexture(new Rect(0, 0, maxSize.x, maxSize.y), backgroundColor, ScaleMode.StretchToFill);
 
             DrawGrid(20, 0.2f, Color.gray);
             DrawGrid(100, 0.4f, Color.gray);
@@ -289,7 +292,7 @@ namespace DokiVnMaker.MyEditor
             Handles.BeginGUI();
             Handles.color = new Color(gridColor.r, gridColor.g, gridColor.b, gridOpacity);
 
-            Offset += Drag * 0.5f;
+            Offset += dragPos * 0.5f;
             Vector3 newOffset = new Vector3(Offset.x % gridSpacing, Offset.y % gridSpacing, 0);
 
             for (int i = 0; i < widthDivs; i++)
@@ -367,7 +370,7 @@ namespace DokiVnMaker.MyEditor
         #region user controls
         private void ProcessEvents(Event e)
         {
-            Drag = Vector2.zero;
+            dragPos = Vector2.zero;
             switch (e.type)
             {
                 case EventType.MouseDown:
@@ -427,7 +430,7 @@ namespace DokiVnMaker.MyEditor
 
         private void OnDrag(Vector2 delta)
         {
-            Drag = delta;
+            dragPos = delta;
 
             if (_NodeBaseList.Nodes != null)
             {
@@ -505,53 +508,63 @@ namespace DokiVnMaker.MyEditor
         public void AddNewAction(ActionTypes type, Vector2 position)
         {
             var id = _NodeBaseList.Nodes.Count;
+            NodeBase node = new NodeBase();
+            float _width = NodeWidth;
+            float _height = 0;
+
             switch (type)
             {
                 case ActionTypes.CharcterSpriteInfos:
-                    _NodeBaseList.Nodes.Add(new CharcterSpriteInfos(position, NodeWidth, 105, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
-                                                            OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new CharcterSpriteInfos();
+                    _height = 105;
                     break;
                 case ActionTypes.CharacterOutInfos:
-                    _NodeBaseList.Nodes.Add(new CharacterOutInfos(position, NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
-                                                            OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new CharacterOutInfos();
+                    _height = 60;
                     break;
                 case ActionTypes.DialogBox:
-                    _NodeBaseList.Nodes.Add(new DialogBox(position, NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
-                                                    OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new DialogBox();
+                    _height = 180;
                     break;
                 case ActionTypes.BrancheBox:
-                    _NodeBaseList.Nodes.Add(new BrancheBox(position, NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, 
-                                                    OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new BrancheBox();
+                    _height = 80;
+                    (node as BrancheBox).SetOutPointStyle(OutPointStyle, OnClickInPoint);
                     break;
                 case ActionTypes.BackgroundItem:
-                    _NodeBaseList.Nodes.Add(new BackgroundItem(position, NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle,
-                                                    OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new BackgroundItem();
+                    _height = 60;
                     break;
                 case ActionTypes.CGInfoItem:
-                    _NodeBaseList.Nodes.Add(new CGInfoItem(position, NodeWidth, 180, NodeStyle, SelectedNodeStyle, InPointStyle,
-                                                    OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new CGInfoItem();
+                    _height = 180;
                     break;
                 case ActionTypes.Delayer:
-                    _NodeBaseList.Nodes.Add(new Delayer(position, NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
-                                                    OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new Delayer();
+                    _height = 40;
                     break;
                 case ActionTypes.Audio:
-                    _NodeBaseList.Nodes.Add(new Audio(position, NodeWidth, 60, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
-                                                    OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new Audio();
+                    _height = 60;
                     break;
                 case ActionTypes.Sound:
-                    _NodeBaseList.Nodes.Add(new Sound(position, NodeWidth, 80, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
-                                                OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new Sound();
+                    _height = 80;
                     break;
                 case ActionTypes.ChangeStoryLine:
-                    _NodeBaseList.Nodes.Add(new ChangeStoryLine(position, NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
-                                                OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new ChangeStoryLine();
+                    _height = 40;
                     break;
                 case ActionTypes.ChangeScene:
-                    _NodeBaseList.Nodes.Add(new ChangeScene(position, NodeWidth, 40, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
-                                                    OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId()));
+                    node = new ChangeScene();
+                    _height = 40;
                     break;
             }
+
+            node.Init(position, _width, _height, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
+            OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId());
+
+            _NodeBaseList.Nodes.Add(node);
         }
 
 

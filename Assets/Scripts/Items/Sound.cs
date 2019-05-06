@@ -12,14 +12,9 @@ namespace DokiVnMaker.MyEditor.Items
     {
         public int TrackIndex;
 
-        public Sound() { }
-
-        public Sound(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
-            GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-            Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
+        public Sound()
         {
             ActionType = ActionTypes.Sound;
-            Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
         }
 
         public override void Draw()
@@ -96,15 +91,16 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override NodeBase Clone(Vector2 pos, int newId)
         {
-            var clone = new Sound(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
-                OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
-                OnCopyNode, OnRemoveNode, newId)
+            var clone = new Sound()
             {
                 Initialize = true,
                 AudioPath = AudioPath,
                 Volume = Volume,
                 TrackIndex = TrackIndex
             };
+            clone.Init(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+                OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+                OnCopyNode, OnRemoveNode, newId);
 
             return clone;
         }

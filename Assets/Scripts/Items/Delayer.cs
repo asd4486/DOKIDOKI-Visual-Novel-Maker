@@ -9,14 +9,9 @@ namespace DokiVnMaker.MyEditor.Items
     {
         public float Delay;
 
-        public Delayer() { }
-
-        public Delayer(Vector2 position, float width, float height, GUIStyle nodeStyle, GUIStyle selectedStyle,
-            GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
-            Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int id)
+        public Delayer()
         {
             ActionType = ActionTypes.Delayer;
-            Init(position, width, height, nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode, id);
         }
 
         public override void Draw()
@@ -48,12 +43,14 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override NodeBase Clone(Vector2 pos, int newId)
         {
-            var clone = new Delayer(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
-                OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
-                OnCopyNode, OnRemoveNode, newId)
+            var clone = new Delayer()
             {
                 Delay = Delay
             };
+
+            clone.Init(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+                OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
+                OnCopyNode, OnRemoveNode, newId);
 
             return clone;
         }

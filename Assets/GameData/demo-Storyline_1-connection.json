@@ -6,8 +6,8 @@
         "IsWait": false,
         "ActionType": 3,
         "Position": {
-          "x": 938.727051,
-          "y": 130.363647
+          "x": 1047.727,
+          "y": 283.363647
         },
         "ParentId": -1,
         "Id": 3
@@ -22,8 +22,8 @@
         "NoWait": false,
         "ActionType": 1,
         "Position": {
-          "x": 537.7273,
-          "y": -19.6363525
+          "x": 646.7273,
+          "y": 133.363647
         },
         "ParentId": -1,
         "Id": 4
@@ -40,8 +40,8 @@
         "NoWait": false,
         "ActionType": 1,
         "Position": {
-          "x": 176.7273,
-          "y": -40.6363525
+          "x": 285.7273,
+          "y": 112.363647
         },
         "ParentId": -1,
         "Id": 2
@@ -51,8 +51,8 @@
       "Node": {
         "ActionType": 8,
         "Position": {
-          "x": -28.4726563,
-          "y": 101.363647
+          "x": 80.52734,
+          "y": 254.363647
         },
         "ParentId": -1,
         "Id": 0
@@ -69,8 +69,8 @@
         "NoWait": false,
         "ActionType": 1,
         "Position": {
-          "x": 537.7273,
-          "y": -19.6363525
+          "x": 646.7273,
+          "y": 133.363647
         },
         "ParentId": -1,
         "Id": 4
@@ -85,8 +85,8 @@
         "NoWait": false,
         "ActionType": 1,
         "Position": {
-          "x": 176.7273,
-          "y": -40.6363525
+          "x": 285.7273,
+          "y": 112.363647
         },
         "ParentId": -1,
         "Id": 2

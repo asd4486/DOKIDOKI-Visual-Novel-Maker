@@ -49,6 +49,7 @@ namespace DokiVnMaker.MyEditor.Items
             {
                 OnClickConnectionPoint?.Invoke(this);
             }
+
         }
 
         public void Draw(float x, float y)
@@ -69,6 +70,7 @@ namespace DokiVnMaker.MyEditor.Items
             {
                 OnClickConnectionPoint?.Invoke(this);
             }
+
         }
     }
 }

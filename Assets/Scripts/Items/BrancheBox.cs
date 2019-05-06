@@ -21,16 +21,15 @@ namespace DokiVnMaker.MyEditor.Items
         [NonSerialized]
         private Action<ConnectionPoint> BracheClickConnectionPoint;
 
-        public BrancheBox() { }
-
-        public BrancheBox(Vector2 _position, float _width, float _height, GUIStyle _nodeStyle, GUIStyle _selectedStyle,
-            GUIStyle _inPointStyle, GUIStyle _outPointStyle, Action<ConnectionPoint> _onClickInPoint, Action<ConnectionPoint> _onClickOutPoint,
-            Action<NodeBase> _onClickCopyNode, Action<NodeBase> _onClickRemoveNode, int _id)
+        public BrancheBox()
         {
             ActionType = ActionTypes.BrancheBox;
+        }
 
-            Init(_position, _width, _height, _nodeStyle, _selectedStyle, _inPointStyle, _outPointStyle, _onClickInPoint, null, _onClickCopyNode, _onClickRemoveNode, _id);
-            SetOutPointStyle(_outPointStyle, _onClickOutPoint);
+        public void SetOutPointStyle(GUIStyle _outPointStyle, Action<ConnectionPoint> _onClickOutPoint)
+        {
+            brancheOutPointStyle = _outPointStyle;
+            BracheClickConnectionPoint = _onClickOutPoint;
 
             //init branches if null
             if (brancheList == null)
@@ -39,14 +38,6 @@ namespace DokiVnMaker.MyEditor.Items
                 brancheList.Add(CreateNewBranche());
                 brancheList.Add(CreateNewBranche());
             }
-        }
-
-        public void SetOutPointStyle(GUIStyle _outPointStyle, Action<ConnectionPoint> _onClickOutPoint)
-        {
-
-            brancheOutPointStyle = _outPointStyle;
-
-            BracheClickConnectionPoint = _onClickOutPoint;
         }
 
         public override void Draw()
@@ -143,15 +134,17 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override NodeBase Clone(Vector2 pos, int newId)
         {
-            var clone = new BrancheBox(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style, brancheOutPointStyle,
-                InPoint.OnClickConnectionPoint, BracheClickConnectionPoint,
-                OnCopyNode, OnRemoveNode, newId)
+            var clone = new BrancheBox()
             {
                 dialogue = dialogue,
                 brancheList = brancheList,
                 color = color,
                 fontSize = fontSize,
             };
+
+            clone.Init(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style, brancheOutPointStyle,
+                InPoint.OnClickConnectionPoint, BracheClickConnectionPoint,
+                OnCopyNode, OnRemoveNode, newId);
 
             return clone;
         }
