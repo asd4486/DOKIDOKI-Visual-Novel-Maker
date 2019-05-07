@@ -11,25 +11,19 @@ namespace DokiVnMaker.MyEditor.Items
     [Serializable]
     public class ConnectionPoint
     {
-        [NonSerialized]
-        public SimpleNodeBase targetNode;
+        [NonSerialized] SimpleNodeBase targetNode;
         public int targetNodeId;
 
         //specifique item id for multiple points node
         public int targetItemId = -1;
 
-        [NonSerialized]
-        public Rect myRect;
-        [NonSerialized]
-        public ConnectionPointType Type;
+        [NonSerialized] public Rect myRect;
+        [NonSerialized] public ConnectionPointType Type;
 
-        [NonSerialized]
-        public GUIStyle Style;
-        [NonSerialized]
-        public Action<ConnectionPoint> OnClickConnectionPoint;
+        [NonSerialized] public GUIStyle Style;
+        [NonSerialized] public Action<ConnectionPoint> OnClickConnectionPoint;
 
-        [NonSerialized]
-        public Connection connectedConnection;
+        [NonSerialized] public Connection connectedConnection;
 
         public ConnectionPoint() { }
 

@@ -65,7 +65,7 @@
     <Compile Include="Assets\Scripts\Game\GameMain.cs" />
     <Compile Include="Assets\Scripts\Game\SoundManager.cs" />
     <Compile Include="Assets\Scripts\Items\Audio.cs" />
-    <Compile Include="Assets\Scripts\Items\BackgroundItem.cs" />
+    <Compile Include="Assets\Scripts\Items\BackgroundImage.cs" />
     <Compile Include="Assets\Scripts\Items\Base\ActionTypes.cs" />
     <Compile Include="Assets\Scripts\Items\Base\AudioBase.cs" />
     <Compile Include="Assets\Scripts\Items\Base\BrancheItem.cs" />

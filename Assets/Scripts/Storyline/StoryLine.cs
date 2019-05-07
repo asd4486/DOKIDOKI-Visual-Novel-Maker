@@ -34,7 +34,7 @@ namespace DokiVnMaker.MyEditor
                 foreach (var n in actions.CharcterSpriteInfoList) { nodeList.Add(n); }
                 foreach (var n in actions.DialogBoxList) { nodeList.Add(n); }
                 foreach (var n in actions.BrancheBoxList) { nodeList.Add(n); }
-                foreach (var n in actions.BackgroundItemList) { nodeList.Add(n); }
+                foreach (var n in actions.BackgroundImageList) { nodeList.Add(n); }
                 foreach (var n in actions.CGInfoItemList) { nodeList.Add(n); }
                 foreach (var n in actions.DelayerList) nodeList.Add(n);
                 foreach (var n in actions.AudioList) nodeList.Add(n);

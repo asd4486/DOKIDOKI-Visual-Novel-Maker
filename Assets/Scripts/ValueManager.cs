@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class ValueManager
 {
-    public static int DefaultFontSize = 15;
+    public static int DefaultFontSize = 20;
     public static string GameSourcesFullPath = Application.dataPath + "/GameSources/";
     public static string GameSourcesPath = "Assets/GameSources/";
 

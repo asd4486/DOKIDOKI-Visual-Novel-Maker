@@ -549,7 +549,7 @@ namespace DokiVnMaker.MyEditor
                     (node as BrancheBox).SetOutPointStyle(outPointStyle, onClickOutPoint);
                     break;
                 case ActionTypes.BackgroundItem:
-                    node = new BackgroundItem();
+                    node = new BackgroundImage();
                     _height = 60;
                     break;
                 case ActionTypes.CGInfoItem:

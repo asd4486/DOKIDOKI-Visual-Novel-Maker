@@ -9,7 +9,7 @@ namespace DokiVnMaker.MyEditor.Items
         public List<CharcterSpriteInfos> CharcterSpriteInfoList;
         public List<DialogBox> DialogBoxList;
         public List<BrancheBox> BrancheBoxList;
-        public List<BackgroundItem> BackgroundItemList;
+        public List<BackgroundImage> BackgroundImageList;
         public List<CGInfoItem> CGInfoItemList;
         public List<Delayer> DelayerList;
         public List<Audio> AudioList;
@@ -26,7 +26,7 @@ namespace DokiVnMaker.MyEditor.Items
             CharcterSpriteInfoList = new List<CharcterSpriteInfos>();
             DialogBoxList = new List<DialogBox>();
             BrancheBoxList = new List<BrancheBox>();
-            BackgroundItemList = new List<BackgroundItem>();
+            BackgroundImageList = new List<BackgroundImage>();
             CGInfoItemList = new List<CGInfoItem>();
             DelayerList = new List<Delayer>();
             AudioList = new List<Audio>();
@@ -46,7 +46,7 @@ namespace DokiVnMaker.MyEditor.Items
                 if (n is CharcterSpriteInfos) { actions.CharcterSpriteInfoList.Add(n as CharcterSpriteInfos); }
                 if (n is DialogBox) { actions.DialogBoxList.Add(n as DialogBox); }
                 if (n is BrancheBox) { actions.BrancheBoxList.Add(n as BrancheBox); }
-                if (n is BackgroundItem) { actions.BackgroundItemList.Add(n as BackgroundItem); }
+                if (n is BackgroundImage) { actions.BackgroundImageList.Add(n as BackgroundImage); }
                 if (n is CGInfoItem) { actions.CGInfoItemList.Add(n as CGInfoItem); }
                 if (n is Delayer) { actions.DelayerList.Add(n as Delayer); }
                 if (n is Audio) { actions.AudioList.Add(n as Audio); }

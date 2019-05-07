@@ -5,7 +5,7 @@ using UnityEngine;
 namespace DokiVnMaker.MyEditor.Items
 {
     [Serializable]
-    public class BackgroundItem : NodeBase
+    public class BackgroundImage : NodeBase
     {
         [NonSerialized]
         public Sprite Image;
@@ -13,7 +13,7 @@ namespace DokiVnMaker.MyEditor.Items
         public string Path;
         public bool IsWait;
 
-        public BackgroundItem()
+        public BackgroundImage()
         {
 
             ActionType = ActionTypes.BackgroundItem;
@@ -84,7 +84,7 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override NodeBase Clone(Vector2 pos, int newId)
         {
-            var clone = new BackgroundItem()
+            var clone = new BackgroundImage()
             {
                 Initialize = true,
                 Path = Path,

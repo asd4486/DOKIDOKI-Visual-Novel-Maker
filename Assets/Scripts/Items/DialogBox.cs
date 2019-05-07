@@ -14,7 +14,7 @@ namespace DokiVnMaker.MyEditor.Items
         public bool ShowCharParam;
         [NonSerialized]
         public Color Color;
-        public int FontSize = ValueManager.DefaultFontSize;
+        public int fontSize = ValueManager.DefaultFontSize;
         public int Speed = 3;
 
         public bool NoWait;
@@ -51,7 +51,7 @@ namespace DokiVnMaker.MyEditor.Items
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Font size", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-                FontSize = EditorGUILayout.IntField(FontSize);
+                fontSize = EditorGUILayout.IntField(fontSize);
                 GUILayout.EndHorizontal();
                 //dialogue text speed
                 GUILayout.BeginHorizontal();
@@ -83,7 +83,7 @@ namespace DokiVnMaker.MyEditor.Items
                 CharaName = CharaName,
                 Dialog = Dialog,
                 Color = Color,
-                FontSize = FontSize,
+                fontSize = fontSize,
                 Speed = Speed,
                 NoWait = NoWait
             };

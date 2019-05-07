@@ -1,0 +1,33 @@
+{
+  "CharcterSpriteInfoList": [],
+  "DialogBoxList": [],
+  "BrancheBoxList": [],
+  "BackgroundImageList": [],
+  "CGInfoItemList": [],
+  "DelayerList": [],
+  "AudioList": [],
+  "SoundList": [
+    {
+      "trackIndex": 0,
+      "Path": "Assets/Smile.Dk-Petit Love www.myhitmp3.com .mp3",
+      "Volume": 1.0,
+      "ActionType": 7,
+      "Position": {
+        "x": 293.0,
+        "y": 199.0
+      },
+      "Id": 1
+    }
+  ],
+  "CharacterOutInfoList": [],
+  "ChangeStoryLineList": [],
+  "ChangeSceneList": [],
+  "StartPoint": {
+    "ActionType": 8,
+    "Position": {
+      "x": 20.0,
+      "y": 110.0
+    },
+    "Id": 0
+  }
+}

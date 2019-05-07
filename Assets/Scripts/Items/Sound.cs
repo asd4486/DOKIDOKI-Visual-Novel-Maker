@@ -10,7 +10,7 @@ namespace DokiVnMaker.MyEditor.Items
     [Serializable]
     public class Sound : AudioBase
     {
-        public int TrackIndex;
+        public int trackIndex;
 
         public Sound()
         {
@@ -31,7 +31,7 @@ namespace DokiVnMaker.MyEditor.Items
             if (Initialize)
             {
                 //find origin object
-                var origin = AssetDatabase.LoadAssetAtPath(AudioPath, typeof(AudioClip)) as AudioClip;
+                var origin = AssetDatabase.LoadAssetAtPath(Path, typeof(AudioClip)) as AudioClip;
 
                 if (origin != null)
                 {
@@ -48,7 +48,7 @@ namespace DokiVnMaker.MyEditor.Items
             GUILayout.EndHorizontal();
 
             //get audio path
-            if (MyAudio != null) AudioPath = AssetDatabase.GetAssetPath(MyAudio);
+            if (MyAudio != null) Path = AssetDatabase.GetAssetPath(MyAudio);
 
             //audio volume
             GUILayout.BeginHorizontal();
@@ -56,27 +56,12 @@ namespace DokiVnMaker.MyEditor.Items
             Volume = EditorGUILayout.Slider(Volume, 0, 1);
             GUILayout.EndHorizontal();
 
+            GUILayout.Space(5);
             //find sound manager object
-            var obj = GameObject.FindGameObjectsWithTag("doki_sound_manager").FirstOrDefault();
-            if (obj != null)
-            {
-                var soundManager = obj.GetComponent<SoundManager>();
-
-                //find all sound tracks
-                if (soundManager.AudioTracks != null && soundManager.AudioTracks.Length > 0)
-                {
-                    //sound track list for seletion
-                    var list = new List<string>();
-                    for (int i = 0; i < soundManager.AudioTracks.Length; i++)
-                    {
-                        list.Add((i + 1).ToString());
-                    }
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label("Track", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-                    TrackIndex = EditorGUILayout.Popup(TrackIndex, list.ToArray());
-                    GUILayout.EndHorizontal();
-                }
-            }
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Track Index", WhiteTxtStyle, GUILayout.Width(LabelWidth));
+            trackIndex = EditorGUILayout.IntField(trackIndex);
+            GUILayout.EndHorizontal();
 
             GUILayout.EndVertical();
             GUILayout.Space(SpacePixel);
@@ -94,9 +79,9 @@ namespace DokiVnMaker.MyEditor.Items
             var clone = new Sound()
             {
                 Initialize = true,
-                AudioPath = AudioPath,
+                Path = Path,
                 Volume = Volume,
-                TrackIndex = TrackIndex
+                trackIndex = trackIndex
             };
             clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,

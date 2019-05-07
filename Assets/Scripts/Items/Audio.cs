@@ -27,7 +27,7 @@ namespace DokiVnMaker.MyEditor.Items
             if (Initialize)
             {
                 //find origin object
-                var origin = AssetDatabase.LoadAssetAtPath(AudioPath, typeof(AudioClip)) as AudioClip;
+                var origin = AssetDatabase.LoadAssetAtPath(Path, typeof(AudioClip)) as AudioClip;
 
                 if (origin != null)
                 {
@@ -44,7 +44,7 @@ namespace DokiVnMaker.MyEditor.Items
             GUILayout.EndHorizontal();
 
             //get audio path
-            if (MyAudio != null) AudioPath = AssetDatabase.GetAssetPath(MyAudio);
+            if (MyAudio != null) Path = AssetDatabase.GetAssetPath(MyAudio);
 
             //audio volume
             GUILayout.BeginHorizontal();
@@ -68,7 +68,7 @@ namespace DokiVnMaker.MyEditor.Items
             var clone = new Audio()
             {
                 Initialize = true,
-                AudioPath = AudioPath,
+                Path = Path,
                 Volume = Volume,
             };
 
