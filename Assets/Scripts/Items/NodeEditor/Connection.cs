@@ -27,21 +27,18 @@ namespace DokiVnMaker.MyEditor.Items
         public void Draw()
         {
             Handles.DrawBezier(
-                InPoint.Rect.center,
-                OutPoint.Rect.center,
-                InPoint.Rect.center + Vector2.left * 50f,
-                OutPoint.Rect.center - Vector2.left * 50f,
+                InPoint.myRect.center,
+                OutPoint.myRect.center,
+                InPoint.myRect.center + Vector2.left * 50f,
+                OutPoint.myRect.center - Vector2.left * 50f,
                 Color.white,
                 null,
                 2f
             );
 
-            if (Handles.Button((InPoint.Rect.center + OutPoint.Rect.center) * 0.5f, Quaternion.identity, 4, 8, Handles.RectangleCap))
+            if (Handles.Button((InPoint.myRect.center + OutPoint.myRect.center) * 0.5f, Quaternion.identity, 4, 8, Handles.RectangleCap))
             {
-                if (OnClickRemoveConnection != null)
-                {
-                    OnClickRemoveConnection(this);
-                }
+                OnClickRemoveConnection?.Invoke(this);
             }
         }
     }

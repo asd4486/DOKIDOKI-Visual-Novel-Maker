@@ -13,7 +13,7 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override void Draw()
         {
-            GUILayout.BeginArea(Rect, "", Style);
+            GUILayout.BeginArea(myRect, "", Style);
             GUILayout.FlexibleSpace();
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();

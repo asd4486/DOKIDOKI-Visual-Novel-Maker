@@ -18,12 +18,12 @@ namespace DokiVnMaker.MyEditor
         private GUIStyle NodeStyle;
         private GUIStyle SelectedNodeStyle;
         private GUIStyle InPointStyle;
-        private GUIStyle OutPointStyle;
+        private GUIStyle outPointStyle;
 
         private List<Connection> Connections = new List<Connection>();
 
-        private ConnectionPoint SelectedInPoint;
-        private ConnectionPoint SelectedOutPoint;
+        private ConnectionPoint selectedInPoint;
+        private ConnectionPoint selectedOutPoint;
 
         private Vector2 Offset;
         private Vector2 dragPos;
@@ -96,9 +96,9 @@ namespace DokiVnMaker.MyEditor
             //InPointStyle.active.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn left on.png") as Texture2D;
             //InPointStyle.border = new RectOffset(4, 4, radius, radius);
 
-            OutPointStyle = new GUIStyle();
-            OutPointStyle.normal.background = AssetDatabase.LoadAssetAtPath("Assets/ImgSources/T_circle.png", typeof(Texture2D)) as Texture2D;
-            OutPointStyle.hover.background = AssetDatabase.LoadAssetAtPath("Assets/ImgSources/T_circle_active.png", typeof(Texture2D)) as Texture2D;
+            outPointStyle = new GUIStyle();
+            outPointStyle.normal.background = AssetDatabase.LoadAssetAtPath("Assets/ImgSources/T_circle.png", typeof(Texture2D)) as Texture2D;
+            outPointStyle.hover.background = AssetDatabase.LoadAssetAtPath("Assets/ImgSources/T_circle_active.png", typeof(Texture2D)) as Texture2D;
             //OutPointStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn right.png") as Texture2D;
             //OutPointStyle.active.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn right on.png") as Texture2D;
             //OutPointStyle.border = new RectOffset(4, 4, radius, radius);
@@ -178,7 +178,7 @@ namespace DokiVnMaker.MyEditor
                             break;
                         case ActionTypes.BrancheBox:
                             n.SetRectInfo(NodeWidth, 80);
-                            (n as BrancheBox).SetOutPointStyle(OutPointStyle, OnClickInPoint);
+                            (n as BrancheBox).SetOutPointStyle(outPointStyle, onClickOutPoint);
                             break;
                         case ActionTypes.BackgroundItem:
                             n.SetRectInfo(NodeWidth, 60);
@@ -205,11 +205,11 @@ namespace DokiVnMaker.MyEditor
 
                     if (n.ActionType == ActionTypes.Start)
                     {
-                        n.SetNodeStyle(startNodeStyle, startSelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                        n.SetNodeStyle(startNodeStyle, startSelectedNodeStyle, InPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                     }
                     else
                     {
-                        n.SetNodeStyle(NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle, OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
+                        n.SetNodeStyle(NodeStyle, SelectedNodeStyle, InPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                     }
                 }
 
@@ -218,12 +218,30 @@ namespace DokiVnMaker.MyEditor
                 foreach (var c in Connections)
                 {
                     c.OnClickRemoveConnection = OnClickRemoveConnection;
-                    c.InPoint = _NodeBaseList.Nodes.Where(n => n.Id == c.InPoint.Node.Id).FirstOrDefault().InPoint;
 
-                    var outNode = _NodeBaseList.Nodes.Where(n => n.Id == c.OutPoint.Node.Id && n.ParentId == c.OutPoint.Node.ParentId).FirstOrDefault();
+                    if (c.InPoint.targetItemId > -1)
+                    {
+                    }
+                    else
+                        c.InPoint = _NodeBaseList.Nodes.Where(n => n.Id == c.InPoint.targetNodeId).FirstOrDefault().InPoint;
+
+                    ConnectionPoint outPoint = new ConnectionPoint();
+                    if (c.OutPoint.targetItemId > -1)
+                    {
+                        var node = _NodeBaseList.Nodes.Where(n => n.Id == c.OutPoint.targetNodeId).FirstOrDefault();
+                        if (node is BrancheBox)
+                        {
+                            outPoint = (node as BrancheBox).outPointList[c.OutPoint.targetItemId];
+                        }
+                    }
+                    else
+                    {
+                        outPoint = _NodeBaseList.Nodes.Where(n => n.Id == c.OutPoint.targetNodeId).FirstOrDefault().OutPoint;
+                    }
+
                     //set out connection(each node only have one out connection)
-                    outNode.OutConnection = c;
-                    c.OutPoint = outNode.OutPoint;
+                    outPoint.SetConnection(c);
+                    c.OutPoint = outPoint;
                 }
             }
             //or create new
@@ -234,7 +252,7 @@ namespace DokiVnMaker.MyEditor
                 //add start node to action nodes
                 StartNode.Init(
                     new Vector2(20, y), NodeWidth / 2, 30,
-                    startNodeStyle, startSelectedNodeStyle, null, OutPointStyle, null, OnClickOutPoint, null, null,
+                    startNodeStyle, startSelectedNodeStyle, null, outPointStyle, null, onClickOutPoint, null, null,
                     0, _canEdit: false);
 
                 if (!_NodeBaseList.Nodes.Contains(StartNode)) _NodeBaseList.Nodes.Insert(0, StartNode);
@@ -281,7 +299,6 @@ namespace DokiVnMaker.MyEditor
             Matrix4x4 scale = Matrix4x4.Scale(new Vector3(ZoomScale, ZoomScale, 1.0f));
             GUI.matrix = translation * scale * translation.inverse;
         }
-
 
         #region draw funcs
         private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor)
@@ -334,12 +351,12 @@ namespace DokiVnMaker.MyEditor
 
         private void DrawConnectionLine(Event e)
         {
-            if (SelectedInPoint != null && SelectedOutPoint == null)
+            if (selectedInPoint != null && selectedOutPoint == null)
             {
                 Handles.DrawBezier(
-                    SelectedInPoint.Rect.center,
+                    selectedInPoint.myRect.center,
                     e.mousePosition,
-                    SelectedInPoint.Rect.center + Vector2.left * 50f,
+                    selectedInPoint.myRect.center + Vector2.left * 50f,
                     e.mousePosition - Vector2.left * 50f,
                     Color.white,
                     null,
@@ -349,12 +366,12 @@ namespace DokiVnMaker.MyEditor
                 GUI.changed = true;
             }
 
-            if (SelectedOutPoint != null && SelectedInPoint == null)
+            if (selectedOutPoint != null && selectedInPoint == null)
             {
                 Handles.DrawBezier(
-                    SelectedOutPoint.Rect.center,
+                    selectedOutPoint.myRect.center,
                     e.mousePosition,
-                    SelectedOutPoint.Rect.center - Vector2.left * 50f,
+                    selectedOutPoint.myRect.center - Vector2.left * 50f,
                     e.mousePosition + Vector2.left * 50f,
                     Color.white,
                     null,
@@ -376,7 +393,7 @@ namespace DokiVnMaker.MyEditor
                 case EventType.MouseDown:
                     if (e.button == 0)
                     {
-                        if (SelectedInPoint != null || SelectedOutPoint != null)
+                        if (selectedInPoint != null || selectedOutPoint != null)
                         {
                             ClearConnectionSelection();
                         }
@@ -529,7 +546,7 @@ namespace DokiVnMaker.MyEditor
                 case ActionTypes.BrancheBox:
                     node = new BrancheBox();
                     _height = 80;
-                    (node as BrancheBox).SetOutPointStyle(OutPointStyle, OnClickInPoint);
+                    (node as BrancheBox).SetOutPointStyle(outPointStyle, onClickOutPoint);
                     break;
                 case ActionTypes.BackgroundItem:
                     node = new BackgroundItem();
@@ -561,8 +578,8 @@ namespace DokiVnMaker.MyEditor
                     break;
             }
 
-            node.Init(position, _width, _height, NodeStyle, SelectedNodeStyle, InPointStyle, OutPointStyle,
-            OnClickInPoint, OnClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId());
+            node.Init(position, _width, _height, NodeStyle, SelectedNodeStyle, InPointStyle, outPointStyle,
+            onClickInPoint, onClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId());
 
             _NodeBaseList.Nodes.Add(node);
         }
@@ -572,13 +589,14 @@ namespace DokiVnMaker.MyEditor
 
         #region node editor func
 
-        private void OnClickInPoint(ConnectionPoint inPoint)
+        private void onClickInPoint(ConnectionPoint inPoint)
         {
-            SelectedInPoint = inPoint;
+            selectedInPoint = inPoint;
 
-            if (SelectedOutPoint != null)
+            if (selectedOutPoint != null)
             {
-                if (SelectedOutPoint.Node != SelectedInPoint.Node)
+                // if connect node isn't the same node
+                if (!selectedOutPoint.HasSameNode(selectedInPoint))
                 {
                     CreateConnection();
                     ClearConnectionSelection();
@@ -590,13 +608,14 @@ namespace DokiVnMaker.MyEditor
             }
         }
 
-        private void OnClickOutPoint(ConnectionPoint outPoint)
+        private void onClickOutPoint(ConnectionPoint outPoint)
         {
-            SelectedOutPoint = outPoint;
+            selectedOutPoint = outPoint;
 
-            if (SelectedInPoint != null)
+            if (selectedInPoint != null)
             {
-                if (SelectedOutPoint.Node != SelectedInPoint.Node)
+                // if connect node isn't the same node
+                if (!selectedOutPoint.HasSameNode(selectedInPoint))
                 {
                     CreateConnection();
                     ClearConnectionSelection();
@@ -646,7 +665,7 @@ namespace DokiVnMaker.MyEditor
         {
             if (Connections.Contains(conn))
             {
-                conn.OutPoint.Node.OutConnection = null;
+                conn.OutPoint.SetConnection(null);
                 Connections.Remove(conn);
             }
         }
@@ -654,18 +673,18 @@ namespace DokiVnMaker.MyEditor
         private void CreateConnection()
         {
             //return if in out point are null
-            if (SelectedInPoint == null && SelectedOutPoint == null) return;
+            if (selectedInPoint == null && selectedOutPoint == null) return;
 
-            var connection = new Connection(SelectedInPoint, SelectedOutPoint, OnClickRemoveConnection);
+            var connection = new Connection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection);
 
             //remove old out connection(out connection has only one)
-            if (SelectedOutPoint.Node.OutConnection != null)
+            if (selectedOutPoint.connectedConnection != null)
             {
-                var oldConn = SelectedOutPoint.Node.OutConnection;
+                var oldConn = selectedOutPoint.connectedConnection;
                 if (Connections.Contains(oldConn)) Connections.Remove(oldConn);
             }
 
-            SelectedOutPoint.Node.OutConnection = connection;
+            selectedOutPoint.SetConnection(connection);
             if (!Connections.Contains(connection))
             {
                 Connections.Add(connection);
@@ -674,8 +693,8 @@ namespace DokiVnMaker.MyEditor
 
         private void ClearConnectionSelection()
         {
-            SelectedInPoint = null;
-            SelectedOutPoint = null;
+            selectedInPoint = null;
+            selectedOutPoint = null;
         }
         #endregion
     }

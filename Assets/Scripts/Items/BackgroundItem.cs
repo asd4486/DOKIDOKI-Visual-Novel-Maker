@@ -22,7 +22,7 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override void Draw()
         {
-            GUILayout.BeginArea(Rect, Title, Style);
+            GUILayout.BeginArea(myRect, Title, Style);
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.Space(SpacePixel);
@@ -62,13 +62,13 @@ namespace DokiVnMaker.MyEditor.Items
                 Path = AssetDatabase.GetAssetPath(Image);
                 //show preview
                 GUILayout.Label(Image.texture, GUILayout.Width(200), GUILayout.Height(113));
-                if (Rect.height == DefaultRectHeight) Rect.height = DefaultRectHeight + 110;
+                if (myRect.height == DefaultRectHeight) myRect.height = DefaultRectHeight + 110;
             }
             else
             {
                 //clear path
                 Path = "";
-                if (Rect.height != DefaultRectHeight) Rect.height = DefaultRectHeight;
+                if (myRect.height != DefaultRectHeight) myRect.height = DefaultRectHeight;
             }
 
             GUILayout.EndVertical();
@@ -90,7 +90,7 @@ namespace DokiVnMaker.MyEditor.Items
                 Path = Path,
                 IsWait = IsWait,
             };
-            clone.Init(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+            clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId);
 

@@ -10,6 +10,8 @@ namespace DokiVnMaker.MyEditor.Items
         public string dialogue;
 
         public List<BrancheItem> brancheList;
+        [NonSerialized]
+        public List<ConnectionPoint> outPointList = new List<ConnectionPoint>();
 
         [NonSerialized]
         public Color color;
@@ -20,6 +22,7 @@ namespace DokiVnMaker.MyEditor.Items
         private GUIStyle brancheOutPointStyle;
         [NonSerialized]
         private Action<ConnectionPoint> BracheClickConnectionPoint;
+
 
         public BrancheBox()
         {
@@ -35,32 +38,39 @@ namespace DokiVnMaker.MyEditor.Items
             if (brancheList == null)
             {
                 brancheList = new List<BrancheItem>();
-                brancheList.Add(CreateNewBranche());
-                brancheList.Add(CreateNewBranche());
+                for (int i = 0; i < 2; i++)
+                {
+                    var b = CreateNewBranche(i);
+                    brancheList.Add(b);
+                }
+            }
+            else
+            {
+                //add functions for braches if initialize
+                if (Initialize)
+                {
+                    var list = new List<BrancheItem>();
+                    for (int i = 0; i < brancheList.Count; i++)
+                    {
+                        var b = brancheList[i];
+                        var bText = b.text;
+
+                        var newBrache = CreateNewBranche(i);
+                        newBrache.text = bText;
+                        list.Add(newBrache);
+                    }
+                    brancheList = list;
+
+                    Initialize = false;
+                }
             }
         }
 
         public override void Draw()
         {
-            //add functions for braches if initialize
-            if (Initialize)
-            {
-                var list = new List<BrancheItem>();
-                foreach (var b in brancheList)
-                {
-                    var bText = b.Text;
-                    var bId = b.Id;
-                    var newBrache = CreateNewBranche();
-                    newBrache.Text = bText;
-                    newBrache.Id = bId;
-                    list.Add(newBrache);
-                }
-                brancheList = list;
 
-                Initialize = false;
-            }
 
-            GUILayout.BeginArea(Rect, Title, Style);
+            GUILayout.BeginArea(myRect, Title, Style);
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.Space(SpacePixel);
@@ -72,7 +82,7 @@ namespace DokiVnMaker.MyEditor.Items
 
             for (int i = 0; i < brancheList.Count; i++)
             {
-                Rect.height = DefaultRectHeight + 20 * i;
+                myRect.height = DefaultRectHeight + 20 * i;
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(i + 1 + ".", WhiteTxtStyle, GUILayout.Width(30));
@@ -83,7 +93,7 @@ namespace DokiVnMaker.MyEditor.Items
             //add new branche(6 maximun)
             if (brancheList.Count < 6)
             {
-                if (GUILayout.Button("+")) brancheList.Add(CreateNewBranche());
+                if (GUILayout.Button("+")) brancheList.Add(CreateNewBranche(brancheList.Count));
             }
 
             //FontSize = EditorGUILayout.IntField("Font size:", FontSize);
@@ -99,17 +109,17 @@ namespace DokiVnMaker.MyEditor.Items
             InPoint.Draw();
             for (int i = 0; i < brancheList.Count; i++)
             {
-                brancheList[i].OutPoint.Draw(-5, 32 + 21.5f * i);
+                outPointList[i].Draw(-5, 32 + 21.5f * i);
             }
 
             base.Draw();
         }
 
-        private BrancheItem CreateNewBranche()
+        private BrancheItem CreateNewBranche(int id)
         {
-            var branche = new BrancheItem(OnDeleteBranche, Id, SetBracheId());
+            var branche = new BrancheItem(OnDeleteBranche, id);
+            outPointList.Add(new ConnectionPoint(this, ConnectionPointType.Out, brancheOutPointStyle, BracheClickConnectionPoint, id));
 
-            branche.OutPoint = new ConnectionPoint(this, ConnectionPointType.Out, brancheOutPointStyle, BracheClickConnectionPoint);
             return branche;
         }
 
@@ -119,17 +129,6 @@ namespace DokiVnMaker.MyEditor.Items
             {
                 brancheList.Remove(branche);
             }
-        }
-
-        private int SetBracheId()
-        {
-            if (brancheList == null) return 0;
-            var id = 0;
-            foreach (var n in brancheList)
-            {
-                if (id <= n.Id) id = n.Id + 1;
-            }
-            return id;
         }
 
         public override NodeBase Clone(Vector2 pos, int newId)
@@ -142,7 +141,7 @@ namespace DokiVnMaker.MyEditor.Items
                 fontSize = fontSize,
             };
 
-            clone.Init(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style, brancheOutPointStyle,
+            clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style, brancheOutPointStyle,
                 InPoint.OnClickConnectionPoint, BracheClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId);
 

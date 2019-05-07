@@ -5,35 +5,35 @@ using UnityEngine;
 namespace DokiVnMaker.MyEditor.Items
 {
     [Serializable]
-    public class BrancheItem : SimpleNodeBase
+    public class BrancheItem
     {
-        public string Text;
-
+        public string text;
         [NonSerialized]
-        public ConnectionPoint OutPoint;
+        public int id;
+
         [NonSerialized]
         public Action<BrancheItem> OnDeleteBranche;
 
         public BrancheItem() { }
 
-        public BrancheItem(Action<BrancheItem> onDeleteBranche, int parentId, int id)
+        public BrancheItem(Action<BrancheItem> onDeleteBranche, int _id)
         {
             OnDeleteBranche = onDeleteBranche;
-            ParentId = parentId;
-            Id = id;
+
+            id = _id;
         }
 
         public void Draw()
         {
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
-            Text = EditorGUILayout.TextField(Text);
+            text = EditorGUILayout.TextField(text);
             //delete branch
-            if (Id > 1)
+            if (id > 1)
             {
                 if (GUILayout.Button("x", GUILayout.Width(20)))
                 {
-                    if (OnDeleteBranche != null) OnDeleteBranche(this);
+                    OnDeleteBranche?.Invoke(this);
                 }
             }
             GUILayout.EndHorizontal();

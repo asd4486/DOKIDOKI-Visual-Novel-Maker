@@ -31,7 +31,7 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override void Draw()
         {
-            GUILayout.BeginArea(Rect, Title, Style);
+            GUILayout.BeginArea(myRect, Title, Style);
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.Space(SpacePixel);
@@ -105,10 +105,10 @@ namespace DokiVnMaker.MyEditor.Items
             //custom position
             if (CharaPos == CharacterPosition.Custom)
             {
-                if (Rect.height == DefaultRectHeight) Rect.height = DefaultRectHeight + 20;
+                if (myRect.height == DefaultRectHeight) myRect.height = DefaultRectHeight + 20;
                 CustomPos = EditorGUILayout.Vector2Field("", CustomPos);
             }
-            else { if (Rect.height != DefaultRectHeight) Rect.height = DefaultRectHeight; }
+            else { if (myRect.height != DefaultRectHeight) myRect.height = DefaultRectHeight; }
 
             //is wait for character appear
             GUILayout.BeginHorizontal();
@@ -140,7 +140,7 @@ namespace DokiVnMaker.MyEditor.Items
                 IsWait = IsWait
             };
 
-            clone.Init(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+            clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId);
 

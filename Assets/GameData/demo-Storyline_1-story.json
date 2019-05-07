@@ -1,1 +1,61 @@
-{"CharcterSpriteInfoList":[],"DialogBoxList":[{"CharaName":"sssssss","Dialog":"yolo!!!","FontSize":15,"Speed":3,"NoWait":false,"ActionType":1,"Position":{"x":285.7273,"y":112.363647},"ParentId":-1,"Id":2},{"CharaName":"kira","Dialog":"hellllllllllllloooooo!!!!","FontSize":15,"Speed":3,"NoWait":false,"ActionType":1,"Position":{"x":646.7273,"y":133.363647},"ParentId":-1,"Id":4}],"BrancheBoxList":[{"dialogue":null,"brancheList":[{"Text":null,"Position":{"x":0.0,"y":0.0},"ParentId":5,"Id":0},{"Text":null,"Position":{"x":0.0,"y":0.0},"ParentId":5,"Id":1}],"fontSize":15,"ActionType":2,"Position":{"x":148.0,"y":398.0},"ParentId":-1,"Id":5}],"BackgroundItemList":[{"Path":"Assets/Images/CG/persona_4_by_auraian-d57h8t7.png","IsWait":false,"ActionType":3,"Position":{"x":1047.727,"y":283.363647},"ParentId":-1,"Id":3}],"CGInfoItemList":[],"DelayerList":[],"AudioList":[],"SoundList":[],"CharacterOutInfoList":[],"ChangeStoryLineList":[],"ChangeSceneList":[],"StartPoint":{"ActionType":8,"Position":{"x":80.52734,"y":254.363647},"ParentId":-1,"Id":0}}
+{
+  "CharcterSpriteInfoList": [],
+  "DialogBoxList": [],
+  "BrancheBoxList": [
+    {
+      "dialogue": null,
+      "brancheList": [
+        {
+          "text": null
+        },
+        {
+          "text": null
+        },
+        {
+          "text": null
+        }
+      ],
+      "fontSize": 15,
+      "ActionType": 2,
+      "Position": {
+        "x": 52.0,
+        "y": 291.0
+      },
+      "Id": 2
+    },
+    {
+      "dialogue": null,
+      "brancheList": [
+        {
+          "text": null
+        },
+        {
+          "text": null
+        }
+      ],
+      "fontSize": 15,
+      "ActionType": 2,
+      "Position": {
+        "x": 469.0,
+        "y": 187.0
+      },
+      "Id": 3
+    }
+  ],
+  "BackgroundItemList": [],
+  "CGInfoItemList": [],
+  "DelayerList": [],
+  "AudioList": [],
+  "SoundList": [],
+  "CharacterOutInfoList": [],
+  "ChangeStoryLineList": [],
+  "ChangeSceneList": [],
+  "StartPoint": {
+    "ActionType": 8,
+    "Position": {
+      "x": 22.0,
+      "y": 108.0
+    },
+    "Id": 0
+  }
+}

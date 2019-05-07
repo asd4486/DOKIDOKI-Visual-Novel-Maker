@@ -26,7 +26,7 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override void Draw()
         {
-            GUILayout.BeginArea(Rect, Title, Style);
+            GUILayout.BeginArea(myRect, Title, Style);
             GUILayout.Space(5);
             GUILayout.BeginHorizontal();
             GUILayout.Space(SpacePixel);
@@ -88,7 +88,7 @@ namespace DokiVnMaker.MyEditor.Items
                 NoWait = NoWait
             };
 
-            clone.Init(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+            clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId);
 

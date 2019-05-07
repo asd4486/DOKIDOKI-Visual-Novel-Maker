@@ -1,96 +1,12 @@
 [
   {
     "InPoint": {
-      "Node": {
-        "Path": "Assets/Images/CG/persona_4_by_auraian-d57h8t7.png",
-        "IsWait": false,
-        "ActionType": 3,
-        "Position": {
-          "x": 1047.727,
-          "y": 283.363647
-        },
-        "ParentId": -1,
-        "Id": 3
-      }
+      "targetNodeId": 3,
+      "targetItemId": -1
     },
     "OutPoint": {
-      "Node": {
-        "CharaName": "kira",
-        "Dialog": "hellllllllllllloooooo!!!!",
-        "FontSize": 15,
-        "Speed": 3,
-        "NoWait": false,
-        "ActionType": 1,
-        "Position": {
-          "x": 646.7273,
-          "y": 133.363647
-        },
-        "ParentId": -1,
-        "Id": 4
-      }
-    }
-  },
-  {
-    "InPoint": {
-      "Node": {
-        "CharaName": "sssssss",
-        "Dialog": "yolo!!!",
-        "FontSize": 15,
-        "Speed": 3,
-        "NoWait": false,
-        "ActionType": 1,
-        "Position": {
-          "x": 285.7273,
-          "y": 112.363647
-        },
-        "ParentId": -1,
-        "Id": 2
-      }
-    },
-    "OutPoint": {
-      "Node": {
-        "ActionType": 8,
-        "Position": {
-          "x": 80.52734,
-          "y": 254.363647
-        },
-        "ParentId": -1,
-        "Id": 0
-      }
-    }
-  },
-  {
-    "InPoint": {
-      "Node": {
-        "CharaName": "kira",
-        "Dialog": "hellllllllllllloooooo!!!!",
-        "FontSize": 15,
-        "Speed": 3,
-        "NoWait": false,
-        "ActionType": 1,
-        "Position": {
-          "x": 646.7273,
-          "y": 133.363647
-        },
-        "ParentId": -1,
-        "Id": 4
-      }
-    },
-    "OutPoint": {
-      "Node": {
-        "CharaName": "sssssss",
-        "Dialog": "yolo!!!",
-        "FontSize": 15,
-        "Speed": 3,
-        "NoWait": false,
-        "ActionType": 1,
-        "Position": {
-          "x": 285.7273,
-          "y": 112.363647
-        },
-        "ParentId": -1,
-        "Id": 2
-      }
+      "targetNodeId": 2,
+      "targetItemId": 1
     }
   }
 ]

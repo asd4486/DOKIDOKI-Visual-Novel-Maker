@@ -16,11 +16,6 @@ namespace DokiVnMaker.MyEditor.Items
         public float DefaultRectHeight;
 
         [NonSerialized]
-        public ConnectionPoint InPoint;
-        [NonSerialized]
-        public ConnectionPoint OutPoint;
-
-        [NonSerialized]
         public bool IsDragged;
         [NonSerialized]
         public bool IsSelected;
@@ -69,7 +64,7 @@ namespace DokiVnMaker.MyEditor.Items
         public void SetRectInfo( float width, float height)
         {
             DefaultRectHeight = height;
-            Rect = new Rect(Position.x, Position.y, width, height);
+            myRect = new Rect(Position.x, Position.y, width, height);
         }
 
         //set node basic style (Imported)
@@ -138,14 +133,14 @@ namespace DokiVnMaker.MyEditor.Items
 
         public void Drag(Vector2 delta)
         {
-            Rect.position += delta;
-            Position = Rect.position;
+            myRect.position += delta;
+            Position = myRect.position;
         }
 
         public virtual NodeBase Clone(Vector2 pos, int newId)
         {
             var node = new NodeBase();
-            node.Init(pos, Rect.width, Rect.height, Style, SelectedNodeStyle, InPoint.Style,
+            node.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId, CanEdit);
 
@@ -161,7 +156,7 @@ namespace DokiVnMaker.MyEditor.Items
                 case EventType.MouseDown:
                     if (e.button == 0)
                     {
-                        if (Rect.Contains(e.mousePosition))
+                        if (myRect.Contains(e.mousePosition))
                         {
                             IsDragged = true;
                             GUI.changed = true;
@@ -180,7 +175,7 @@ namespace DokiVnMaker.MyEditor.Items
 
                     if (e.button == 1)
                     {
-                        if (Rect.Contains(e.mousePosition))
+                        if (myRect.Contains(e.mousePosition))
                         {
                             ProcessContextMenu();
                             e.Use();
@@ -227,18 +222,12 @@ namespace DokiVnMaker.MyEditor.Items
 
         private void OnClickCopy()
         {
-            if (OnCopyNode != null)
-            {
-                OnCopyNode(this);
-            }
+            OnCopyNode?.Invoke(this);
         }
 
         private void OnClickRemoveNode()
         {
-            if (OnRemoveNode != null)
-            {
-                OnRemoveNode(this);
-            }
+            OnRemoveNode?.Invoke(this);
         }
     }
 }

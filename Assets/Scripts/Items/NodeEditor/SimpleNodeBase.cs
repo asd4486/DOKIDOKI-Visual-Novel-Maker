@@ -11,12 +11,15 @@ namespace DokiVnMaker.MyEditor.Items
     public class SimpleNodeBase
     {
         [NonSerialized]
-        public Rect Rect;
+        public Rect myRect;
+
         [NonSerialized]
-        public Connection OutConnection;
+        public ConnectionPoint InPoint;
+        [NonSerialized]
+        public ConnectionPoint OutPoint;
 
         public Vector2 Position;
-        public int ParentId = -1;
+
         public int Id;
 
         // override object.Equals
@@ -25,7 +28,7 @@ namespace DokiVnMaker.MyEditor.Items
             if (!(obj is SimpleNodeBase)) return false;
             var item = obj as SimpleNodeBase;
 
-            return item.Position == Position && item.ParentId == ParentId && item.Id == Id;
+            return item.Position == Position && item.Id == Id;
         }
 
         // override object.GetHashCode
