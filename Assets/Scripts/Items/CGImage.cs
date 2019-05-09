@@ -7,7 +7,7 @@ using UnityEngine;
 namespace DokiVnMaker.MyEditor.Items
 {
     [Serializable]
-    public class CGInfoItem : NodeBase
+    public class CGImage : NodeBase
     {
         //index for story box selector
         [NonSerialized]
@@ -16,9 +16,9 @@ namespace DokiVnMaker.MyEditor.Items
 
         public bool IsWait = true;
 
-        public CGInfoItem()
+        public CGImage()
         {
-            ActionType = ActionTypes.CGInfoItem;
+            ActionType = ActionTypes.CGImage;
         }
 
         public override void Draw()
@@ -82,7 +82,7 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override NodeBase Clone(Vector2 pos, int newId)
         {
-            var clone = new CGInfoItem()
+            var clone = new CGImage()
             {
                 Initialize = true,
                 Path = Path,

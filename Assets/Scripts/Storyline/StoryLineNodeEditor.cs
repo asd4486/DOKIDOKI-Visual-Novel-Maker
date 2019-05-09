@@ -11,7 +11,7 @@ namespace DokiVnMaker.MyEditor
         static StoryLine CurrentStoryLine { get; set; }
 
         private EditorStartPoint StartNode;
-        private NodeBaseList _NodeBaseList;
+        private List<NodeBase> nodeActionList;
 
         private float NodeWidth = 250;
 
@@ -72,14 +72,13 @@ namespace DokiVnMaker.MyEditor
 
         private void OnDisable()
         {
-            var actions = StoryLineActions.InitActions(_NodeBaseList.Nodes);
-            CurrentStoryLine.OnSaveData(actions, Connections);
+            var story = StoryLineActions.Create(nodeActionList);
+            CurrentStoryLine.OnSaveData(story, Connections);
         }
 
         private void InitEditor()
         {
-            _NodeBaseList = new NodeBaseList();
-            _NodeBaseList.Nodes = CurrentStoryLine.OnLoadNodes();
+            nodeActionList = CurrentStoryLine.OnLoadNodes();
 
             //editor background color
             backgroundColor = new Texture2D(1, 1, TextureFormat.RGBA32, false);
@@ -157,13 +156,13 @@ namespace DokiVnMaker.MyEditor
             SelectedNodeStyle.border = new RectOffset(radius, radius, radius, radius);
 
             //import existed node 
-            if (_NodeBaseList.Nodes.Count > 0)
+            if (nodeActionList.Count > 0)
             {
-                foreach (var n in _NodeBaseList.Nodes)
+                foreach (var n in nodeActionList)
                 {
                     switch (n.ActionType)
                     {
-                        case ActionTypes.Start:
+                        case ActionTypes.StartPoint:
                             n.SetRectInfo(NodeWidth / 2, 30);
                             n.CanEdit = false;
                             break;
@@ -180,10 +179,10 @@ namespace DokiVnMaker.MyEditor
                             n.SetRectInfo(NodeWidth, 80);
                             (n as BrancheBox).SetOutPointStyle(outPointStyle, onClickOutPoint);
                             break;
-                        case ActionTypes.BackgroundItem:
+                        case ActionTypes.BackgroundImage:
                             n.SetRectInfo(NodeWidth, 60);
                             break;
-                        case ActionTypes.CGInfoItem:
+                        case ActionTypes.CGImage:
                             n.SetRectInfo(NodeWidth, 180);
                             break;
                         case ActionTypes.Delayer:
@@ -203,7 +202,7 @@ namespace DokiVnMaker.MyEditor
                             break;
                     }
 
-                    if (n.ActionType == ActionTypes.Start)
+                    if (n.ActionType == ActionTypes.StartPoint)
                     {
                         n.SetNodeStyle(startNodeStyle, startSelectedNodeStyle, InPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, OnClickCopyNode, OnClickRemoveNode);
                     }
@@ -223,12 +222,12 @@ namespace DokiVnMaker.MyEditor
                     {
                     }
                     else
-                        c.InPoint = _NodeBaseList.Nodes.Where(n => n.Id == c.InPoint.targetNodeId).FirstOrDefault().InPoint;
+                        c.InPoint = nodeActionList.Where(n => n.Id == c.InPoint.targetNodeId).FirstOrDefault().InPoint;
 
                     ConnectionPoint outPoint = new ConnectionPoint();
                     if (c.OutPoint.targetItemId > -1)
                     {
-                        var node = _NodeBaseList.Nodes.Where(n => n.Id == c.OutPoint.targetNodeId).FirstOrDefault();
+                        var node = nodeActionList.Where(n => n.Id == c.OutPoint.targetNodeId).FirstOrDefault();
                         if (node is BrancheBox)
                         {
                             outPoint = (node as BrancheBox).outPointList[c.OutPoint.targetItemId];
@@ -236,7 +235,7 @@ namespace DokiVnMaker.MyEditor
                     }
                     else
                     {
-                        outPoint = _NodeBaseList.Nodes.Where(n => n.Id == c.OutPoint.targetNodeId).FirstOrDefault().OutPoint;
+                        outPoint = nodeActionList.Where(n => n.Id == c.OutPoint.targetNodeId).FirstOrDefault().OutPoint;
                     }
 
                     //set out connection(each node only have one out connection)
@@ -255,7 +254,7 @@ namespace DokiVnMaker.MyEditor
                     startNodeStyle, startSelectedNodeStyle, null, outPointStyle, null, onClickOutPoint, null, null,
                     0, _canEdit: false);
 
-                if (!_NodeBaseList.Nodes.Contains(StartNode)) _NodeBaseList.Nodes.Insert(0, StartNode);
+                if (!nodeActionList.Contains(StartNode)) nodeActionList.Insert(0, StartNode);
             }
         }
 
@@ -328,11 +327,11 @@ namespace DokiVnMaker.MyEditor
 
         private void DrawNodes()
         {
-            if (_NodeBaseList.Nodes != null)
+            if (nodeActionList != null)
             {
-                for (int i = 0; i < _NodeBaseList.Nodes.Count; i++)
+                for (int i = 0; i < nodeActionList.Count; i++)
                 {
-                    _NodeBaseList.Nodes[i].Draw();
+                    nodeActionList[i].Draw();
                 }
             }
         }
@@ -449,11 +448,11 @@ namespace DokiVnMaker.MyEditor
         {
             dragPos = delta;
 
-            if (_NodeBaseList.Nodes != null)
+            if (nodeActionList != null)
             {
-                for (int i = 0; i < _NodeBaseList.Nodes.Count; i++)
+                for (int i = 0; i < nodeActionList.Count; i++)
                 {
-                    _NodeBaseList.Nodes[i].Drag(delta);
+                    nodeActionList[i].Drag(delta);
                 }
             }
 
@@ -462,11 +461,11 @@ namespace DokiVnMaker.MyEditor
 
         private void ProcessNodeEvents(Event e)
         {
-            if (_NodeBaseList.Nodes != null)
+            if (nodeActionList != null)
             {
-                for (int i = _NodeBaseList.Nodes.Count - 1; i >= 0; i--)
+                for (int i = nodeActionList.Count - 1; i >= 0; i--)
                 {
-                    bool guiChanged = _NodeBaseList.Nodes[i].ProcessEvents(e);
+                    bool guiChanged = nodeActionList[i].ProcessEvents(e);
 
                     if (guiChanged)
                     {
@@ -490,8 +489,8 @@ namespace DokiVnMaker.MyEditor
             genericMenu.AddItem(new GUIContent("Dialog/Dialog box"), false, () => AddNewAction(ActionTypes.DialogBox, mousePosition));
             genericMenu.AddItem(new GUIContent("Dialog/Brahche"), false, () => AddNewAction(ActionTypes.BrancheBox, mousePosition));
 
-            genericMenu.AddItem(new GUIContent("Image/Background"), false, () => AddNewAction(ActionTypes.BackgroundItem, mousePosition));
-            genericMenu.AddItem(new GUIContent("Image/CG"), false, () => AddNewAction(ActionTypes.CGInfoItem, mousePosition));
+            genericMenu.AddItem(new GUIContent("Image/Background"), false, () => AddNewAction(ActionTypes.BackgroundImage, mousePosition));
+            genericMenu.AddItem(new GUIContent("Image/CG"), false, () => AddNewAction(ActionTypes.CGImage, mousePosition));
 
             genericMenu.AddItem(new GUIContent("Audio/Background music"), false, () => AddNewAction(ActionTypes.Audio, mousePosition));
             genericMenu.AddItem(new GUIContent("Audio/Sound"), false, () => AddNewAction(ActionTypes.Sound, mousePosition));
@@ -507,7 +506,7 @@ namespace DokiVnMaker.MyEditor
         //copy node
         private void CopyAction()
         {
-            var selected = _NodeBaseList.Nodes.Where(n => n.IsSelected == true).FirstOrDefault();
+            var selected = nodeActionList.Where(n => n.IsSelected == true).FirstOrDefault();
             if (selected != null) NodeCopied = selected;
 
         }
@@ -518,13 +517,13 @@ namespace DokiVnMaker.MyEditor
             if (NodeCopied == null) return;
 
             //clone node
-            var newNode = NodeCopied.Clone(pos, _NodeBaseList.SetNodeId());
-            _NodeBaseList.Nodes.Add(newNode);
+            var newNode = NodeCopied.Clone(pos, SetNodeId());
+            nodeActionList.Add(newNode);
         }
 
         public void AddNewAction(ActionTypes type, Vector2 position)
         {
-            var id = _NodeBaseList.Nodes.Count;
+            var id = nodeActionList.Count;
             NodeBase node = new NodeBase();
             float _width = NodeWidth;
             float _height = 0;
@@ -548,12 +547,12 @@ namespace DokiVnMaker.MyEditor
                     _height = 80;
                     (node as BrancheBox).SetOutPointStyle(outPointStyle, onClickOutPoint);
                     break;
-                case ActionTypes.BackgroundItem:
+                case ActionTypes.BackgroundImage:
                     node = new BackgroundImage();
                     _height = 60;
                     break;
-                case ActionTypes.CGInfoItem:
-                    node = new CGInfoItem();
+                case ActionTypes.CGImage:
+                    node = new CGImage();
                     _height = 180;
                     break;
                 case ActionTypes.Delayer:
@@ -579,9 +578,9 @@ namespace DokiVnMaker.MyEditor
             }
 
             node.Init(position, _width, _height, NodeStyle, SelectedNodeStyle, InPointStyle, outPointStyle,
-            onClickInPoint, onClickOutPoint, OnClickCopyNode, OnClickRemoveNode, _NodeBaseList.SetNodeId());
+            onClickInPoint, onClickOutPoint, OnClickCopyNode, OnClickRemoveNode, SetNodeId());
 
-            _NodeBaseList.Nodes.Add(node);
+            nodeActionList.Add(node);
         }
 
 
@@ -655,8 +654,8 @@ namespace DokiVnMaker.MyEditor
                 connectionsToRemove = null;
             }
 
-            var removeNode = _NodeBaseList.Nodes.Where(n => n.Equals(node)).FirstOrDefault();
-            if (removeNode != null) _NodeBaseList.Nodes.Remove(removeNode);
+            var removeNode = nodeActionList.Where(n => n.Equals(node)).FirstOrDefault();
+            if (removeNode != null) nodeActionList.Remove(removeNode);
 
             GUI.changed = true;
         }
@@ -697,5 +696,16 @@ namespace DokiVnMaker.MyEditor
             selectedOutPoint = null;
         }
         #endregion
+
+        public int SetNodeId()
+        {
+            if (nodeActionList == null) return 0;
+            var id = 0;
+            foreach (var n in nodeActionList)
+            {
+                if (id <= n.Id) id = n.Id + 1;
+            }
+            return id;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace DokiVnMaker.MyEditor.Items
         public List<DialogBox> DialogBoxList;
         public List<BrancheBox> BrancheBoxList;
         public List<BackgroundImage> BackgroundImageList;
-        public List<CGInfoItem> CGInfoItemList;
+        public List<CGImage> CGInfoItemList;
         public List<Delayer> DelayerList;
         public List<Audio> AudioList;
         public List<Sound> SoundList;
@@ -27,7 +27,7 @@ namespace DokiVnMaker.MyEditor.Items
             DialogBoxList = new List<DialogBox>();
             BrancheBoxList = new List<BrancheBox>();
             BackgroundImageList = new List<BackgroundImage>();
-            CGInfoItemList = new List<CGInfoItem>();
+            CGInfoItemList = new List<CGImage>();
             DelayerList = new List<Delayer>();
             AudioList = new List<Audio>();
             SoundList = new List<Sound>();
@@ -37,7 +37,7 @@ namespace DokiVnMaker.MyEditor.Items
             ChangeSceneList = new List<ChangeScene>();
         }
 
-        public static StoryLineActions InitActions(List<NodeBase> nodes)
+        public static StoryLineActions Create(List<NodeBase> nodes)
         {
             var actions = new StoryLineActions();
 
@@ -47,7 +47,7 @@ namespace DokiVnMaker.MyEditor.Items
                 if (n is DialogBox) { actions.DialogBoxList.Add(n as DialogBox); }
                 if (n is BrancheBox) { actions.BrancheBoxList.Add(n as BrancheBox); }
                 if (n is BackgroundImage) { actions.BackgroundImageList.Add(n as BackgroundImage); }
-                if (n is CGInfoItem) { actions.CGInfoItemList.Add(n as CGInfoItem); }
+                if (n is CGImage) { actions.CGInfoItemList.Add(n as CGImage); }
                 if (n is Delayer) { actions.DelayerList.Add(n as Delayer); }
                 if (n is Audio) { actions.AudioList.Add(n as Audio); }
                 if (n is Sound) { actions.SoundList.Add(n as Sound); }

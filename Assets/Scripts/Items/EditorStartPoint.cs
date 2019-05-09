@@ -8,7 +8,7 @@ namespace DokiVnMaker.MyEditor.Items
     {
         public EditorStartPoint()
         {
-            ActionType = ActionTypes.Start;
+            ActionType = ActionTypes.StartPoint;
         }
 
         public override void Draw()

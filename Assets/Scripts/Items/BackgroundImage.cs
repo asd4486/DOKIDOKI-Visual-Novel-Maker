@@ -16,7 +16,7 @@ namespace DokiVnMaker.MyEditor.Items
         public BackgroundImage()
         {
 
-            ActionType = ActionTypes.BackgroundItem;
+            ActionType = ActionTypes.BackgroundImage;
 
         }
 

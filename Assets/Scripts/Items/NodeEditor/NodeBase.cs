@@ -85,7 +85,7 @@ namespace DokiVnMaker.MyEditor.Items
             WhiteTxtStyle.normal.textColor = Color.white;
             WhiteTxtStyle.focused.textColor = Color.yellow;
 
-            if (ActionType == ActionTypes.Start)
+            if (ActionType == ActionTypes.StartPoint)
             {
                 WhiteTxtStyle.fontSize = 20;
                 WhiteTxtStyle.fontStyle = FontStyle.Bold;
@@ -106,10 +106,10 @@ namespace DokiVnMaker.MyEditor.Items
                 case ActionTypes.BrancheBox:
                     Title = "Branches";
                     break;
-                case ActionTypes.BackgroundItem:
+                case ActionTypes.BackgroundImage:
                     Title = "Background";
                     break;
-                case ActionTypes.CGInfoItem:
+                case ActionTypes.CGImage:
                     Title = "CG";
                     break;
                 case ActionTypes.Audio:
