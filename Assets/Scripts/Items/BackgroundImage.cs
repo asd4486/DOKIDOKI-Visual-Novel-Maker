@@ -90,7 +90,7 @@ namespace DokiVnMaker.MyEditor.Items
                 Path = Path,
                 IsWait = IsWait,
             };
-            clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
+            clone.Init(pos, myRect.size, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId);
 

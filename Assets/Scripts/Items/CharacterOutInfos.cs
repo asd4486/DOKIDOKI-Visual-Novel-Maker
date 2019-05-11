@@ -13,6 +13,9 @@ namespace DokiVnMaker.MyEditor.Items
         public int Index;
         public string Path;
 
+        //get chara name
+        public string Name { get { return Path.Split('/')[Path.Split('/').Length - 1].Replace(".prefab", ""); } }
+
         public bool IsWait = true;
 
         public CharacterOutInfos()
@@ -81,15 +84,15 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override NodeBase Clone(Vector2 pos, int newId)
         {
-            var clone = new CharcterSpriteInfos()
+            var clone = new CharacterSpriteInfos()
             {
-                ActionType = ActionTypes.CharcterSpriteInfos,
+                ActionType = ActionTypes.CharacterSpriteInfos,
                 Initialize = true,
                 Path = Path,
                 IsWait = IsWait
             };
 
-            clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
+            clone.Init(pos, myRect.size, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId);
 

@@ -3,11 +3,12 @@ using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DokiVnMaker.MyEditor.Items
 {
     [Serializable]
-    public class CharcterSpriteInfos : NodeBase
+    public class CharacterSpriteInfos : NodeBase
     {
         public string Path;
         //get chara name
@@ -17,16 +18,17 @@ namespace DokiVnMaker.MyEditor.Items
         public int Index;
 
         public int SpriteIndex;
-        public int FaceIndex;
+        public int FaceIndex = -1;
 
         //character position
         public CharacterPosition CharaPos;
         public Vector2 CustomPos;
         public bool IsWait = true;
 
-        public CharcterSpriteInfos()
+        public CharacterSpriteInfos()
         {
-            ActionType = ActionTypes.CharcterSpriteInfos;
+            ActionType = ActionTypes.CharacterSpriteInfos;
+
         }
 
         public override void Draw()
@@ -70,26 +72,31 @@ namespace DokiVnMaker.MyEditor.Items
                 //set character path
                 Path = path;
                 //get all sprites name
-                var spriteList = selected.GetComponentsInChildren<Transform>().Where(s => s.GetComponent<CharaSpriteSetting>() != null).Select(s => s.name).ToArray();
+                var spriteList = selected.GetComponentsInChildren<CharaSpriteSetting>().Select(s => s.name).ToArray();
 
                 //character sprite
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Sprite", WhiteTxtStyle, GUILayout.Width(LabelWidth));
                 SpriteIndex = EditorGUILayout.Popup(SpriteIndex, spriteList);
                 GUILayout.EndHorizontal();
-
+                           
                 //select character face if existe
-                var faceList = selected.transform.GetChild(SpriteIndex).GetComponentsInChildren<Transform>().
-                                Where(f => f.GetComponent<CharaFaceSetting>() != null).
-                                Select(f => f.name).ToArray();
+                var faceList = selected.transform.GetChild(SpriteIndex).GetComponentInChildren<CharaFaceSetting>().
+                                GetComponentsInChildren<Image>().Select(f => f.name).ToArray();
 
                 if (faceList.Length > 0)
                 {
+                    //set face index to 0 if has face
+                    if (FaceIndex < 0) FaceIndex = 0;
+
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("Face", WhiteTxtStyle, GUILayout.Width(LabelWidth));
                     FaceIndex = EditorGUILayout.Popup(FaceIndex, faceList);
                     GUILayout.EndHorizontal();
                 }
+                else
+                    //no face selected
+                    FaceIndex = -1;
             }
 
             //character postion
@@ -129,9 +136,9 @@ namespace DokiVnMaker.MyEditor.Items
 
         public override NodeBase Clone(Vector2 pos, int newId)
         {
-            var clone = new CharcterSpriteInfos()
+            var clone = new CharacterSpriteInfos()
             {
-                ActionType = ActionTypes.CharcterSpriteInfos,
+                ActionType = ActionTypes.CharacterSpriteInfos,
                 Initialize = true,
                 Path = Path,
                 SpriteIndex = SpriteIndex,
@@ -140,7 +147,7 @@ namespace DokiVnMaker.MyEditor.Items
                 IsWait = IsWait
             };
 
-            clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
+            clone.Init(pos, myRect.size, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId);
 

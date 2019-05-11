@@ -6,13 +6,13 @@ namespace DokiVnMaker.MyEditor.Items
     [Serializable]
     public class StoryLineActions
     {
-        public List<CharcterSpriteInfos> CharcterSpriteInfoList;
+        public List<CharacterSpriteInfos> CharcterSpriteInfoList;
         public List<DialogBox> DialogBoxList;
         public List<BrancheBox> BrancheBoxList;
         public List<BackgroundImage> BackgroundImageList;
         public List<CGImage> CGInfoItemList;
         public List<Delayer> DelayerList;
-        public List<Audio> AudioList;
+        public List<Music> AudioList;
         public List<Sound> SoundList;
 
         public List<CharacterOutInfos> CharacterOutInfoList;
@@ -23,13 +23,13 @@ namespace DokiVnMaker.MyEditor.Items
 
         public StoryLineActions()
         {
-            CharcterSpriteInfoList = new List<CharcterSpriteInfos>();
+            CharcterSpriteInfoList = new List<CharacterSpriteInfos>();
             DialogBoxList = new List<DialogBox>();
             BrancheBoxList = new List<BrancheBox>();
             BackgroundImageList = new List<BackgroundImage>();
             CGInfoItemList = new List<CGImage>();
             DelayerList = new List<Delayer>();
-            AudioList = new List<Audio>();
+            AudioList = new List<Music>();
             SoundList = new List<Sound>();
 
             CharacterOutInfoList = new List<CharacterOutInfos>();
@@ -43,13 +43,13 @@ namespace DokiVnMaker.MyEditor.Items
 
             foreach (var n in nodes)
             {
-                if (n is CharcterSpriteInfos) { actions.CharcterSpriteInfoList.Add(n as CharcterSpriteInfos); }
+                if (n is CharacterSpriteInfos) { actions.CharcterSpriteInfoList.Add(n as CharacterSpriteInfos); }
                 if (n is DialogBox) { actions.DialogBoxList.Add(n as DialogBox); }
                 if (n is BrancheBox) { actions.BrancheBoxList.Add(n as BrancheBox); }
                 if (n is BackgroundImage) { actions.BackgroundImageList.Add(n as BackgroundImage); }
                 if (n is CGImage) { actions.CGInfoItemList.Add(n as CGImage); }
                 if (n is Delayer) { actions.DelayerList.Add(n as Delayer); }
-                if (n is Audio) { actions.AudioList.Add(n as Audio); }
+                if (n is Music) { actions.AudioList.Add(n as Music); }
                 if (n is Sound) { actions.SoundList.Add(n as Sound); }
                 if (n is CharacterOutInfos) { actions.CharacterOutInfoList.Add(n as CharacterOutInfos); }
                 if (n is ChangeStoryLine) { actions.ChangeStoryLineList.Add(n as ChangeStoryLine); }

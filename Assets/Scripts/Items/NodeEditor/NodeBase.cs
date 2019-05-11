@@ -49,22 +49,22 @@ namespace DokiVnMaker.MyEditor.Items
 
 
         //init node(NEW)
-        public void Init(Vector2 _position, float _width, float _height, GUIStyle nodeStyle, GUIStyle selectedStyle,
+        public void Init(Vector2 _position, Vector2 _size, GUIStyle nodeStyle, GUIStyle selectedStyle,
             GUIStyle inPointStyle, GUIStyle outPointStyle, Action<ConnectionPoint> onClickInPoint, Action<ConnectionPoint> onClickOutPoint,
             Action<NodeBase> onClickCopyNode, Action<NodeBase> onClickRemoveNode, int _id, bool _canEdit = true)
         {
             Id = _id;
             CanEdit = _canEdit;
             Position = _position;
-            SetRectInfo( _width, _height);
+            SetRectInfo(_size);
             SetNodeStyle(nodeStyle, selectedStyle, inPointStyle, outPointStyle, onClickInPoint, onClickOutPoint, onClickCopyNode, onClickRemoveNode);
         }
 
 
-        public void SetRectInfo( float width, float height)
+        public void SetRectInfo(Vector2 size)
         {
-            DefaultRectHeight = height;
-            myRect = new Rect(Position.x, Position.y, width, height);
+            DefaultRectHeight = size.y;
+            myRect = new Rect(Position.x, Position.y, size.x, size.y);
         }
 
         //set node basic style (Imported)
@@ -94,7 +94,7 @@ namespace DokiVnMaker.MyEditor.Items
             //set titles
             switch (ActionType)
             {
-                case ActionTypes.CharcterSpriteInfos:
+                case ActionTypes.CharacterSpriteInfos:
                     Title = "Character sprite";
                     break;
                 case ActionTypes.CharacterOutInfos:
@@ -112,7 +112,7 @@ namespace DokiVnMaker.MyEditor.Items
                 case ActionTypes.CGImage:
                     Title = "CG";
                     break;
-                case ActionTypes.Audio:
+                case ActionTypes.Music:
                     Title = "Background music";
                     break;
                 case ActionTypes.Sound:
@@ -140,7 +140,7 @@ namespace DokiVnMaker.MyEditor.Items
         public virtual NodeBase Clone(Vector2 pos, int newId)
         {
             var node = new NodeBase();
-            node.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
+            node.Init(pos, myRect.size, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId, CanEdit);
 

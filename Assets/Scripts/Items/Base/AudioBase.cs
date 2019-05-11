@@ -5,9 +5,10 @@ namespace DokiVnMaker.MyEditor.Items
 {
     public class AudioBase : NodeBase
     {
-        public string Path;
+        public string path;
         [NonSerialized]
-        public AudioClip MyAudio;
-        public float Volume = 1;
+        public AudioClip myAudio;
+        public float volume = 1;
+        public bool isLoop;
     }
 }

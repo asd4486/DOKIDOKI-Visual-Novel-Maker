@@ -160,47 +160,20 @@ namespace DokiVnMaker.MyEditor
             {
                 foreach (var n in nodeActionList)
                 {
+                    float _width = NodeWidth;
+                    float _height = 0;
                     switch (n.ActionType)
                     {
                         case ActionTypes.StartPoint:
-                            n.SetRectInfo(NodeWidth / 2, 30);
                             n.CanEdit = false;
                             break;
-                        case ActionTypes.CharcterSpriteInfos:
-                            n.SetRectInfo(NodeWidth, 110);
-                            break;
-                        case ActionTypes.CharacterOutInfos:
-                            n.SetRectInfo(NodeWidth, 60);
-                            break;
-                        case ActionTypes.DialogBox:
-                            n.SetRectInfo(NodeWidth, 180);
-                            break;
                         case ActionTypes.BrancheBox:
-                            n.SetRectInfo(NodeWidth, 80);
                             (n as BrancheBox).SetOutPointStyle(outPointStyle, onClickOutPoint);
                             break;
-                        case ActionTypes.BackgroundImage:
-                            n.SetRectInfo(NodeWidth, 60);
-                            break;
-                        case ActionTypes.CGImage:
-                            n.SetRectInfo(NodeWidth, 180);
-                            break;
-                        case ActionTypes.Delayer:
-                            n.SetRectInfo(NodeWidth, 40);
-                            break;
-                        case ActionTypes.Audio:
-                            n.SetRectInfo(NodeWidth, 60);
-                            break;
-                        case ActionTypes.Sound:
-                            n.SetRectInfo(NodeWidth, 80);
-                            break;
-                        case ActionTypes.ChangeStoryLine:
-                            n.SetRectInfo(NodeWidth, 40);
-                            break;
-                        case ActionTypes.ChangeScene:
-                            n.SetRectInfo(NodeWidth, 40);
-                            break;
                     }
+
+                    var rectSize = GetNodeRectSize(n.ActionType);
+                    n.SetRectInfo(rectSize);
 
                     if (n.ActionType == ActionTypes.StartPoint)
                     {
@@ -250,12 +223,59 @@ namespace DokiVnMaker.MyEditor
                 StartNode = new EditorStartPoint();
                 //add start node to action nodes
                 StartNode.Init(
-                    new Vector2(20, y), NodeWidth / 2, 30,
+                    new Vector2(20, y), new Vector2(NodeWidth / 2, 30),
                     startNodeStyle, startSelectedNodeStyle, null, outPointStyle, null, onClickOutPoint, null, null,
                     0, _canEdit: false);
 
                 if (!nodeActionList.Contains(StartNode)) nodeActionList.Insert(0, StartNode);
             }
+        }
+
+        Vector2 GetNodeRectSize(ActionTypes actionType)
+        {
+            float _width = NodeWidth;
+            float _height = 0;
+            switch (actionType)
+            {
+                case ActionTypes.StartPoint:
+                    _width = NodeWidth / 2;
+                    _height = 30;
+                    break;
+                case ActionTypes.CharacterSpriteInfos:
+                    _height = 110;
+                    break;
+                case ActionTypes.CharacterOutInfos:
+                    _height = 60;
+                    break;
+                case ActionTypes.DialogBox:
+                    _height = 180;
+                    break;
+                case ActionTypes.BrancheBox:
+                    _height = 80;
+                    break;
+                case ActionTypes.BackgroundImage:
+                    _height = 60;
+                    break;
+                case ActionTypes.CGImage:
+                    _height = 180;
+                    break;
+                case ActionTypes.Delayer:
+                    _height = 40;
+                    break;
+                case ActionTypes.Music:
+                    _height = 70;
+                    break;
+                case ActionTypes.Sound:
+                    _height = 90;
+                    break;
+                case ActionTypes.ChangeStoryLine:
+                    _height = 40;
+                    break;
+                case ActionTypes.ChangeScene:
+                    _height = 40;
+                    break;
+            }
+            return new Vector2(_width, _height);
         }
 
         private void OnGUI()
@@ -483,7 +503,7 @@ namespace DokiVnMaker.MyEditor
             else
                 genericMenu.AddItem(new GUIContent("Paste"), false, () => PasteAction(mousePosition));
 
-            genericMenu.AddItem(new GUIContent("Character/Character sprite"), false, () => AddNewAction(ActionTypes.CharcterSpriteInfos, mousePosition));
+            genericMenu.AddItem(new GUIContent("Character/Character sprite"), false, () => AddNewAction(ActionTypes.CharacterSpriteInfos, mousePosition));
             genericMenu.AddItem(new GUIContent("Character/Character out"), false, () => AddNewAction(ActionTypes.CharacterOutInfos, mousePosition));
 
             genericMenu.AddItem(new GUIContent("Dialog/Dialog box"), false, () => AddNewAction(ActionTypes.DialogBox, mousePosition));
@@ -492,7 +512,7 @@ namespace DokiVnMaker.MyEditor
             genericMenu.AddItem(new GUIContent("Image/Background"), false, () => AddNewAction(ActionTypes.BackgroundImage, mousePosition));
             genericMenu.AddItem(new GUIContent("Image/CG"), false, () => AddNewAction(ActionTypes.CGImage, mousePosition));
 
-            genericMenu.AddItem(new GUIContent("Audio/Background music"), false, () => AddNewAction(ActionTypes.Audio, mousePosition));
+            genericMenu.AddItem(new GUIContent("Audio/Background music"), false, () => AddNewAction(ActionTypes.Music, mousePosition));
             genericMenu.AddItem(new GUIContent("Audio/Sound"), false, () => AddNewAction(ActionTypes.Sound, mousePosition));
 
             genericMenu.AddItem(new GUIContent("Time/Delayer"), false, () => AddNewAction(ActionTypes.Delayer, mousePosition));
@@ -530,59 +550,48 @@ namespace DokiVnMaker.MyEditor
 
             switch (type)
             {
-                case ActionTypes.CharcterSpriteInfos:
-                    node = new CharcterSpriteInfos();
-                    _height = 105;
+                case ActionTypes.CharacterSpriteInfos:
+                    node = new CharacterSpriteInfos();
                     break;
                 case ActionTypes.CharacterOutInfos:
                     node = new CharacterOutInfos();
-                    _height = 60;
                     break;
                 case ActionTypes.DialogBox:
                     node = new DialogBox();
-                    _height = 180;
                     break;
                 case ActionTypes.BrancheBox:
                     node = new BrancheBox();
-                    _height = 80;
                     (node as BrancheBox).SetOutPointStyle(outPointStyle, onClickOutPoint);
                     break;
                 case ActionTypes.BackgroundImage:
                     node = new BackgroundImage();
-                    _height = 60;
                     break;
                 case ActionTypes.CGImage:
                     node = new CGImage();
-                    _height = 180;
                     break;
                 case ActionTypes.Delayer:
                     node = new Delayer();
-                    _height = 40;
                     break;
-                case ActionTypes.Audio:
-                    node = new Audio();
-                    _height = 60;
+                case ActionTypes.Music:
+                    node = new Music();
                     break;
                 case ActionTypes.Sound:
                     node = new Sound();
-                    _height = 80;
                     break;
                 case ActionTypes.ChangeStoryLine:
                     node = new ChangeStoryLine();
-                    _height = 40;
                     break;
                 case ActionTypes.ChangeScene:
                     node = new ChangeScene();
-                    _height = 40;
                     break;
             }
 
-            node.Init(position, _width, _height, NodeStyle, SelectedNodeStyle, InPointStyle, outPointStyle,
+            var rectSize = GetNodeRectSize(type);
+            node.Init(position, rectSize, NodeStyle, SelectedNodeStyle, InPointStyle, outPointStyle,
             onClickInPoint, onClickOutPoint, OnClickCopyNode, OnClickRemoveNode, SetNodeId());
 
             nodeActionList.Add(node);
         }
-
 
         #endregion
 

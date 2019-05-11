@@ -1,7 +1,7 @@
 {
   "CharcterSpriteInfoList": [
     {
-      "Path": "Assets/GameSources/Characters/chara_toto.prefab",
+      "Path": "Assets/GameSources/Characters/chara_titi.prefab",
       "SpriteIndex": 0,
       "FaceIndex": 0,
       "CharaPos": 0,
@@ -12,61 +12,89 @@
       "IsWait": true,
       "ActionType": 0,
       "Position": {
-        "x": 195.0,
-        "y": 179.0
+        "x": 174.0,
+        "y": 31.0
       },
-      "Id": 3,
-      "Name": "chara_toto"
+      "Id": 2,
+      "Name": "chara_titi"
     }
   ],
   "DialogBoxList": [
     {
-      "CharaName": "toto",
-      "Dialog": "You suck!!!",
+      "CharaName": null,
+      "Dialog": null,
       "fontSize": 20,
       "Speed": 3,
       "NoWait": false,
       "ActionType": 1,
       "Position": {
-        "x": 635.9092,
-        "y": 42.45456
+        "x": 174.0,
+        "y": 189.0
       },
-      "Id": 1
+      "Id": 3
     }
   ],
-  "BrancheBoxList": [
+  "BrancheBoxList": [],
+  "BackgroundImageList": [
     {
-      "dialogue": null,
-      "brancheList": [
-        {
-          "text": "say hello"
-        },
-        {
-          "text": null
-        }
-      ],
-      "fontSize": 20,
-      "ActionType": 2,
+      "Path": "Assets/Images/BG/gal_game_bg_by_mrainbowwj-d7k2ocu.jpg",
+      "IsWait": false,
+      "ActionType": 3,
       "Position": {
-        "x": 443.0,
-        "y": 347.0
+        "x": 483.0,
+        "y": 133.0
       },
-      "Id": 2
+      "Id": 4
     }
   ],
-  "BackgroundImageList": [],
-  "CGInfoItemList": [],
+  "CGInfoItemList": [
+    {
+      "Path": "Assets/GameSources/CGs/tutututu.jpg",
+      "IsWait": true,
+      "ActionType": 4,
+      "Position": {
+        "x": 771.0,
+        "y": 28.0
+      },
+      "Id": 5
+    }
+  ],
   "DelayerList": [],
-  "AudioList": [],
-  "SoundList": [],
+  "AudioList": [
+    {
+      "path": null,
+      "volume": 1.0,
+      "isLoop": false,
+      "ActionType": 6,
+      "Position": {
+        "x": 774.0,
+        "y": 260.0
+      },
+      "Id": 6
+    }
+  ],
+  "SoundList": [
+    {
+      "trackIndex": 0,
+      "path": null,
+      "volume": 1.0,
+      "isLoop": false,
+      "ActionType": 7,
+      "Position": {
+        "x": 645.0,
+        "y": 378.0
+      },
+      "Id": 7
+    }
+  ],
   "CharacterOutInfoList": [],
   "ChangeStoryLineList": [],
   "ChangeSceneList": [],
   "StartPoint": {
     "ActionType": 8,
     "Position": {
-      "x": 21.9090881,
-      "y": 100.454559
+      "x": -72.0,
+      "y": 104.0
     },
     "Id": 0
   }

@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Game\GameMain.cs" />
     <Compile Include="Assets\Scripts\Game\SoundManager.cs" />
-    <Compile Include="Assets\Scripts\Items\Audio.cs" />
     <Compile Include="Assets\Scripts\Items\BackgroundImage.cs" />
     <Compile Include="Assets\Scripts\Items\Base\ActionTypes.cs" />
     <Compile Include="Assets\Scripts\Items\Base\AudioBase.cs" />
@@ -74,10 +73,11 @@
     <Compile Include="Assets\Scripts\Items\ChangeScene.cs" />
     <Compile Include="Assets\Scripts\Items\ChangeStoryLine.cs" />
     <Compile Include="Assets\Scripts\Items\CharacterOutInfos.cs" />
-    <Compile Include="Assets\Scripts\Items\CharcterSpriteInfos.cs" />
+    <Compile Include="Assets\Scripts\Items\CharacterSpriteInfos.cs" />
     <Compile Include="Assets\Scripts\Items\Delayer.cs" />
     <Compile Include="Assets\Scripts\Items\DialogBox.cs" />
     <Compile Include="Assets\Scripts\Items\EditorStartPoint.cs" />
+    <Compile Include="Assets\Scripts\Items\Music.cs" />
     <Compile Include="Assets\Scripts\Items\NodeEditor\Connection.cs" />
     <Compile Include="Assets\Scripts\Items\NodeEditor\ConnectionPoint.cs" />
     <Compile Include="Assets\Scripts\Items\NodeEditor\NodeBase.cs" />

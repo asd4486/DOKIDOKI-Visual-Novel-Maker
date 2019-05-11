@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1867043893974372965}
+  - component: {fileID: 5481860492470126315}
   m_Layer: 5
   m_Name: faces
   m_TagString: Untagged
@@ -36,6 +37,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5481860492470126315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729842544941572990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 784fd5c11013ed84ea79d39f762adc59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xPos: 0
+  yPos: 0
 --- !u!1 &5705551600253383739
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,6 +172,7 @@ GameObject:
   - component: {fileID: 2472846668708699849}
   - component: {fileID: 5419275320947135538}
   - component: {fileID: 3883890378212203611}
+  - component: {fileID: 7291120892489421464}
   m_Layer: 5
   m_Name: sprite_0
   m_TagString: Untagged
@@ -221,3 +237,17 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &7291120892489421464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058514286464212209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f684b25770533f4ea5c69b36c6f658a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xPos: 0
+  yPos: 0

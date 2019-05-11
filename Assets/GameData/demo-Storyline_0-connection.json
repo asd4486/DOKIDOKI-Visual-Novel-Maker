@@ -1,31 +1,11 @@
 [
   {
     "InPoint": {
-      "targetNodeId": 1,
-      "targetItemId": -1
-    },
-    "OutPoint": {
-      "targetNodeId": 0,
-      "targetItemId": 0
-    }
-  },
-  {
-    "InPoint": {
-      "targetNodeId": 3,
-      "targetItemId": -1
-    },
-    "OutPoint": {
-      "targetNodeId": 0,
-      "targetItemId": -1
-    }
-  },
-  {
-    "InPoint": {
       "targetNodeId": 2,
       "targetItemId": -1
     },
     "OutPoint": {
-      "targetNodeId": 3,
+      "targetNodeId": 0,
       "targetItemId": -1
     }
   }

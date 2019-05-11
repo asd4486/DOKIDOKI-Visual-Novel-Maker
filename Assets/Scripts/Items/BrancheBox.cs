@@ -141,7 +141,7 @@ namespace DokiVnMaker.MyEditor.Items
                 fontSize = fontSize,
             };
 
-            clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style, brancheOutPointStyle,
+            clone.Init(pos, myRect.size, Style, SelectedNodeStyle, InPoint.Style, brancheOutPointStyle,
                 InPoint.OnClickConnectionPoint, BracheClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId);
 

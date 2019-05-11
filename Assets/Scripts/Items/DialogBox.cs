@@ -10,12 +10,14 @@ namespace DokiVnMaker.MyEditor.Items
         public string CharaName;
         public string Dialog;
 
-        [NonSerialized]
-        public bool ShowCharParam;
+
         [NonSerialized]
         public Color Color;
         public int fontSize = ValueManager.DefaultFontSize;
         public int Speed = 3;
+
+        [NonSerialized]
+        bool ShowCharParam;
 
         public bool NoWait;
 
@@ -44,9 +46,8 @@ namespace DokiVnMaker.MyEditor.Items
             GUILayout.Label("Dialogue", WhiteTxtStyle);
             Dialog = EditorGUILayout.TextArea(Dialog, GUILayout.Height(50));
 
-            //show character parameter
-            ShowCharParam = EditorGUILayout.Foldout(ShowCharParam, "Character +", true, WhiteTxtStyle);
 
+            ShowCharParam = EditorGUILayout.Foldout(ShowCharParam, "Character", true);
             if (ShowCharParam)
             {
                 GUILayout.BeginHorizontal();
@@ -59,6 +60,8 @@ namespace DokiVnMaker.MyEditor.Items
                 Speed = EditorGUILayout.IntSlider(Speed, 1, 5);
                 GUILayout.EndHorizontal();
             }
+
+
             //dialog show in one shot
             GUILayout.BeginHorizontal();
             GUILayout.Label("No wait", WhiteTxtStyle, GUILayout.Width(LabelWidth));
@@ -88,7 +91,7 @@ namespace DokiVnMaker.MyEditor.Items
                 NoWait = NoWait
             };
 
-            clone.Init(pos, myRect.width, myRect.height, Style, SelectedNodeStyle, InPoint.Style,
+            clone.Init(pos, myRect.size, Style, SelectedNodeStyle, InPoint.Style,
                 OutPoint.Style, InPoint.OnClickConnectionPoint, OutPoint.OnClickConnectionPoint,
                 OnCopyNode, OnRemoveNode, newId);
 
