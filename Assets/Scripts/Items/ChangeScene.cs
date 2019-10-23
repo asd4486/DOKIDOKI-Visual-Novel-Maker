@@ -7,7 +7,9 @@ namespace DokiVnMaker.MyEditor.Items
     [Serializable]
     public class ChangeScene : NodeBase
     {
-        public string Path;
+        public string path;
+        public string sceneName { get { return path.Split('/')[path.Split('/').Length - 1].Replace(".unity", ""); } }
+
         [NonSerialized]
         public SceneAsset Scene;
 
@@ -30,7 +32,7 @@ namespace DokiVnMaker.MyEditor.Items
             if (Initialize)
             {
                 //find origin object
-                var origin = AssetDatabase.LoadAssetAtPath(Path, typeof(SceneAsset)) as SceneAsset;
+                var origin = AssetDatabase.LoadAssetAtPath(path, typeof(SceneAsset)) as SceneAsset;
 
                 if (origin != null)
                 {
@@ -49,7 +51,7 @@ namespace DokiVnMaker.MyEditor.Items
             if (Scene != null)
             {
                 //get path
-                Path = AssetDatabase.GetAssetPath(Scene);
+                path = AssetDatabase.GetAssetPath(Scene);
             }
 
             GUILayout.EndVertical();
@@ -68,7 +70,7 @@ namespace DokiVnMaker.MyEditor.Items
             var clone = new ChangeScene()
             {
                 Initialize = true,
-                Path = Path
+                path = path
             };
 
             clone.Init(pos, myRect.size, Style, SelectedNodeStyle, InPoint.Style,

@@ -8,7 +8,6 @@ TagManager:
   - dokidoki_vn_game
   - doki_sound_manager
   - doki-branche
-  - doki-storyline
   layers:
   - Default
   - TransparentFX

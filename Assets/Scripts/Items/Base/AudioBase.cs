@@ -9,6 +9,6 @@ namespace DokiVnMaker.MyEditor.Items
         [NonSerialized]
         public AudioClip myAudio;
         public float volume = 1;
-        public bool isLoop;
+        public bool loop;
     }
 }

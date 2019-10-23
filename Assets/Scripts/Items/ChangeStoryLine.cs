@@ -31,19 +31,11 @@ namespace DokiVnMaker.MyEditor.Items
             GameObject game = GameObject.FindGameObjectWithTag("dokidoki_vn_game");
             var list = game.GetComponentsInChildren<StoryLine>().ToList();
 
-            //return if can't find any story line
-            if (list.Count < 1)
-            {
-                GUILayout.Label("OOOps!Can't find any story line!", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-                GUILayout.Label("Please add a new one :)", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-                return;
-            }
-
             //set story line index if initialize request
             if (Initialize)
             {
                 //find origin object
-                var origin = list.Where(s => s.name == Name && s.tag == "doki-storyline").FirstOrDefault();
+                var origin = list.Where(s => s.name == Name).FirstOrDefault();
 
                 if (origin != null)
                 {

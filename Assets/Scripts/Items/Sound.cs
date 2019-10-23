@@ -66,7 +66,7 @@ namespace DokiVnMaker.MyEditor.Items
             //music loop
             GUILayout.BeginHorizontal();
             GUILayout.Label("Loop", WhiteTxtStyle, GUILayout.Width(LabelWidth));
-            isLoop = EditorGUILayout.Toggle(isLoop);
+            loop = EditorGUILayout.Toggle(loop);
             GUILayout.EndHorizontal();
 
             GUILayout.EndVertical();
