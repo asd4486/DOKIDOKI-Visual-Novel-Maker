@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Character\CharacterGraph.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Game\GameMain.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Game\SoundManager.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Items\BackgroundImage.cs" />
@@ -84,12 +85,36 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\Items\Settings\CharaSpriteSetting.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Items\Sound.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Items\StoryLineActions.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryLine.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryLineEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryLineNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\DialogueNode.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\StoryNodeBase.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\old\StoryLine.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\old\StoryLineEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\old\StoryLineNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryGraph.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Tools\CreateObjHelper.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Tools\ObjectInfoHelper.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\ValueManager.cs" />
+    <Compile Include="Assets\xNode\Examples\MathGraph\MathGraph.cs" />
+    <Compile Include="Assets\xNode\Examples\MathGraph\Nodes\DisplayValue.cs" />
+    <Compile Include="Assets\xNode\Examples\MathGraph\Nodes\MathNode.cs" />
+    <Compile Include="Assets\xNode\Examples\MathGraph\Nodes\Vector.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\Connection.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\NodeDrag.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\RuntimeMathGraph.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\RuntimeNodes\UGUIDisplayValue.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\RuntimeNodes\UGUIMathBaseNode.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\RuntimeNodes\UGUIMathNode.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\RuntimeNodes\UGUIVector.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\UGUIContextMenu.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\UGUIPort.cs" />
+    <Compile Include="Assets\xNode\Examples\RuntimeMathGraph\Scripts\UGUITooltip.cs" />
+    <Compile Include="Assets\xNode\Examples\StateMachine\Nodes\StateNode.cs" />
+    <Compile Include="Assets\xNode\Examples\StateMachine\StateGraph.cs" />
+    <Compile Include="Assets\xNode\Scripts\Attributes\NodeEnum.cs" />
+    <Compile Include="Assets\xNode\Scripts\Node.cs" />
+    <Compile Include="Assets\xNode\Scripts\NodeDataCache.cs" />
+    <Compile Include="Assets\xNode\Scripts\NodeGraph.cs" />
+    <Compile Include="Assets\xNode\Scripts\NodePort.cs" />
     <None Include="Assets\JsonDotNet\link.xml" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>T:/REPOs/Dokidoki_vn_maker/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

@@ -60,12 +60,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DOKIVnMaker\Editor\CGManager.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Editor\CreateCharacterWindow.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Editor\DokidokiTools.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Editor\Items\CGItem.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Editor\Items\CharacterSprite.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Editor\Items\CharacterSprite_Face.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CGManager.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CreateCharacterWindow.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\DokidokiTools.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CGItem.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CharacterSprite.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CharacterSprite_Face.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\StoryGraphEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DialogueNodeEditor.cs" />
+    <Compile Include="Assets\xNode\Examples\MathGraph\Editor\MathGraphEditor.cs" />
+    <Compile Include="Assets\xNode\Examples\MathGraph\Nodes\Editor\DisplayValueEditor.cs" />
+    <Compile Include="Assets\xNode\Examples\StateMachine\Editor\StateGraphEditor.cs" />
+    <Compile Include="Assets\xNode\Examples\StateMachine\Nodes\Editor\StateNodeEditor.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\Drawers\NodeEnumDrawer.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditor.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorAction.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorAssetModProcessor.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorBase.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorGUI.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorGUILayout.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorPreferences.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorReflection.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorResources.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorUtilities.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeEditorWindow.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\NodeGraphEditor.cs" />
+    <Compile Include="Assets\xNode\Scripts\Editor\RenamePopup.cs" />
+    <None Include="Assets\xNode\Scripts\Editor\Resources\ScriptTemplates\xNode_NodeTemplate.cs.txt" />
+    <None Include="Assets\xNode\Scripts\Editor\Resources\ScriptTemplates\xNode_NodeGraphTemplate.cs.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>T:/REPOs/Dokidoki_vn_maker/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

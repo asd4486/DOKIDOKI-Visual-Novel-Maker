@@ -255,3 +255,5 @@ paket-files/
 *.sln.iml
 src/MD.App.Droid/MD.App.Droid.csproj.user
 *.user
+
+Assets/xNode/Examples
