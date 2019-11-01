@@ -7,16 +7,17 @@ using XNodeEditor;
 
 namespace DokiVnMaker.StoryNode
 {
-    [CustomNodeEditor(typeof(DialogueNode))]
+    [CustomNodeEditor(typeof(Dialogue))]
     public class DialogueNodeEditor : NodeEditor
     {
         public override void OnBodyGUI()
         {
             serializedObject.Update();
 
-            DialogueNode node = target as DialogueNode;
+            Dialogue node = target as Dialogue;
 
-            //EditorGUILayout.PropertyField(serializedObject.FindProperty("character"), GUIContent.none);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("character"));
+
             if (node.answers.Count == 0)
             {
                 GUILayout.BeginHorizontal();
@@ -38,7 +39,7 @@ namespace DokiVnMaker.StoryNode
 
         public override int GetWidth()
         {
-            return 320;
+            return 300;
         }
     }
 }

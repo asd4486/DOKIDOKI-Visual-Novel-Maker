@@ -6,7 +6,7 @@ using XNode;
 namespace DokiVnMaker.StoryNode
 {
     [NodeTint("#66ff66")]
-    public class DialogueNode : StoryNodeBase
+    public class Dialogue : StoryNodeBase
     {
         // Use this for initialization
         protected override void Init()
@@ -15,7 +15,7 @@ namespace DokiVnMaker.StoryNode
             base.Init();
         }
 
-        public characterGraph character;
+        public CharacterGraph character;
         [TextArea] public string dialogue;
         [Output(instancePortList = true)] public List<Answer> answers = new List<Answer>();
 
@@ -49,7 +49,7 @@ namespace DokiVnMaker.StoryNode
 
         //public override void Trigger()
         //{
-        //    (graph as DialogueGraph).current = this;
+        //    (graph as StoryGraph).current = this;
         //}
     }
 }

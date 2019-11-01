@@ -60,14 +60,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CGManager.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CreateCharacterWindow.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\DokidokiTools.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CGItem.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CGManager.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CharacterSprite.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CharacterSprite_Face.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CreateCharacterWindow.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\DokidokiTools.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\StoryGraphEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\BackgroundNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CGNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\ChangeStoryNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DelayerNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DialogueNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\MusicNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\SoundNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\StartPointNodeEditor.cs" />
     <Compile Include="Assets\xNode\Examples\MathGraph\Editor\MathGraphEditor.cs" />
     <Compile Include="Assets\xNode\Examples\MathGraph\Nodes\Editor\DisplayValueEditor.cs" />
     <Compile Include="Assets\xNode\Examples\StateMachine\Editor\StateGraphEditor.cs" />
