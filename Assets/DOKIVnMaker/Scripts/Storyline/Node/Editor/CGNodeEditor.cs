@@ -23,6 +23,15 @@ namespace DokiVnMaker.StoryNode
             EditorGUILayout.PropertyField(serializedObject.FindProperty("image"), GUIContent.none);
             var imgPriveiw = node.image;
             if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(200), GUILayout.Height(113));
+
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("isWait"));
+            if (node.isWait)
+            {
+                GUILayout.BeginHorizontal();
+                EditorGUILayout.Slider(serializedObject.FindProperty("waitTime"), 0, 99);
+                GUILayout.Label("s", GUILayout.Width(20));
+                GUILayout.EndHorizontal();
+            }
         }
 
         public override int GetWidth()

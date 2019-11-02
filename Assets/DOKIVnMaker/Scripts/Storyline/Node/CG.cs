@@ -15,5 +15,7 @@ namespace DokiVnMaker.StoryNode
         }
 
         public Sprite image;
+        public bool isWait;
+        public float waitTime;
     }
 }

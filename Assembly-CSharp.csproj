@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{98DA6574-C1C4-7DDB-4712-544FFD2BD0AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -61,8 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\DOKIVnMaker\Scripts\Character\CharacterGraph.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Game\GameMain.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Game\SoundManager.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\DokiVNLauncher.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\BackgroundImage.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\Base\ActionTypes.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\Base\AudioBase.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\Delayer.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\DialogBox.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\EditorStartPoint.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\Game\SoundManager.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\Music.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\NodeEditor\Connection.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\NodeEditor\ConnectionPoint.cs" />
@@ -94,10 +95,8 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Sound.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\StartPoint.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\StoryNodeBase.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\old\StoryLine.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\old\StoryLineEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\old\StoryLineNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryGraph.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryLauncher.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Tools\CreateObjHelper.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Tools\ObjectInfoHelper.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\ValueManager.cs" />

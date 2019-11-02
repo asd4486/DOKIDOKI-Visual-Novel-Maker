@@ -10,6 +10,7 @@ namespace DokiVnMaker.StoryNode
     [CustomNodeEditor(typeof(Dialogue))]
     public class DialogueNodeEditor : NodeEditor
     {
+        bool showAdvance;
         public override void OnBodyGUI()
         {
             serializedObject.Update();
@@ -17,6 +18,11 @@ namespace DokiVnMaker.StoryNode
             Dialogue node = target as Dialogue;
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("character"));
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("name", GUILayout.Width(50));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("characterName"), GUIContent.none);
+            GUILayout.EndHorizontal();
 
             if (node.answers.Count == 0)
             {
@@ -32,6 +38,14 @@ namespace DokiVnMaker.StoryNode
             GUILayout.Space(-30);
 
             NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("dialogue"), GUIContent.none);
+
+            showAdvance = EditorGUILayout.Foldout(showAdvance, "advance");
+            if (showAdvance)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("fontSize"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("voiceClip"));
+            }
+
             NodeEditorGUILayout.InstancePortList("answers", typeof(StoryNodeBase), serializedObject, NodePort.IO.Output, Node.ConnectionType.Override);
 
             serializedObject.ApplyModifiedProperties();

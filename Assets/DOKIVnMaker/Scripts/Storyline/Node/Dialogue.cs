@@ -16,14 +16,17 @@ namespace DokiVnMaker.StoryNode
         }
 
         public CharacterGraph character;
+        public string characterName;
         [TextArea] public string dialogue;
+        public int fontSize;
+        public AudioClip voiceClip;
+
         [Output(instancePortList = true)] public List<Answer> answers = new List<Answer>();
 
         [System.Serializable]
         public class Answer
         {
             public string text;
-            public AudioClip voiceClip;
         }
 
         //public void AnswerQuestion(int index)
