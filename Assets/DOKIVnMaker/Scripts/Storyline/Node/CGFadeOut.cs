@@ -5,18 +5,16 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
-    public class Sound : StoryNodeBase
+    public class CGFadeOut : StoryNodeBase
     {
         // Use this for initialization
         protected override void Init()
         {
-            name = "Sound";
+            name = "CG out";
             base.Init();
         }
 
-        public AudioClip audio;
-        public float volume = 1;
-        public int track;
-        public bool loop;
+        public bool isWait;
+        public float duration = 1f;
     }
 }

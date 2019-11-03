@@ -2,7 +2,7 @@
 using UnityEditor;
 using XNodeEditor;
 
-namespace DokiVnMaker.StoryNode
+namespace DokiVnMaker.Story
 {
     [CustomNodeEditor(typeof(Music))]
     public class MusicNodeEditor : NodeEditor

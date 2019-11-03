@@ -1,5 +1,8 @@
-﻿using DokiVnMaker.StoryNode;
+﻿using DokiVnMaker.Character;
+using DokiVnMaker.Story;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +21,7 @@ namespace DokiVnMaker.Game
         [SerializeField] GameObject branchesParent;
         Button[] brancheBtnList;
 
+        List<DokiCharacterBase> characterList = new List<DokiCharacterBase>();
         [SerializeField] Transform characterParent;
 
         //images
@@ -31,6 +35,8 @@ namespace DokiVnMaker.Game
         //delay croroutine
         Coroutine delayCoroutine;
         bool nextStepClickable;
+
+
 
         private void Awake()
         {
@@ -48,7 +54,7 @@ namespace DokiVnMaker.Game
         void ResetGameUI()
         {
             branchesParent.SetActive(false);
-            imageCG.gameObject.SetActive(false);
+            //imageCG.gameObject.SetActive(false);
         }
 
         //launch new story 
@@ -96,65 +102,16 @@ namespace DokiVnMaker.Game
             ResetGameUI();
 
             if (nowNode is Dialogue) ShowDialog();
+            else if (nowNode is CharacterFadeIn) FadeInOutCharacter();
+            else if (nowNode is CharacterFadeOut) FadeInOutCharacter();
             else if (nowNode is BackgroundImage) ShowBackground();
             else if (nowNode is CG) ShowCG();
+            else if (nowNode is CGFadeOut) FadeOutCG();
             else if (nowNode is Delayer) StartDelayer((nowNode as Delayer).delay);
             else if (nowNode is Music) PlayBackgroundMusic();
             else if (nowNode is Sound) PlaySound();
             else if (nowNode is ChangeStory) SetNextStory();
         }
-
-        //    //parallel actions
-        //    private void PlayParallellActions()
-        //    {
-        //        var conns = myConnections.Where(c => c.InPoint.Equals(nowAction.InPoint)).ToList();
-        //        var actionList = new List<NodeBase>();
-
-        //        //find all parallel actions
-        //        foreach (var c in conns)
-        //        {
-        //            foreach (var a in storyActionList)
-        //            {
-        //                if (a.Id == c.InPoint.targetNodeId)
-        //                {
-        //                    actionList.Add(a);
-        //                }
-        //            }
-        //        }
-
-        //        //run parallel actions
-        //        foreach (var a in actionList)
-        //        {
-        //            switch (a.ActionType)
-        //            {
-        //                case ActionTypes.CharacterSpriteInfos:
-        //                    ShowCharacter(nowAction as CharacterSpriteInfos, true);
-        //                    break;
-        //                //case ActionTypes.DialogBox:
-        //                //    ShowDialog(NowAction as DialogBox);
-        //                //    break;
-        //                //case ActionTypes.BrancheBox:
-        //                //    ShowBranche(NowAction as BrancheBox);
-        //                //    break;
-        //                case ActionTypes.BackgroundImage:
-        //                    ShowBackground(nowAction as BackgroundImage, true);
-        //                    break;
-        //                case ActionTypes.CGImage:
-        //                    ShowCG(nowAction as CGImage, true);
-        //                    break;
-        //                //case ActionTypes.Delayer:
-        //                //    SetDelay(NowAction as Delayer, true);
-        //                //    break;
-        //                case ActionTypes.Music:
-        //                    PlayBackgroundMusic(nowAction as Music, true);
-        //                    break;
-        //                case ActionTypes.Sound:
-        //                    PlaySound(nowAction as Sound, true);
-        //                    break;
-        //            }
-        //        }
-
-        //    }
 
         //start next step with delay
 
@@ -188,6 +145,42 @@ namespace DokiVnMaker.Game
             PlayNextStoryNode();
         }
 
+        private void FadeInOutCharacter()
+        {
+            var node = nowNode as CharacterFadeBase;
+
+            if (node.character != null)
+            {
+                var currentChar = characterList.Where(c => c.CurrentCharacterObject == node.character).FirstOrDefault();
+                if (node.isFadeIn)
+                {
+                    if (currentChar == null) currentChar = CreateNewCharacter(node.character);
+                    currentChar.gameObject.SetActive(true);
+                }
+                else
+                {
+                    if (currentChar != null)
+                        currentChar.gameObject.SetActive(false);
+                }
+            }
+
+            if (node.isWait)
+                StartDelayer(node.duration);
+            else
+                PlayNextStoryNode();
+        }
+
+        DokiCharacterBase CreateNewCharacter(CharacterObject character)
+        {
+            var newChar = Instantiate(Resources.Load("doki_characterBase") as GameObject);
+            newChar.transform.SetParent(characterParent, false);
+            var charaBase = newChar.GetComponent<DokiCharacterBase>();
+            charaBase.Init(character);
+            characterList.Add(charaBase);
+
+            return charaBase;
+        }
+
         private void ShowCG()
         {
             var node = nowNode as CG;
@@ -202,7 +195,20 @@ namespace DokiVnMaker.Game
 
             //start next step
             if (node.isWait)
-                StartDelayer(node.waitTime);
+                StartDelayer(node.duration);
+            else
+                PlayNextStoryNode();
+        }
+
+        void FadeOutCG()
+        {
+            var node = nowNode as CGFadeOut;
+
+            imageCG.gameObject.SetActive(false);
+
+            //start next step
+            if (node.isWait)
+                StartDelayer(node.duration);
             else
                 PlayNextStoryNode();
         }
@@ -230,7 +236,7 @@ namespace DokiVnMaker.Game
 
             //set dialog name and text
             if (node.character != null && string.IsNullOrEmpty(node.characterName))
-                textCharaName.text = node.character.name;
+                textCharaName.text = node.character.charaName;
             else
                 textCharaName.text = node.characterName;
 
@@ -270,24 +276,8 @@ namespace DokiVnMaker.Game
                 storyLauncher.ChangeCurrentStory(currentStory);
             }
         }
-
         #endregion
 
-        //    #region action normals
-        //    private void SetDelay(Delayer action, bool parallel = false)
-        //    {
-        //        //stop old delay coroutine
-        //        if (DelayCoroutine != null) StopCoroutine(DelayCoroutine);
-
-        //        //start new delay
-        //        DelayCoroutine = StartCoroutine(StartDelay(action.Delay));
-        //    }
-
-        //    private IEnumerator StartDelay(float time)
-        //    {
-        //        yield return new WaitForSeconds(time);
-        //        PlayNextAction(); //continue action
-        //    }
 
         //    #region character funcs
         //    private void ShowCharacter(CharacterSpriteInfos action, bool parallel = false)
@@ -366,7 +356,6 @@ namespace DokiVnMaker.Game
         //        else
         //            PlayNextAction();
         //    }
-        //    #endregion
 
 
 

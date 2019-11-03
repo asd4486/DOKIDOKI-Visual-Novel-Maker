@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{98DA6574-C1C4-7DDB-4712-544FFD2BD0AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -61,7 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Character\CharacterGraph.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Character\CharacterObject.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Character\DokiCharacterBase.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\DokiVNLauncher.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\BackgroundImage.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\Base\ActionTypes.cs" />
@@ -82,24 +82,26 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\NodeEditor\ConnectionPoint.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\NodeEditor\NodeBase.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\NodeEditor\SimpleNodeBase.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\Settings\CharaFaceSetting.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\Settings\CharaSpriteSetting.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\Sound.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\OLDItems\StoryLineActions.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\BackgroundImage.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Base\CharacterFadeBase.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Base\StoryNodeBase.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\CG.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\CGFadeOut.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\ChangeStory.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\CharacterFadeIn.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\CharacterFadeOut.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Delayer.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Dialogue.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Music.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Sound.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\StartPoint.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\StoryNodeBase.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryGraph.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryLauncher.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Tools\CreateObjHelper.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Tools\ObjectInfoHelper.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\ValueManager.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Tools\ValueManager.cs" />
     <Compile Include="Assets\xNode\Examples\MathGraph\MathGraph.cs" />
     <Compile Include="Assets\xNode\Examples\MathGraph\Nodes\DisplayValue.cs" />
     <Compile Include="Assets\xNode\Examples\MathGraph\Nodes\MathNode.cs" />

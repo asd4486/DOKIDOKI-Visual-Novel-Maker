@@ -2,7 +2,7 @@
 using UnityEngine;
 using XNodeEditor;
 
-namespace DokiVnMaker.StoryNode
+namespace DokiVnMaker.Story
 {
     [CustomNodeEditor(typeof(BackgroundImage))]
     public class BackgroundNodeEditor : NodeEditor

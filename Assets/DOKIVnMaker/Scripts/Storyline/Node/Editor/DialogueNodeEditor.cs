@@ -5,7 +5,7 @@ using UnityEngine;
 using XNode;
 using XNodeEditor;
 
-namespace DokiVnMaker.StoryNode
+namespace DokiVnMaker.Story
 {
     [CustomNodeEditor(typeof(Dialogue))]
     public class DialogueNodeEditor : NodeEditor
@@ -46,7 +46,8 @@ namespace DokiVnMaker.StoryNode
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("voiceClip"));
             }
 
-            NodeEditorGUILayout.InstancePortList("answers", typeof(StoryNodeBase), serializedObject, NodePort.IO.Output, Node.ConnectionType.Override);
+            NodeEditorGUILayout.DynamicPortList("answers", typeof(StoryNodeBase), serializedObject, NodePort.IO.Output, Node.ConnectionType.Override);
+            node.CheckAnswerCount();
 
             serializedObject.ApplyModifiedProperties();
         }

@@ -2,7 +2,7 @@
 using UnityEditor;
 using XNodeEditor;
 
-namespace DokiVnMaker.StoryNode
+namespace DokiVnMaker.Story
 {
     [CustomNodeEditor(typeof(Delayer))]
     public class DelayerNodeEditor : NodeEditor
@@ -28,7 +28,7 @@ namespace DokiVnMaker.StoryNode
 
         public override int GetWidth()
         {
-            return 180;
+            return 120;
         }
     }
 }

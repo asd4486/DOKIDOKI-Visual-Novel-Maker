@@ -20,6 +20,10 @@ MonoBehaviour:
   - {fileID: 114713838262356174}
   - {fileID: 114657242119260374}
   - {fileID: 114867531665388628}
+  - {fileID: 114845408232233278}
+  - {fileID: 114062377885077042}
+  - {fileID: 114565212510972156}
+  - {fileID: 114316425018737564}
 --- !u!114 &114049802932237804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,7 +37,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -376, y: -360}
+  position: {x: -200, y: -440}
   ports:
     keys:
     - answers
@@ -42,9 +46,9 @@ MonoBehaviour:
     values:
     - _fieldName: answers
       _node: {fileID: 114049802932237804}
-      _typeQualifiedName: System.Collections.Generic.List`1[[DokiVnMaker.StoryNode.Dialogue+Answer,
-        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
-        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      _typeQualifiedName: System.Collections.Generic.List`1[[System.String, mscorlib,
+        Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib,
+        Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       connections: []
       _direction: 1
       _connectionType: 0
@@ -52,11 +56,11 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: input
       _node: {fileID: 114049802932237804}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
-        node: {fileID: 114993297942127238}
+        node: {fileID: 114845408232233278}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -64,7 +68,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: output
       _node: {fileID: 114049802932237804}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
@@ -76,8 +80,8 @@ MonoBehaviour:
       _dynamic: 0
   input: {fileID: 0}
   output: {fileID: 0}
-  character: {fileID: 0}
-  characterName: toto
+  character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
+  characterName: 
   dialogue: test
   fontSize: 0
   voiceClip: {fileID: 0}
@@ -95,7 +99,7 @@ MonoBehaviour:
   m_Name: CG
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 520, y: -408}
+  position: {x: 520, y: -440}
   ports:
     keys:
     - input
@@ -103,11 +107,11 @@ MonoBehaviour:
     values:
     - _fieldName: input
       _node: {fileID: 114050037303545648}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
-        node: {fileID: 114657242119260374}
+        node: {fileID: 114316425018737564}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -115,7 +119,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: output
       _node: {fileID: 114050037303545648}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
@@ -127,9 +131,58 @@ MonoBehaviour:
       _dynamic: 0
   input: {fileID: 0}
   output: {fileID: 0}
-  image: {fileID: 21300000, guid: 4bce391cc48f25140928a186f5be1bfc, type: 3}
+  image: {fileID: 21300000, guid: c2371afb496782a4f951954e236df5be, type: 3}
   isWait: 1
-  waitTime: 1
+  duration: 0.5
+--- !u!114 &114062377885077042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d475adf685847734e8338c1f2821e726, type: 3}
+  m_Name: Character out
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 152, y: -584}
+  ports:
+    keys:
+    - input
+    - output
+    values:
+    - _fieldName: input
+      _node: {fileID: 114062377885077042}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114657242119260374}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 1
+      _dynamic: 0
+    - _fieldName: output
+      _node: {fileID: 114062377885077042}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 114316425018737564}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  input: {fileID: 0}
+  output: {fileID: 0}
+  isFadeIn: 0
+  character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
+  duration: 1
+  isWait: 0
 --- !u!114 &114223115530925852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,7 +196,7 @@ MonoBehaviour:
   m_Name: Background image
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -56, y: -232}
+  position: {x: -488, y: -424}
   ports:
     keys:
     - input
@@ -151,11 +204,11 @@ MonoBehaviour:
     values:
     - _fieldName: input
       _node: {fileID: 114223115530925852}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
-        node: {fileID: 114713838262356174}
+        node: {fileID: 114993297942127238}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -163,11 +216,11 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: output
       _node: {fileID: 114223115530925852}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114657242119260374}
+        node: {fileID: 114845408232233278}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -176,6 +229,112 @@ MonoBehaviour:
   input: {fileID: 0}
   output: {fileID: 0}
   image: {fileID: 21300000, guid: 230efdd7e4d28514eb996e5fe626e645, type: 3}
+--- !u!114 &114316425018737564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527c1ce75fa837444b09c8ccdaffe65b, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 376, y: -664}
+  ports:
+    keys:
+    - answers
+    - input
+    - output
+    values:
+    - _fieldName: answers
+      _node: {fileID: 114316425018737564}
+      _typeQualifiedName: System.Collections.Generic.List`1[[System.String, mscorlib,
+        Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib,
+        Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: input
+      _node: {fileID: 114316425018737564}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114062377885077042}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 1
+      _dynamic: 0
+    - _fieldName: output
+      _node: {fileID: 114316425018737564}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 114050037303545648}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  input: {fileID: 0}
+  output: {fileID: 0}
+  character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
+  characterName: 
+  dialogue: I'm gone...
+  fontSize: 0
+  voiceClip: {fileID: 0}
+  answers: []
+--- !u!114 &114565212510972156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba0064ecb45337c4e978173e4f261769, type: 3}
+  m_Name: CG out
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 888, y: -328}
+  ports:
+    keys:
+    - input
+    - output
+    values:
+    - _fieldName: input
+      _node: {fileID: 114565212510972156}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114867531665388628}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 1
+      _dynamic: 0
+    - _fieldName: output
+      _node: {fileID: 114565212510972156}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  input: {fileID: 0}
+  output: {fileID: 0}
+  isWait: 1
+  duration: 1
 --- !u!114 &114657242119260374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +348,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 216, y: -408}
+  position: {x: 136, y: -440}
   ports:
     keys:
     - answers
@@ -198,9 +357,9 @@ MonoBehaviour:
     values:
     - _fieldName: answers
       _node: {fileID: 114657242119260374}
-      _typeQualifiedName: System.Collections.Generic.List`1[[DokiVnMaker.StoryNode.Dialogue+Answer,
-        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
-        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      _typeQualifiedName: System.Collections.Generic.List`1[[System.String, mscorlib,
+        Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib,
+        Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       connections: []
       _direction: 1
       _connectionType: 0
@@ -208,11 +367,11 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: input
       _node: {fileID: 114657242119260374}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
-        node: {fileID: 114223115530925852}
+        node: {fileID: 114713838262356174}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -220,11 +379,11 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: output
       _node: {fileID: 114657242119260374}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114050037303545648}
+        node: {fileID: 114062377885077042}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -232,8 +391,8 @@ MonoBehaviour:
       _dynamic: 0
   input: {fileID: 0}
   output: {fileID: 0}
-  character: {fileID: 0}
-  characterName: tiit
+  character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
+  characterName: 
   dialogue: thank you!!
   fontSize: 0
   voiceClip: {fileID: 0}
@@ -251,7 +410,7 @@ MonoBehaviour:
   m_Name: Delayer
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -56, y: -360}
+  position: {x: -8, y: -200}
   ports:
     keys:
     - input
@@ -259,7 +418,7 @@ MonoBehaviour:
     values:
     - _fieldName: input
       _node: {fileID: 114713838262356174}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
@@ -271,11 +430,11 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: output
       _node: {fileID: 114713838262356174}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114223115530925852}
+        node: {fileID: 114657242119260374}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -284,6 +443,55 @@ MonoBehaviour:
   input: {fileID: 0}
   output: {fileID: 0}
   delay: 1
+--- !u!114 &114845408232233278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db59eb86deefda479bc74bd9aedf30c, type: 3}
+  m_Name: Character in
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -264, y: -552}
+  ports:
+    keys:
+    - input
+    - output
+    values:
+    - _fieldName: input
+      _node: {fileID: 114845408232233278}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114223115530925852}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 1
+      _dynamic: 0
+    - _fieldName: output
+      _node: {fileID: 114845408232233278}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 114049802932237804}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  input: {fileID: 0}
+  output: {fileID: 0}
+  isFadeIn: 1
+  character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
+  duration: 1
+  isWait: 0
 --- !u!114 &114867531665388628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +505,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 504, y: -168}
+  position: {x: 504, y: -216}
   ports:
     keys:
     - answers
@@ -306,9 +514,9 @@ MonoBehaviour:
     values:
     - _fieldName: answers
       _node: {fileID: 114867531665388628}
-      _typeQualifiedName: System.Collections.Generic.List`1[[DokiVnMaker.StoryNode.Dialogue+Answer,
-        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
-        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      _typeQualifiedName: System.Collections.Generic.List`1[[System.String, mscorlib,
+        Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib,
+        Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
       connections: []
       _direction: 1
       _connectionType: 0
@@ -316,7 +524,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: input
       _node: {fileID: 114867531665388628}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
@@ -328,17 +536,20 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: output
       _node: {fileID: 114867531665388628}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-      connections: []
+      connections:
+      - fieldName: input
+        node: {fileID: 114565212510972156}
+        reroutePoints: []
       _direction: 1
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
   input: {fileID: 0}
   output: {fileID: 0}
-  character: {fileID: 0}
-  characterName: tiit
+  character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
+  characterName: 
   dialogue: fin!!
   fontSize: 0
   voiceClip: {fileID: 0}
@@ -356,18 +567,18 @@ MonoBehaviour:
   m_Name: START
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -616, y: -296}
+  position: {x: -696, y: -344}
   ports:
     keys:
     - output
     values:
     - _fieldName: output
       _node: {fileID: 114993297942127238}
-      _typeQualifiedName: DokiVnMaker.StoryNode.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114049802932237804}
+        node: {fileID: 114223115530925852}
         reroutePoints: []
       _direction: 1
       _connectionType: 1

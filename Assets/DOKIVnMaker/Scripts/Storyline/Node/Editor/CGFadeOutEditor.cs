@@ -4,14 +4,12 @@ using XNodeEditor;
 
 namespace DokiVnMaker.Story
 {
-    [CustomNodeEditor(typeof(CG))]
-    public class CGNodeEditor : NodeEditor
+    [CustomNodeEditor(typeof(CGFadeOut))]
+    public class CGFadeOutEditor : NodeEditor
     {
         public override void OnBodyGUI()
         {
             serializedObject.Update();
-
-            var node = target as CG;
 
             GUILayout.BeginHorizontal();
             NodeEditorGUILayout.PortField(GUIContent.none, target.GetInputPort("input"), GUILayout.MinWidth(0));
@@ -20,21 +18,20 @@ namespace DokiVnMaker.Story
 
             GUILayout.Space(-15);
 
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("image"), GUIContent.none);
-            var imgPriveiw = node.image;
-            if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(200), GUILayout.Height(113));
-
             GUILayout.BeginHorizontal();
-            EditorGUILayout.Slider(serializedObject.FindProperty("duration"), 0, 99);
-            GUILayout.Label("s", GUILayout.Width(20));
+            GUILayout.Label("Duration", GUILayout.Width(70));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("duration"), GUIContent.none);
+            GUILayout.Label("s", GUILayout.Width(15));
             GUILayout.EndHorizontal();
-
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("isWait"));
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Is wait", GUILayout.Width(70));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("isWait"), GUIContent.none);
+            GUILayout.EndHorizontal();
         }
 
         public override int GetWidth()
         {
-            return 250;
+            return 200;
         }
     }
 }

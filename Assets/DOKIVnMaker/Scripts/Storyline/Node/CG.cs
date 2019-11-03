@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 
-namespace DokiVnMaker.StoryNode
+namespace DokiVnMaker.Story
 {
     public class CG : StoryNodeBase
     {
@@ -16,6 +16,6 @@ namespace DokiVnMaker.StoryNode
 
         public Sprite image;
         public bool isWait;
-        public float waitTime;
+        public float duration = 0.5f;
     }
 }

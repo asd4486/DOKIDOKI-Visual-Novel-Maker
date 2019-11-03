@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using DokiVnMaker.Character;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using XNode;
 
-namespace DokiVnMaker.StoryNode
+namespace DokiVnMaker.Story
 {
     [NodeTint("#66ff66")]
     public class Dialogue : StoryNodeBase
@@ -15,44 +17,50 @@ namespace DokiVnMaker.StoryNode
             base.Init();
         }
 
-        public CharacterGraph character;
+        public CharacterObject character;
         public string characterName;
         [TextArea] public string dialogue;
         public int fontSize;
         public AudioClip voiceClip;
 
-        [Output(instancePortList = true)] public List<Answer> answers = new List<Answer>();
+        [outputlist(dynamicPortList = true), AnswerAttribute] public List<string> answers = new List<string>();
 
-        [System.Serializable]
-        public class Answer
+        public class AnswerAttribute : PropertyAttribute
         {
-            public string text;
         }
 
-        //public void AnswerQuestion(int index)
-        //{
-        //    NodePort port = null;
-        //    if (answers.Count == 0)
-        //    {
-        //        port = GetOutputPort("output");
-        //    }
-        //    else
-        //    {
-        //        if (answers.Count <= index) return;
-        //        port = GetOutputPort("answers " + index);
-        //    }
+        //remove last answer if out of range
+        public void CheckAnswerCount()
+        {
+            if (answers.Count > 6) answers.RemoveAt(answers.Count - 1);
+        }
 
-        //    if (port == null) return;
-        //    for (int i = 0; i < port.ConnectionCount; i++)
-        //    {
-        //        NodePort connection = port.GetConnection(i);
-        //        (connection.node as DialogueBaseNode).Trigger();
-        //    }
-        //}
+        public Node GetCurrentAnswerNode(int index)
+        {
+            NodePort port = null;
+            if (answers.Count == 0)
+            {
+                port = GetOutputPort("output");
+            }
+            else
+            {
+                if (answers.Count <= index) return null;
+                port = GetOutputPort("answers " + index);
+            }
 
-        //public override void Trigger()
-        //{
-        //    (graph as StoryGraph).current = this;
-        //}
+            if (port == null) return null;
+
+            return port.Connection.node;
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(Dialogue.AnswerAttribute))]
+    public class DialogueAnswerDrawer : PropertyDrawer
+    {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            label.text = "";
+            EditorGUI.PropertyField(position, property, label, true);
+        }
     }
 }

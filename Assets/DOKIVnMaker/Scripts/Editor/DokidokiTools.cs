@@ -5,11 +5,11 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace DokiVnMaker.MyEditor
+namespace DokiVnMaker
 {
-    public class DokidokiTools : MonoBehaviour
+    public class DokidokiTools:MonoBehaviour
     {
-        [MenuItem("DokiDoki VN Maker/Game/New Game")]
+        [MenuItem("DokiDoki VN Maker/New Game")]
         static void CreateNewGame()
         {
             //find game gameobject

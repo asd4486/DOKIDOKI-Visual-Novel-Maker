@@ -60,16 +60,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CGItem.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CGManager.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CharacterSprite.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CharacterSprite_Face.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\CreateCharacterWindow.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Items\DokidokiTools.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CharacterObjectEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CreateCharacterWindow.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\DokidokiTools.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\OLDItems\CGItem.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\StoryGraphEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\BackgroundNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CGFadeOutEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CGNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\ChangeStoryNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CharacterFadeBaseEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DelayerNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DialogueNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\MusicNodeEditor.cs" />

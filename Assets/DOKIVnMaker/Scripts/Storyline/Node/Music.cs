@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 
-namespace DokiVnMaker.StoryNode
+namespace DokiVnMaker.Story
 {
     public class Music : StoryNodeBase
     {

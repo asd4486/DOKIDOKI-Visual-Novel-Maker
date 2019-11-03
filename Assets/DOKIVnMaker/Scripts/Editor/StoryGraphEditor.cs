@@ -3,7 +3,7 @@ using UnityEditor;
 using XNodeEditor;
 using System;
 using System.Linq;
-using DokiVnMaker.StoryNode;
+using DokiVnMaker.Story;
 
 namespace DokiVnMaker
 {
@@ -25,9 +25,9 @@ namespace DokiVnMaker
 
         public override string GetNodeMenuName(Type type)
         {
-            if (type.Namespace == "DokiVnMaker.StoryNode")
+            if (type.Namespace == "DokiVnMaker.Story")
             {
-                return base.GetNodeMenuName(type).Replace("Doki Vn Maker/Story Node/", "");
+                return base.GetNodeMenuName(type).Replace("Doki Vn Maker/Story/", "");
             }
 
             return null;

@@ -64,9 +64,9 @@ namespace XNode {
                     _direction = IO.Input;
                     _connectionType = (attribs[i] as Node.InputAttribute).connectionType;
                     _typeConstraint = (attribs[i] as Node.InputAttribute).typeConstraint;
-                } else if (attribs[i] is Node.OutputAttribute) {
+                } else if (attribs[i] is Node.outputlist) {
                     _direction = IO.Output;
-                    _connectionType = (attribs[i] as Node.OutputAttribute).connectionType;
+                    _connectionType = (attribs[i] as Node.outputlist).connectionType;
                 }
             }
         }
