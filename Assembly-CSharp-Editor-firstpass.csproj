@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4156195E-36A6-BF6F-8FB6-B8E5006D6282}</ProjectGuid>
+    <ProjectGuid>{B87346D9-709E-0523-6652-BCF6FE314A51}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor-firstpass</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -47,7 +47,7 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
-    <UnityProjectType>Editor:5</UnityProjectType>
+    <UnityProjectType>EditorPlugins:7</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2018.4.8f1</UnityVersion>
   </PropertyGroup>
@@ -60,25 +60,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CharacterObjectEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CreateCharacterWindow.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\DokidokiTools.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\OLDItems\CGItem.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\StoryGraphEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\BackgroundNodeEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CGFadeOutEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CGNodeEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\ChangeStoryNodeEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CharacterFadeBaseEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DelayerNodeEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DialogueNodeEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\MusicNodeEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\SoundNodeEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\StartPointNodeEditor.cs" />
-    <Compile Include="Assets\Examples\MathGraph\Editor\MathGraphEditor.cs" />
-    <Compile Include="Assets\Examples\MathGraph\Nodes\Editor\DisplayValueEditor.cs" />
-    <Compile Include="Assets\Examples\StateMachine\Editor\StateGraphEditor.cs" />
-    <Compile Include="Assets\Examples\StateMachine\Nodes\Editor\StateNodeEditor.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\Drawers\NodeEnumDrawer.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditor.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorAction.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorAssetModProcessor.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorBase.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorGUI.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorGUILayout.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorPreferences.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorReflection.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorResources.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorUtilities.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeEditorWindow.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\NodeGraphEditor.cs" />
+    <Compile Include="Assets\Plugins\xNode\Scripts\Editor\RenamePopup.cs" />
+    <None Include="Assets\Plugins\xNode\Scripts\Editor\Resources\ScriptTemplates\xNode_NodeTemplate.cs.txt" />
+    <None Include="Assets\Plugins\xNode\Scripts\Editor\Resources\ScriptTemplates\xNode_NodeGraphTemplate.cs.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>T:/REPOs/Dokidoki_vn_maker/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -711,14 +708,6 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{3BE62CAA-B7B2-3F8D-DDD8-49E54ABBE1C2}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
-    </ProjectReference>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{98DA6574-C1C4-7DDB-4712-544FFD2BD0AA}</Project>
-      <Name>Assembly-CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
-      <Project>{B87346D9-709E-0523-6652-BCF6FE314A51}</Project>
-      <Name>Assembly-CSharp-Editor-firstpass</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

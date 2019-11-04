@@ -5,6 +5,7 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
+    [NodeTint("#ff99ff")]
     public class CG : StoryNodeBase
     {
         // Use this for initialization

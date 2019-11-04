@@ -1,4 +1,5 @@
-﻿using DokiVnMaker.Character;
+﻿using DG.Tweening;
+using DokiVnMaker.Character;
 using DokiVnMaker.Story;
 using System;
 using System.Collections;
@@ -54,7 +55,7 @@ namespace DokiVnMaker.Game
         void ResetGameUI()
         {
             branchesParent.SetActive(false);
-            //imageCG.gameObject.SetActive(false);
+            imageCG.color = new Color(1, 1, 1, 0);
         }
 
         //launch new story 
@@ -99,7 +100,7 @@ namespace DokiVnMaker.Game
             }
 
             nowNode = connection.node;
-            ResetGameUI();
+            //ResetGameUI();
 
             if (nowNode is Dialogue) ShowDialog();
             else if (nowNode is CharacterFadeIn) FadeInOutCharacter();
@@ -155,12 +156,12 @@ namespace DokiVnMaker.Game
                 if (node.isFadeIn)
                 {
                     if (currentChar == null) currentChar = CreateNewCharacter(node.character);
-                    currentChar.gameObject.SetActive(true);
+                    currentChar.FadeInOut(true, node.duration);
                 }
                 else
                 {
                     if (currentChar != null)
-                        currentChar.gameObject.SetActive(false);
+                        currentChar.FadeInOut(false, node.duration);
                 }
             }
 
@@ -190,7 +191,7 @@ namespace DokiVnMaker.Game
             if (img != null)
             {
                 imageCG.sprite = img;
-                imageCG.gameObject.SetActive(true);
+                imageCG.DOColor(Color.white, node.duration);
             }
 
             //start next step
@@ -204,7 +205,7 @@ namespace DokiVnMaker.Game
         {
             var node = nowNode as CGFadeOut;
 
-            imageCG.gameObject.SetActive(false);
+            imageCG.DOColor(new Color(1, 1, 1, 0), node.duration);
 
             //start next step
             if (node.isWait)
@@ -240,10 +241,20 @@ namespace DokiVnMaker.Game
             else
                 textCharaName.text = node.characterName;
 
-            textDialog.text = node.dialogue;
+            if (node.font != null) textDialog.font = node.font;
             if (node.fontSize > 0) textDialog.fontSize = node.fontSize;
+            if (node.textColor.a > 0) textDialog.color = node.textColor;
+
+            if(node.displayAll) textDialog.text = node.dialogue;
+            else
+            {
+                textDialog.text = "";
+                var duration = (node.dialogue.Length * 0.1f) / node.displaySpeed;
+                textDialog.DOText(node.dialogue, duration).SetEase(Ease.Linear);
+            }
 
             StartCoroutine(SetStepClickableCoroutine(0.1f));
+
             //start next step
             //if (!dialog.NoWait)
             //    StartNextStepDelay(1);

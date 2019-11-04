@@ -5,6 +5,7 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
+    [NodeTint("#ff99ff")]
     public class BackgroundImage : StoryNodeBase
     {
         // Use this for initialization

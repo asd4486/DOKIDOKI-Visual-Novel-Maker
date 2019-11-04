@@ -5,6 +5,7 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
+    [NodeTint("#ff99ff")]
     public class CGFadeOut : StoryNodeBase
     {
         // Use this for initialization
@@ -15,6 +16,6 @@ namespace DokiVnMaker.Story
         }
 
         public bool isWait;
-        public float duration = 1f;
+        public float duration = 0.8f;
     }
 }

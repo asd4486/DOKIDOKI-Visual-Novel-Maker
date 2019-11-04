@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,7 @@ namespace DokiVnMaker.Character
         private void Awake()
         {
             bodyRect = bodySprite.GetComponent<RectTransform>();
+            bodySprite.color = new Color(1, 1, 1, 0);
         }
 
         public void Init(CharacterObject charaObj)
@@ -41,8 +43,18 @@ namespace DokiVnMaker.Character
                     var faceRect = newFaceImg.GetComponent<RectTransform>();
                     faceRect.anchoredPosition = face.offsetPos;
                     faceRect.sizeDelta = face.autoSize ? new Vector2(face.sprite.texture.width, face.sprite.texture.height) : face.size;
+                    faces.Add(newFaceImg);
+
+                    newFaceImg.gameObject.SetActive(false);
                 }
             }
+        }
+
+        public void FadeInOut(bool fadeIn, float duration)
+        {
+            var targetColor = fadeIn ? Color.white : new Color(1, 1, 1, 0);
+
+            bodySprite.DOColor(targetColor, duration);
         }
     }
 }

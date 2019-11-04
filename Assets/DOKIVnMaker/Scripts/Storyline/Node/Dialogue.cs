@@ -7,7 +7,7 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
-    [NodeTint("#66ff66")]
+    [NodeTint("#99ffcc")]
     public class Dialogue : StoryNodeBase
     {
         // Use this for initialization
@@ -20,7 +20,15 @@ namespace DokiVnMaker.Story
         public CharacterObject character;
         public string characterName;
         [TextArea] public string dialogue;
+
+
+        public Font font;
         public int fontSize;
+        public Color textColor;
+
+        public bool displayAll;
+        public float displaySpeed = 2;   
+
         public AudioClip voiceClip;
 
         [outputlist(dynamicPortList = true), AnswerAttribute] public List<string> answers = new List<string>();

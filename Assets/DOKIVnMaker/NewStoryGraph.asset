@@ -82,8 +82,12 @@ MonoBehaviour:
   output: {fileID: 0}
   character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
   characterName: 
-  dialogue: test
+  dialogue: test a long long long long long long text
+  font: {fileID: 0}
   fontSize: 0
+  textColor: {r: 0, g: 0, b: 0, a: 0}
+  displayAll: 0
+  displaySpeed: 2
   voiceClip: {fileID: 0}
   answers: []
 --- !u!114 &114050037303545648
@@ -182,7 +186,7 @@ MonoBehaviour:
   isFadeIn: 0
   character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
   duration: 1
-  isWait: 0
+  isWait: 1
 --- !u!114 &114223115530925852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,7 +292,11 @@ MonoBehaviour:
   character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
   characterName: 
   dialogue: I'm gone...
+  font: {fileID: 0}
   fontSize: 0
+  textColor: {r: 0, g: 0, b: 0, a: 0}
+  displayAll: 0
+  displaySpeed: 2
   voiceClip: {fileID: 0}
   answers: []
 --- !u!114 &114565212510972156
@@ -394,7 +402,11 @@ MonoBehaviour:
   character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
   characterName: 
   dialogue: thank you!!
+  font: {fileID: 0}
   fontSize: 0
+  textColor: {r: 0, g: 0, b: 0, a: 0}
+  displayAll: 0
+  displaySpeed: 2
   voiceClip: {fileID: 0}
   answers: []
 --- !u!114 &114713838262356174
@@ -410,7 +422,7 @@ MonoBehaviour:
   m_Name: Delayer
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -8, y: -200}
+  position: {x: 72, y: -168}
   ports:
     keys:
     - input
@@ -551,7 +563,11 @@ MonoBehaviour:
   character: {fileID: 11400000, guid: 18d39e1933c2a2146a17c73300246a52, type: 2}
   characterName: 
   dialogue: fin!!
+  font: {fileID: 0}
   fontSize: 0
+  textColor: {r: 0, g: 0, b: 0, a: 0}
+  displayAll: 0
+  displaySpeed: 2
   voiceClip: {fileID: 0}
   answers: []
 --- !u!114 &114993297942127238

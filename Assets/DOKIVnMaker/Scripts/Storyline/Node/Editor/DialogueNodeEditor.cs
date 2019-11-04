@@ -42,7 +42,14 @@ namespace DokiVnMaker.Story
             showAdvance = EditorGUILayout.Foldout(showAdvance, "advance");
             if (showAdvance)
             {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("font"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("fontSize"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("textColor"));
+
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("displayAll"));
+                if(!node.displayAll)
+                    EditorGUILayout.PropertyField(serializedObject.FindProperty("displaySpeed"));
+
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("voiceClip"));
             }
 
