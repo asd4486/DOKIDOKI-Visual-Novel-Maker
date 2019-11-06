@@ -38,6 +38,10 @@ namespace DokiVnMaker.Character
                     return isEqual && sprite == o.sprite;
                 return isEqual && sprite.GetInstanceID() == o.sprite.GetInstanceID();
             }
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
         }
 
         public bool dropDownFaces;
@@ -77,6 +81,10 @@ namespace DokiVnMaker.Character
 
             return currentCharacterObject == o.currentCharacterObject && bodySprite == o.bodySprite && charaName == o.charaName &&
                 autoSize == o.autoSize && size == o.size && offsetPos ==o.offsetPos;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

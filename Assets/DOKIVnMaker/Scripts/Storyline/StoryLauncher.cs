@@ -3,32 +3,32 @@ using UnityEngine;
 
 namespace DokiVnMaker
 {
-    [RequireComponent(typeof(DokiVNLauncher))]
+    [RequireComponent(typeof(DokiVNMain))]
     public class StoryLauncher : MonoBehaviour
     {
         [SerializeField] StoryGraph currentStory;
         public StoryGraph CurrentStory { get { return currentStory; } }
         [SerializeField] bool autoLaunch = true;
 
-        DokiVNLauncher vnLauncher;
+        DokiVNMain vnLauncher;
 
         private void Awake()
         {
-            vnLauncher = GetComponent<DokiVNLauncher>();
+            vnLauncher = GetComponent<DokiVNMain>();
         }
 
         // Start is called before the first frame update
         void Start()
         {
             if (autoLaunch)
-            {
-                vnLauncher.LaunchStory();
-            }
+                vnLauncher.LaunchNewStory();
         }
 
-        public void ChangeCurrentStory(StoryGraph story)
+        public void ChangeCurrentStory(StoryGraph story, bool auto)
         {
             currentStory = story;
+            autoLaunch = auto;
+            if (autoLaunch) vnLauncher.LaunchNewStory();
         }
     }
 }

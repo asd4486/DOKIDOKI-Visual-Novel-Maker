@@ -15,12 +15,12 @@ MonoBehaviour:
   currentCharacterObject: {fileID: 0}
   charaName: Doki Chan
   faces:
-  - faceName: emotion_0
+  - faceName: smile
     sprite: {fileID: 21300000, guid: 6a8e027f8b8243f4a96f80342c3116f1, type: 3}
     offsetPos: {x: 0, y: 0}
     autoSize: 1
     size: {x: 0, y: 0}
-  - faceName: emotion_1
+  - faceName: angry
     sprite: {fileID: 21300000, guid: 0f4f3bd4095eb3e47864120d44c51776, type: 3}
     offsetPos: {x: 0, y: 0}
     autoSize: 1

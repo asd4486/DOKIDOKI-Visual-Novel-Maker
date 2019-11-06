@@ -11,7 +11,7 @@ namespace DokiVnMaker.Story
         {
             serializedObject.Update();
 
-            var node = target as ChangeStory;
+            //var node = target as ChangeStory;
 
             GUILayout.BeginHorizontal();
             NodeEditorGUILayout.PortField(GUIContent.none, target.GetInputPort("input"), GUILayout.MinWidth(0));
@@ -20,8 +20,8 @@ namespace DokiVnMaker.Story
 
             GUILayout.Space(-15);
 
-            //EditorGUILayout.PropertyField(serializedObject.FindProperty("character"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("nextStoryGraph"), GUIContent.none);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("autoPlay"));
 
             serializedObject.ApplyModifiedProperties();
         }

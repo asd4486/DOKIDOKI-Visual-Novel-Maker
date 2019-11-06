@@ -48,7 +48,8 @@ namespace DokiVnMaker
                 {
                     menu.AddItem(new GUIContent(path), false, () =>
                     {
-                        CreateNode(type, pos);
+                        XNode.Node node = CreateNode(type, pos);
+                        NodeEditorWindow.current.AutoConnect(node);
                     });
                 }
             }

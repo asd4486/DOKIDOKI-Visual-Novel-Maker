@@ -4,14 +4,14 @@ using XNodeEditor;
 
 namespace DokiVnMaker.Story
 {
-    [CustomNodeEditor(typeof(Music))]
+    [CustomNodeEditor(typeof(BackgroundMusic))]
     public class MusicNodeEditor : NodeEditor
     {
         public override void OnBodyGUI()
         {
             serializedObject.Update();
 
-            var node = target as Music;
+            var node = target as BackgroundMusic;
 
             GUILayout.BeginHorizontal();
             NodeEditorGUILayout.PortField(GUIContent.none, target.GetInputPort("input"), GUILayout.MinWidth(0));

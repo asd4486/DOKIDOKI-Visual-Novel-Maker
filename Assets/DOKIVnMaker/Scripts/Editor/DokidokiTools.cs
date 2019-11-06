@@ -7,14 +7,13 @@ using UnityEngine;
 
 namespace DokiVnMaker
 {
-    public class DokidokiTools:MonoBehaviour
+    public class DokidokiTools:Editor
     {
         [MenuItem("DokiDoki VN Maker/New Game")]
         static void CreateNewGame()
         {
             //find game gameobject
-            var path = ValueManager.GameSourcesPath + "Game/DokiDoki_VN_Game.prefab";
-            var game = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
+            var game = Resources.Load("DokiDoki_VN_Game") as GameObject;
 
             //check if game existe in this scene
             var oldgame = GameObject.FindGameObjectsWithTag("dokidoki_vn_game");

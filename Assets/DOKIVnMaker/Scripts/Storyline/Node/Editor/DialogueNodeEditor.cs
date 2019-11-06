@@ -53,6 +53,7 @@ namespace DokiVnMaker.Story
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("voiceClip"));
             }
 
+            GUILayout.Space(5);
             NodeEditorGUILayout.DynamicPortList("answers", typeof(StoryNodeBase), serializedObject, NodePort.IO.Output, Node.ConnectionType.Override);
             node.CheckAnswerCount();
 

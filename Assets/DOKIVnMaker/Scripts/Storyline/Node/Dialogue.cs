@@ -7,6 +7,7 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
+    [CreateNodeMenu("Text/Dialogue")]
     [NodeTint("#99ffcc")]
     public class Dialogue : StoryNodeBase
     {
@@ -21,13 +22,12 @@ namespace DokiVnMaker.Story
         public string characterName;
         [TextArea] public string dialogue;
 
-
         public Font font;
         public int fontSize;
         public Color textColor;
 
         public bool displayAll;
-        public float displaySpeed = 2;   
+        public float displaySpeed = 3;   
 
         public AudioClip voiceClip;
 
@@ -43,7 +43,7 @@ namespace DokiVnMaker.Story
             if (answers.Count > 6) answers.RemoveAt(answers.Count - 1);
         }
 
-        public Node GetCurrentAnswerNode(int index)
+        public NodePort GetAnswerNextConnection(int index)
         {
             NodePort port = null;
             if (answers.Count == 0)
@@ -58,17 +58,7 @@ namespace DokiVnMaker.Story
 
             if (port == null) return null;
 
-            return port.Connection.node;
-        }
-    }
-
-    [CustomPropertyDrawer(typeof(Dialogue.AnswerAttribute))]
-    public class DialogueAnswerDrawer : PropertyDrawer
-    {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            label.text = "";
-            EditorGUI.PropertyField(position, property, label, true);
+            return port.Connection;
         }
     }
 }

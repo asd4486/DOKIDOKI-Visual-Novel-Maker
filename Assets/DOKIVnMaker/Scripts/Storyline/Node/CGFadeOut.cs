@@ -5,6 +5,7 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
+    [CreateNodeMenu("Image/CG fade out")]
     [NodeTint("#ff99ff")]
     public class CGFadeOut : StoryNodeBase
     {

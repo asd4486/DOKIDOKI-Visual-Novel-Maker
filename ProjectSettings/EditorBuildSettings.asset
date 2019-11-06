@@ -4,4 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/DOKIVnMaker/DEMO/demo.unity
+    guid: d04c96df9a453654682523f3f5cfb998
+  m_configObjects: {}

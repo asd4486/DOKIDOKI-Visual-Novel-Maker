@@ -5,6 +5,7 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
+    [CreateNodeMenu("Music/Sound")]
     public class Sound : StoryNodeBase
     {
         // Use this for initialization

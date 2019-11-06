@@ -7,7 +7,8 @@ using UnityEngine;
 namespace XNodeEditor {
     /// <summary> Base class to derive custom Node Graph editors from. Use this to override how graphs are drawn in the editor. </summary>
     [CustomNodeGraphEditor(typeof(XNode.NodeGraph))]
-    public class NodeGraphEditor : XNodeEditor.Internal.NodeEditorBase<NodeGraphEditor, NodeGraphEditor.CustomNodeGraphEditorAttribute, XNode.NodeGraph> {
+    public class NodeGraphEditor : XNodeEditor.Internal.NodeEditorBase<NodeGraphEditor, NodeGraphEditor.CustomNodeGraphEditorAttribute, XNode.NodeGraph>
+    {
         [Obsolete("Use window.position instead")]
         public Rect position { get { return window.position; } set { window.position = value; } }
         /// <summary> Are we currently renaming a node? </summary>
@@ -52,7 +53,8 @@ namespace XNodeEditor {
                 if (string.IsNullOrEmpty(path)) continue;
 
                 menu.AddItem(new GUIContent(path), false, () => {
-                    CreateNode(type, pos);
+                    XNode.Node node = CreateNode(type, pos);
+                    NodeEditorWindow.current.AutoConnect(node);
                 });
             }
             menu.AddSeparator("");
@@ -69,7 +71,7 @@ namespace XNodeEditor {
         }
 
         /// <summary> Create a node and save it in the graph asset </summary>
-        public virtual void CreateNode(Type type, Vector2 position) {
+        public virtual XNode.Node CreateNode(Type type, Vector2 position) {
             XNode.Node node = target.AddNode(type);
             node.position = position;
             if (string.IsNullOrEmpty(node.name)) {
@@ -81,6 +83,8 @@ namespace XNodeEditor {
             AssetDatabase.AddObjectToAsset(node, target);
             if (NodeEditorPreferences.GetSettings().autoSave) AssetDatabase.SaveAssets();
             NodeEditorWindow.RepaintAll();
+
+            return node;
         }
 
         /// <summary> Creates a copy of the original node in the graph </summary>
