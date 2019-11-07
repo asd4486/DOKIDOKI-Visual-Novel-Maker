@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using DokiVnMaker.Tools;
 
-namespace DokiVnMaker.Character
+namespace DokiVnMaker
 {
-    [CreateAssetMenu(order = 0, fileName = "NewCharacter", menuName = "Doki VN Maker/Create Character")]
+    [CreateAssetMenu(order = 0, fileName = "NewCharacter", menuName = "Doki VN Maker/Character")]
     public class CharacterObject : ScriptableObject
     {
         public GameObject currentCharacterObject;
@@ -21,7 +18,7 @@ namespace DokiVnMaker.Character
         [System.Serializable]
         public class FaceSprite
         {
-            public string faceName;
+            public string name;
             public Sprite sprite;
             public Vector2 offsetPos;
             public bool autoSize = true;
@@ -32,7 +29,7 @@ namespace DokiVnMaker.Character
                 if (!(obj is FaceSprite)) return false;
                 var o = obj as FaceSprite;
 
-                bool isEqual = faceName == o.faceName && offsetPos == o.offsetPos && autoSize == o.autoSize && size == o.size;
+                bool isEqual = name == o.name && offsetPos == o.offsetPos && autoSize == o.autoSize && size == o.size;
 
                 if (sprite == null)
                     return isEqual && sprite == o.sprite;

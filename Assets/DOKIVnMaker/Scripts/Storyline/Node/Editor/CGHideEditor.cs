@@ -4,8 +4,8 @@ using XNodeEditor;
 
 namespace DokiVnMaker.Story
 {
-    [CustomNodeEditor(typeof(CGFadeOut))]
-    public class CGFadeOutEditor : NodeEditor
+    [CustomNodeEditor(typeof(CGHide))]
+    public class CGHideEditor : NodeEditor
     {
         public override void OnBodyGUI()
         {
@@ -27,11 +27,6 @@ namespace DokiVnMaker.Story
             GUILayout.Label("Is wait", GUILayout.Width(70));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("isWait"), GUIContent.none);
             GUILayout.EndHorizontal();
-        }
-
-        public override int GetWidth()
-        {
-            return 200;
         }
     }
 }

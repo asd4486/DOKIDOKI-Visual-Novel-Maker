@@ -1,5 +1,4 @@
-﻿using DokiVnMaker.Character;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -8,6 +7,7 @@ using XNode;
 namespace DokiVnMaker.Story
 {
     [CreateNodeMenu("Text/Dialogue")]
+    [NodeWidth(300)]
     [NodeTint("#99ffcc")]
     public class Dialogue : StoryNodeBase
     {
@@ -19,7 +19,8 @@ namespace DokiVnMaker.Story
         }
 
         public CharacterObject character;
-        public string characterName;
+        //public CharacterObject character;
+        public string charaName;
         [TextArea] public string dialogue;
 
         public Font font;
@@ -27,7 +28,7 @@ namespace DokiVnMaker.Story
         public Color textColor;
 
         public bool displayAll;
-        public float displaySpeed = 3;   
+        public float displaySpeed;   
 
         public AudioClip voiceClip;
 

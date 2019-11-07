@@ -5,8 +5,8 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
-    [CreateNodeMenu("Music/Background music")]
-    public class BackgroundMusic : StoryNodeBase
+    [CreateNodeMenu("Audio/Play background music")]
+    public class BackgroundMusic : AudioNodeBase
     {
         // Use this for initialization
         protected override void Init()
@@ -14,9 +14,5 @@ namespace DokiVnMaker.Story
             name = "Background music";
             base.Init();
         }
-
-        public AudioClip audio;
-        public float volume = 1;
-        public bool loop;
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4275317584561226}
   - component: {fileID: 114204523107126986}
   m_Layer: 0
-  m_Name: Sound_manager
+  m_Name: audioManager
   m_TagString: doki_sound_manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4658634376527744}
   m_Father: {fileID: 4560435544500864}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43,9 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9024f22cf165247a454cab98606d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundMusicSources: {fileID: 82978590091978098}
+  backgroundMusicSource: {fileID: 82978590091978098}
   soundSources: []
-  globalVolume: 1
 --- !u!1 &1085758450480736
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textDialog: {fileID: 114064820161114662}
+  charaNameContent: {fileID: 1418965632125592}
   textCharaName: {fileID: 114247638145991608}
   iconContinue: {fileID: 1300353803542404}
   answerBtns:
@@ -1030,8 +1031,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4560435544500864}
-  m_RootOrder: 4
+  m_Father: {fileID: 4275317584561226}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &82978590091978098
 AudioSource:
@@ -1967,7 +1968,6 @@ Transform:
   - {fileID: 224643937197681322}
   - {fileID: 4272673942103438}
   - {fileID: 4275317584561226}
-  - {fileID: 4658634376527744}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

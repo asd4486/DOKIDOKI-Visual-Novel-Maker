@@ -112,6 +112,25 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &182191193 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1798141229760966, guid: c616f06355125ae48b815c3bed6e560e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1596347345}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &182191194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182191193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266f0b3fcd450104cb281ba9705745e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueTextStyle: {fileID: 11400000, guid: 2a36efe41297df847ba0225eae57eecb, type: 2}
 --- !u!1001 &1596347345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -357,5 +376,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114204523107126986, guid: c616f06355125ae48b815c3bed6e560e,
+        type: 3}
+      propertyPath: backgroundMusicSource
+      value: 
+      objectReference: {fileID: 1596347346}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c616f06355125ae48b815c3bed6e560e, type: 3}
+--- !u!82 &1596347346 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 82978590091978098, guid: c616f06355125ae48b815c3bed6e560e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1596347345}
+  m_PrefabAsset: {fileID: 0}

@@ -5,7 +5,7 @@ using XNodeEditor;
 namespace DokiVnMaker.Story
 {
     [CustomNodeEditor(typeof(BackgroundMusic))]
-    public class MusicNodeEditor : NodeEditor
+    public class BackgroundMusicNodeEditor : NodeEditor
     {
         public override void OnBodyGUI()
         {
@@ -28,11 +28,16 @@ namespace DokiVnMaker.Story
             GUILayout.EndHorizontal();
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("loop"));
-        }
 
-        public override int GetWidth()
-        {
-            return 250;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("fadeIn"));
+            if (node.fadeIn)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Duration");
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("fadeTime"), GUIContent.none);
+                GUILayout.Label("s", GUILayout.Width(15));
+                GUILayout.EndHorizontal();
+            }
         }
     }
 }

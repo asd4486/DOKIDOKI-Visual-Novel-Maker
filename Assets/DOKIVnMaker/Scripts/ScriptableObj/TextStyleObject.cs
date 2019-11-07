@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace DokiVnMaker
 {
-    [CreateAssetMenu(order = 0, fileName = "NewTextStyle", menuName = "Doki VN Maker/Create TextStyle")]
+    [CreateAssetMenu(order = 0, fileName = "NewTextStyle", menuName = "Doki VN Maker/TextStyle")]
     public class TextStyleObject : ScriptableObject
     {
         public Font font /*= Resources.Load("ARLRDBD") as Font*/;

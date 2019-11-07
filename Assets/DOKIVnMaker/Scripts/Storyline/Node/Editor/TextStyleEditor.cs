@@ -1,17 +1,17 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 using XNodeEditor;
 
 namespace DokiVnMaker.Story
 {
-    [CustomNodeEditor(typeof(Delayer))]
-    public class DelayerNodeEditor : NodeEditor
+    [CustomNodeEditor(typeof(TextStyle))]
+    public class TextStyleEditor : NodeEditor
     {
         public override void OnBodyGUI()
         {
             serializedObject.Update();
 
-            var node = target as Delayer;
+            var node = target as Sound;
 
             GUILayout.BeginHorizontal();
             NodeEditorGUILayout.PortField(GUIContent.none, target.GetInputPort("input"), GUILayout.MinWidth(0));
@@ -20,10 +20,7 @@ namespace DokiVnMaker.Story
 
             GUILayout.Space(-15);
 
-            GUILayout.BeginHorizontal();
-            NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("delay"), GUIContent.none);
-            GUILayout.Label("s", GUILayout.Width(30));
-            GUILayout.EndHorizontal();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("style"), GUIContent.none);
         }
     }
 }

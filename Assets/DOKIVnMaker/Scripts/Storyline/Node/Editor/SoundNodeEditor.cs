@@ -27,13 +27,18 @@ namespace DokiVnMaker.Story
             EditorGUILayout.Slider(serializedObject.FindProperty("volume"), 0, 1, GUIContent.none, GUILayout.MaxWidth(165));
             GUILayout.EndHorizontal();
 
-            EditorGUILayout.IntSlider(serializedObject.FindProperty("track"), 0, 10);
+            EditorGUILayout.IntSlider(serializedObject.FindProperty("track"), 0, 9);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("loop"));
-        }
 
-        public override int GetWidth()
-        {
-            return 250;
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("fadeIn"));
+            if (node.fadeIn)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Duration");
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("fadeTime"), GUIContent.none);
+                GUILayout.Label("s", GUILayout.Width(15));
+                GUILayout.EndHorizontal();
+            }       
         }
     }
 }

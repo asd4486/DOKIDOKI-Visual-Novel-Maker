@@ -4,14 +4,14 @@ using XNodeEditor;
 
 namespace DokiVnMaker.Story
 {
-    [CustomNodeEditor(typeof(CG))]
-    public class CGNodeEditor : NodeEditor
+    [CustomNodeEditor(typeof(CGShow))]
+    public class CGShowEditor : NodeEditor
     {
         public override void OnBodyGUI()
         {
             serializedObject.Update();
 
-            var node = target as CG;
+            var node = target as CGShow;
 
             GUILayout.BeginHorizontal();
             NodeEditorGUILayout.PortField(GUIContent.none, target.GetInputPort("input"), GUILayout.MinWidth(0));
@@ -30,11 +30,6 @@ namespace DokiVnMaker.Story
             GUILayout.EndHorizontal();
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("isWait"));
-        }
-
-        public override int GetWidth()
-        {
-            return 250;
         }
     }
 }

@@ -5,19 +5,19 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
-    [CreateNodeMenu("Music/Sound")]
-    public class Sound : StoryNodeBase
+    [CreateNodeMenu("Image/Show CG")]
+    [NodeTint("#ff99ff")]
+    public class CGShow : StoryNodeBase
     {
         // Use this for initialization
         protected override void Init()
         {
-            name = "Sound";
+            name = "Show CG";
             base.Init();
         }
 
-        public AudioClip audio;
-        public float volume = 1;
-        public int track;
-        public bool loop;
+        public Sprite image;
+        public bool isWait;
+        public float duration = 0.5f;
     }
 }

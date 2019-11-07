@@ -5,14 +5,15 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
-    [CreateNodeMenu("Image/CG fade out")]
+    [CreateNodeMenu("Image/Hide CG")]
+    [NodeWidth(200)]
     [NodeTint("#ff99ff")]
-    public class CGFadeOut : StoryNodeBase
+    public class CGHide : StoryNodeBase
     {
         // Use this for initialization
         protected override void Init()
         {
-            name = "CG out";
+            name = "Hide CG";
             base.Init();
         }
 

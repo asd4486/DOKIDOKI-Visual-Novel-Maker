@@ -4,7 +4,7 @@ using XNode;
 
 namespace DokiVnMaker
 {
-    [CreateAssetMenu(fileName = "NewStoryGraph", menuName = "Doki VN Maker/Create story")]
+    [CreateAssetMenu(fileName = "NewStoryGraph", menuName = "Doki VN Maker/Story")]
     public class StoryGraph : NodeGraph
     {
     }

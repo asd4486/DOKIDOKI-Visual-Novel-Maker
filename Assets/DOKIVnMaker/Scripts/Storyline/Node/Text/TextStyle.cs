@@ -1,13 +1,7 @@
-﻿using DokiVnMaker.Character;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using XNode;
-
-namespace DokiVnMaker.Story
+﻿namespace DokiVnMaker.Story
 {
     [CreateNodeMenu("Text/Text style")]
+    [NodeWidth(200)]
     [NodeTint("#99ffcc")]
     public class TextStyle : StoryNodeBase
     {

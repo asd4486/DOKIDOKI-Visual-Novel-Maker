@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
-using DokiVnMaker.Character;
 
 namespace DokiVnMaker.Story
 {
@@ -12,6 +10,7 @@ namespace DokiVnMaker.Story
         Custom
     }
 
+    [NodeWidth(210)]
     public abstract class CharacterShowBase : StoryNodeBase
     {
         public bool isFadeIn;

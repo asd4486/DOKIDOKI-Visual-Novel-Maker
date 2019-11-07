@@ -4,6 +4,7 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
+    [NodeWidth(200)]
     [NodeTint("#ffff99")]
     public class StartPoint : Node
     {

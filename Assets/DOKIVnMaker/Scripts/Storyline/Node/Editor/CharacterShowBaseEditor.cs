@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace DokiVnMaker.Story
 {
     [CustomNodeEditor(typeof(CharacterShowBase))]
-    public class CharacterFadeBaseEditor : NodeEditor
+    public class CharacterShowBaseEditor : NodeEditor
     {
         public override void OnBodyGUI()
         {
@@ -31,7 +31,7 @@ namespace DokiVnMaker.Story
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("Face", GUILayout.Width(70));
                     List<string> faceNames = new List<string>();
-                    foreach (var f in node.character.faces) faceNames.Add(f.faceName);
+                    foreach (var f in node.character.faces) faceNames.Add(f.name);
                     node.faceIndex = EditorGUILayout.Popup(node.faceIndex, faceNames.ToArray());
                     GUILayout.EndHorizontal();
                 }
@@ -57,11 +57,6 @@ namespace DokiVnMaker.Story
             GUILayout.EndHorizontal();
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        public override int GetWidth()
-        {
-            return 210;
         }
     }
 }

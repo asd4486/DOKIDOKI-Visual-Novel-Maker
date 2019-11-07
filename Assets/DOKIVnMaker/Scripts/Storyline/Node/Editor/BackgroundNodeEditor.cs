@@ -24,10 +24,5 @@ namespace DokiVnMaker.Story
             var imgPriveiw = node.image;
             if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(200), GUILayout.Height(113));
         }
-
-        public override int GetWidth()
-        {
-            return 250;
-        }
     }
 }

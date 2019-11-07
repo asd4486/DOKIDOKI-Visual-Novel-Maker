@@ -52,8 +52,8 @@ namespace DokiVnMaker.Character
 
                     GUILayout.BeginVertical();
                     //auto name if string is empty
-                    if (string.IsNullOrEmpty(myFace.faceName)) myFace.faceName = "emotion_" + j;
-                    myFace.faceName = EditorGUILayout.TextField(myFace.faceName);
+                    if (string.IsNullOrEmpty(myFace.name)) myFace.name = "emotion_" + j;
+                    myFace.name = EditorGUILayout.TextField(myFace.name);
                     myFace.offsetPos = EditorGUILayout.Vector2Field("Offset", myFace.offsetPos);
                     myFace.autoSize = EditorGUILayout.Toggle("Auto size", myFace.autoSize);
                     if (!myFace.autoSize)
@@ -67,7 +67,6 @@ namespace DokiVnMaker.Character
 
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
-
                 if (GUILayout.Button("+", GUILayout.Width(50))) charaObj.AddFace();
                 if (GUILayout.Button("-", GUILayout.Width(50))) charaObj.RemoveFace();
                 GUILayout.EndVertical();

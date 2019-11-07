@@ -11,17 +11,37 @@ namespace DokiVnMaker.Story
     public class DialogueNodeEditor : NodeEditor
     {
         bool showAdvance;
+        Dialogue node;
+
+        public override void OnCreate()
+        {
+            node = target as Dialogue;
+            base.OnCreate();
+        }
+
         public override void OnBodyGUI()
         {
             serializedObject.Update();
 
-            Dialogue node = target as Dialogue;
-
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("character"));
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Character", GUILayout.Width(70));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("character"), GUIContent.none);
+            GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("name", GUILayout.Width(50));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("characterName"), GUIContent.none);
+            GUILayout.Label("Name", GUILayout.Width(70));
+            //custom name
+            if (node.character == null)
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("charaName"), GUIContent.none);
+            }
+            //selected character name
+            else
+            {
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.TextField(node.character.charaName);
+                EditorGUI.EndDisabledGroup();
+            }
             GUILayout.EndHorizontal();
 
             if (node.answers.Count == 0)
@@ -47,7 +67,7 @@ namespace DokiVnMaker.Story
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("textColor"));
 
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("displayAll"));
-                if(!node.displayAll)
+                if (!node.displayAll)
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("displaySpeed"));
 
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("voiceClip"));
@@ -58,11 +78,6 @@ namespace DokiVnMaker.Story
             node.CheckAnswerCount();
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        public override int GetWidth()
-        {
-            return 300;
         }
     }
 }
