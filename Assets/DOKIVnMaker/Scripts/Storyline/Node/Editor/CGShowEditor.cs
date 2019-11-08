@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using DokiVnMaker.Game;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using XNodeEditor;
 
@@ -7,11 +9,24 @@ namespace DokiVnMaker.Story
     [CustomNodeEditor(typeof(CGShow))]
     public class CGShowEditor : NodeEditor
     {
+        CGManagerObject cgManager = DokiGameManager.CgManager;
+        int cgIndex = -1;
+        CGShow node;
+
+        public override void OnCreate()
+        {
+            node = target as CGShow;
+            if (cgManager != null && node.cg != null && cgManager.CGList.Contains(node.cg))
+            {
+                cgIndex = node.cg.index;
+            }
+
+            base.OnCreate();
+        }
+
         public override void OnBodyGUI()
         {
             serializedObject.Update();
-
-            var node = target as CGShow;
 
             GUILayout.BeginHorizontal();
             NodeEditorGUILayout.PortField(GUIContent.none, target.GetInputPort("input"), GUILayout.MinWidth(0));
@@ -20,8 +35,22 @@ namespace DokiVnMaker.Story
 
             GUILayout.Space(-15);
 
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("image"), GUIContent.none);
-            var imgPriveiw = node.image;
+            if (DokiGameManager.CgManager == null || DokiGameManager.CgManager.CGList.Count < 1)
+            {
+                GUILayout.Label("Please set up your CG Manager before:)");
+                return;
+            }
+
+            List<string> cgNames = new List<string>();
+            foreach (var cg in cgManager.CGList) cgNames.Add(cg.name);
+            cgIndex = EditorGUILayout.Popup(cgIndex, cgNames.ToArray());
+            if (cgIndex >= 0 && cgIndex < cgNames.Count) node.cg = cgManager.CGList[cgIndex];
+
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.ObjectField(node.cg.image, typeof(Sprite));
+            EditorGUI.EndDisabledGroup();
+
+            var imgPriveiw = node.cg.image;
             if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(200), GUILayout.Height(113));
 
             GUILayout.BeginHorizontal();

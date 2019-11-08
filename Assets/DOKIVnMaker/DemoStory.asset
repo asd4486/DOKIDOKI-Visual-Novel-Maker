@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Name: Hide character
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1112, y: -280}
+  position: {x: 1080, y: -280}
   ports:
     keys:
     - input
@@ -225,6 +225,9 @@ MonoBehaviour:
       connections:
       - fieldName: output
         node: {fileID: 114316425018737564}
+        reroutePoints: []
+      - fieldName: output
+        node: {fileID: 114908862982848036}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -487,9 +490,6 @@ MonoBehaviour:
       connections:
       - fieldName: output
         node: {fileID: 0}
-        reroutePoints: []
-      - fieldName: output
-        node: {fileID: 114908862982848036}
         reroutePoints: []
       - fieldName: output
         node: {fileID: 114657242119260374}
@@ -1105,7 +1105,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 728, y: -392}
+  position: {x: 744, y: -440}
   ports:
     keys:
     - answers
@@ -1143,7 +1143,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114316425018737564}
+        node: {fileID: 114100113431450956}
         reroutePoints: []
       _direction: 1
       _connectionType: 1

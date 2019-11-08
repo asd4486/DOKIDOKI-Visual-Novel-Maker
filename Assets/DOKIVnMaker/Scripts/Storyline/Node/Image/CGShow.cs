@@ -16,7 +16,7 @@ namespace DokiVnMaker.Story
             base.Init();
         }
 
-        public Sprite image;
+        public CGManagerObject.CG cg;
         public bool isWait;
         public float duration = 0.5f;
     }

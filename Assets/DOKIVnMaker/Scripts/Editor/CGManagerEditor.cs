@@ -27,11 +27,10 @@ namespace DokiVnMaker
                 GUILayout.BeginVertical("box");
 
                 GUILayout.BeginHorizontal();
+                if (GUILayout.Button("▲", GUILayout.Width(25))) cgManager.MoveUp(cg);
+                if (GUILayout.Button("▼", GUILayout.Width(25))) cgManager.MoveDown(cg);
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button("x", GUILayout.Width(20)))
-                {
-                    cgManager.RemoveCG(cg);
-                }
+                if (GUILayout.Button("x", GUILayout.Width(20)))    cgManager.RemoveCG(cg);
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
