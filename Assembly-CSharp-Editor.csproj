@@ -71,13 +71,16 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\BackgroundNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CGHideEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CGShowEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\ChangeStoryNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\ChangeStoryEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CharacterShowBaseEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DelayerNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DialogueHideEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DialogueNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\ScreenFadeInEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\ScreenFadeOutEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\SoundNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\StartPointNodeEditor.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\StoryNodeEditorBase.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\TextStyleEditor.cs" />
     <Compile Include="Assets\Examples\MathGraph\Editor\MathGraphEditor.cs" />
     <Compile Include="Assets\Examples\MathGraph\Nodes\Editor\DisplayValueEditor.cs" />

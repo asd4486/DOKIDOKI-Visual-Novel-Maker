@@ -4,12 +4,15 @@ using XNodeEditor;
 
 namespace DokiVnMaker.Story
 {
-    [CustomNodeEditor(typeof(DialogueHide))]
-    public class DialogueHideEditor : StoryNodeEditorBase
+    [CustomNodeEditor(typeof(ScreenFadeIn))]
+    public class ScreenFadeInEditor : StoryNodeEditorBase
     {
         public override void OnBodyGUI()
         {
             serializedObject.Update();
+
+            var node = target as ScreenFadeIn;
+
             DrawPorts();
 
             DrawDurationField();

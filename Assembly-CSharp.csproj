@@ -63,8 +63,8 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\Attribute\DialogueAnswerAttribute.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\AudioManager.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Game\DokiCharacterBase.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Game\DokiDialogueMain.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Game\DokiGameManager.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Game\DokiPlayerUI.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Game\DokiVNMain.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\ScriptableObj\CGManagerObject.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\ScriptableObj\CharacterObject.cs" />
@@ -81,6 +81,8 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Image\BackgroundImage.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Image\CGHide.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Image\CGShow.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\ScreenFadeIn.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\ScreenFadeOut.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\StartPoint.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\StoryNodeBase.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Text\Dialogue.cs" />

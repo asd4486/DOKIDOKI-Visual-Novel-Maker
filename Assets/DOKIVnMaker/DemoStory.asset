@@ -21,15 +21,16 @@ MonoBehaviour:
   - {fileID: 114908862982848036}
   - {fileID: 114616839635327696}
   - {fileID: 114993297942127238}
-  - {fileID: 114996358182880394}
   - {fileID: 114215163596645870}
   - {fileID: 114164104446502178}
   - {fileID: 114100113431450956}
   - {fileID: 114529401904417420}
-  - {fileID: 114604093439100858}
   - {fileID: 114329262683067100}
   - {fileID: 114325439522905458}
-  - {fileID: 114963550274186990}
+  - {fileID: 114996358182880394}
+  - {fileID: 114590977880424440}
+  - {fileID: 114693349943777216}
+  - {fileID: 114413452413670644}
   - {fileID: 0}
 --- !u!114 &114049802932237804
 MonoBehaviour:
@@ -82,7 +83,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114604093439100858}
+        node: {fileID: 114413452413670644}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -268,7 +269,7 @@ MonoBehaviour:
   m_Name: Delayer
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -520, y: -120}
+  position: {x: -712, y: -392}
   ports:
     keys:
     - input
@@ -280,7 +281,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
-        node: {fileID: 114996358182880394}
+        node: {fileID: 114693349943777216}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -292,7 +293,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114215163596645870}
+        node: {fileID: 114996358182880394}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -314,7 +315,7 @@ MonoBehaviour:
   m_Name: Show character
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -472, y: -40}
+  position: {x: -520, y: -120}
   ports:
     keys:
     - input
@@ -326,7 +327,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
-        node: {fileID: 114164104446502178}
+        node: {fileID: 114590977880424440}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -539,7 +540,7 @@ MonoBehaviour:
   m_Name: Hide CG
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 376, y: -408}
+  position: {x: 360, y: -424}
   ports:
     keys:
     - input
@@ -633,7 +634,7 @@ MonoBehaviour:
   m_Name: Show dialogue
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 120, y: -216}
+  position: {x: 88, y: -216}
   ports:
     keys:
     - answers
@@ -658,7 +659,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
-        node: {fileID: 114604093439100858}
+        node: {fileID: 114413452413670644}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -711,6 +712,53 @@ MonoBehaviour:
   answers:
   - Eat
   - Jump
+--- !u!114 &114413452413670644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8429f2b8913241549a3a8e0472f8a237, type: 3}
+  m_Name: Hide dialogue
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -24, y: -360}
+  ports:
+    keys:
+    - input
+    - output
+    values:
+    - _fieldName: input
+      _node: {fileID: 114413452413670644}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114049802932237804}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 1
+      _dynamic: 0
+    - _fieldName: output
+      _node: {fileID: 114413452413670644}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 114413221034192472}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  input: {fileID: 0}
+  output: {fileID: 0}
+  duration: 1
+  isWait: 1
 --- !u!114 &114503293950036240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -806,7 +854,7 @@ MonoBehaviour:
   volume: 1
   loop: 0
   fadeIn: 0
-  fadeTime: 2
+  duration: 2
   track: 0
 --- !u!114 &114559588997918398
 MonoBehaviour:
@@ -907,7 +955,7 @@ MonoBehaviour:
   output: {fileID: 0}
   isWait: 1
   duration: 1
---- !u!114 &114604093439100858
+--- !u!114 &114590977880424440
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -916,35 +964,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89a64dc6d2b61b4aad3dbd68cacc860, type: 3}
-  m_Name: Show CG
+  m_Script: {fileID: 11500000, guid: 33816f6c3e8c4034085ad9bbcc057c97, type: 3}
+  m_Name: Screen Fade In
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -56, y: 24}
+  position: {x: -568, y: -264}
   ports:
     keys:
     - input
     - output
     values:
     - _fieldName: input
-      _node: {fileID: 114604093439100858}
+      _node: {fileID: 114590977880424440}
       _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
-        node: {fileID: 114049802932237804}
+        node: {fileID: 114996358182880394}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 1
       _dynamic: 0
     - _fieldName: output
-      _node: {fileID: 114604093439100858}
+      _node: {fileID: 114590977880424440}
       _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114413221034192472}
+        node: {fileID: 114215163596645870}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -952,12 +1000,8 @@ MonoBehaviour:
       _dynamic: 0
   input: {fileID: 0}
   output: {fileID: 0}
-  cg:
-    name: shojo
-    image: {fileID: 21300000, guid: c2371afb496782a4f951954e236df5be, type: 3}
-    index: 2
-  isWait: 1
   duration: 0.5
+  isWait: 1
 --- !u!114 &114616839635327696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -971,7 +1015,7 @@ MonoBehaviour:
   m_Name: Change Story
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1512, y: -200}
+  position: {x: 1576, y: -216}
   ports:
     keys:
     - input
@@ -1068,6 +1112,54 @@ MonoBehaviour:
   displaySpeed: 1
   voiceClip: {fileID: 0}
   answers: []
+--- !u!114 &114693349943777216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ca14a7aa1ea8de41aff65796942a577, type: 3}
+  m_Name: Screen Fade Out
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -872, y: -296}
+  ports:
+    keys:
+    - input
+    - output
+    values:
+    - _fieldName: input
+      _node: {fileID: 114693349943777216}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: output
+        node: {fileID: 114993297942127238}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 1
+      _dynamic: 0
+    - _fieldName: output
+      _node: {fileID: 114693349943777216}
+      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: input
+        node: {fileID: 114164104446502178}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  input: {fileID: 0}
+  output: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 1}
+  duration: 0
+  isWait: 0
 --- !u!114 &114699957540155298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1185,7 +1277,7 @@ MonoBehaviour:
   m_Name: Show dialogue
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1224, y: -120}
+  position: {x: 1272, y: -120}
   ports:
     keys:
     - answers
@@ -1307,47 +1399,6 @@ MonoBehaviour:
   displaySpeed: 0
   voiceClip: {fileID: 0}
   answers: []
---- !u!114 &114963550274186990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8429f2b8913241549a3a8e0472f8a237, type: 3}
-  m_Name: Hide dialogue
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: -24, y: -440}
-  ports:
-    keys:
-    - input
-    - output
-    values:
-    - _fieldName: input
-      _node: {fileID: 114963550274186990}
-      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 1
-      _dynamic: 0
-    - _fieldName: output
-      _node: {fileID: 114963550274186990}
-      _typeQualifiedName: DokiVnMaker.Story.StoryNodeBase, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 1
-      _typeConstraint: 0
-      _dynamic: 0
-  input: {fileID: 0}
-  output: {fileID: 0}
-  duration: 0.5
-  isWait: 0
 --- !u!114 &114993297942127238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1361,7 +1412,7 @@ MonoBehaviour:
   m_Name: START
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -792, y: -200}
+  position: {x: -1016, y: -392}
   ports:
     keys:
     - output
@@ -1372,7 +1423,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114996358182880394}
+        node: {fileID: 114693349943777216}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -1392,7 +1443,7 @@ MonoBehaviour:
   m_Name: Background music
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -584, y: -280}
+  position: {x: -552, y: -440}
   ports:
     keys:
     - input
@@ -1404,7 +1455,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: output
-        node: {fileID: 114993297942127238}
+        node: {fileID: 114164104446502178}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1416,7 +1467,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: input
-        node: {fileID: 114164104446502178}
+        node: {fileID: 114590977880424440}
         reroutePoints: []
       _direction: 1
       _connectionType: 1
@@ -1428,4 +1479,4 @@ MonoBehaviour:
   volume: 0.6
   loop: 1
   fadeIn: 1
-  fadeTime: 4
+  duration: 2

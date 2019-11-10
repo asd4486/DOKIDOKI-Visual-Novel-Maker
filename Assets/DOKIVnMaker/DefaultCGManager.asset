@@ -15,10 +15,7 @@ MonoBehaviour:
   CGList:
   - name: cg_0
     image: {fileID: 21300000, guid: 230efdd7e4d28514eb996e5fe626e645, type: 3}
-    index: 0
   - name: gameover
     image: {fileID: 21300000, guid: 4ae76479fe9e671498079618cc5cac0c, type: 3}
-    index: 1
   - name: shojo
     image: {fileID: 21300000, guid: c2371afb496782a4f951954e236df5be, type: 3}
-    index: 2

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
+using System;
 
 namespace DokiVnMaker
 {
@@ -9,53 +11,82 @@ namespace DokiVnMaker
         CGManagerObject cgManager;
         Vector2 scrollPosition;
 
+        SerializedProperty cgListProperty;
+        ReorderableList reorderableList;
 
         private void OnEnable()
         {
             cgManager = target as CGManagerObject;
+            cgListProperty = serializedObject.FindProperty("CGList");
+
+            //Create an instance of our reorderable list.
+            reorderableList = new ReorderableList(serializedObject: serializedObject, elements: cgListProperty, draggable: true, displayHeader: true,
+                displayAddButton: true, displayRemoveButton: true);
+
+            //Set up the method callback to draw our list header
+            reorderableList.drawHeaderCallback = DrawHeaderCallback;
+
+            //Set up the method callback to draw each element in our reorderable list
+            reorderableList.drawElementCallback = DrawElementCallback;
+
+            //Set the height of each element.
+            reorderableList.elementHeightCallback += ElementHeightCallback;
+
+            //Set up the method callback to define what should happen when we add a new object to our list.
+            reorderableList.onAddCallback += OnAddCallback;
+            reorderableList.onChangedCallback += OnChangeCallback;
+        }
+
+        private void DrawHeaderCallback(Rect rect)
+        {
+            EditorGUI.LabelField(rect, "CGs");
+        }
+
+        private void DrawElementCallback(Rect rect, int index, bool isactive, bool isfocused)
+        {
+            //Get the element we want to draw from the list.
+            SerializedProperty element = reorderableList.serializedProperty.GetArrayElementAtIndex(index);
+            rect.y += 2;
+
+            //We get the name property of our element so we can display this in our list.
+            var elementName = element.FindPropertyRelative("name").stringValue;
+            string elementTitle = $"{index}: {elementName}";
+
+            //Draw the list item as a property field, just like Unity does internally.
+            EditorGUI.PropertyField(position:
+                new Rect(rect.x += 10, rect.y, Screen.width * .8f, height: EditorGUIUtility.singleLineHeight), property:
+                element, label: new GUIContent(elementTitle), includeChildren: true);
+        }
+
+        private float ElementHeightCallback(int index)
+        {
+            //Gets the height of the element. This also accounts for properties that can be expanded, like structs.
+            float propertyHeight =
+                EditorGUI.GetPropertyHeight(reorderableList.serializedProperty.GetArrayElementAtIndex(index), true);
+
+            float spacing = EditorGUIUtility.singleLineHeight / 2;
+            return propertyHeight + spacing;
+        }
+
+        private void OnAddCallback(ReorderableList list)
+        {
+            var index = list.serializedProperty.arraySize;
+            list.serializedProperty.arraySize++;
+            list.index = index;
+            var element = list.serializedProperty.GetArrayElementAtIndex(index);
+            element.FindPropertyRelative("name").stringValue = $"CG_ {index}";
+        }
+
+        private void OnChangeCallback(ReorderableList list)
+        {
+            cgManager.SetupCgIndex();
         }
 
         public override void OnInspectorGUI()
         {
-            GUILayout.Label("CG list");
-            GUILayout.BeginVertical("box");
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Height(600));
-
-            for (int i = 0; i < cgManager.CGList.Count; i++)
-            {
-                var cg = cgManager.CGList[i];
-                GUILayout.BeginVertical("box");
-
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("▲", GUILayout.Width(25))) cgManager.MoveUp(cg);
-                if (GUILayout.Button("▼", GUILayout.Width(25))) cgManager.MoveDown(cg);
-                GUILayout.FlexibleSpace();
-                if (GUILayout.Button("x", GUILayout.Width(20)))    cgManager.RemoveCG(cg);
-                GUILayout.EndHorizontal();
-
-                GUILayout.BeginHorizontal();
-                //auto name if string is empty
-                if (string.IsNullOrEmpty(cg.name)) cg.name = "cg_" + i;
-                cg.name = EditorGUILayout.TextField(cg.name);
-                cg.image = EditorGUILayout.ObjectField(cg.image, typeof(Sprite), false, GUILayout.Width(65f), GUILayout.Height(65f)) as Sprite;
-                GUILayout.EndHorizontal();
-                GUILayout.EndVertical();
-            }
-
-            GUILayout.EndScrollView();
-            GUILayout.EndVertical();
-
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            if (GUILayout.Button("+", GUILayout.Width(50)))
-            {
-                cgManager.AddCG();
-                scrollPosition = new Vector2(0, 65 * cgManager.CGList.Count);
-            }
-            if (GUILayout.Button("-", GUILayout.Width(50))) cgManager.RemoveCG();
-            GUILayout.EndVertical();
-
-            EditorUtility.SetDirty(cgManager);
+            serializedObject.Update();
+            reorderableList.DoLayoutList();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

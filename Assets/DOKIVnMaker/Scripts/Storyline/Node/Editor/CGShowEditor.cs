@@ -7,7 +7,7 @@ using XNodeEditor;
 namespace DokiVnMaker.Story
 {
     [CustomNodeEditor(typeof(CGShow))]
-    public class CGShowEditor : NodeEditor
+    public class CGShowEditor : StoryNodeEditorBase
     {
         CGManagerObject cgManager = DokiGameManager.CgManager;
         int cgIndex = -1;
@@ -18,7 +18,7 @@ namespace DokiVnMaker.Story
             node = target as CGShow;
             if (cgManager != null && node.cg != null && cgManager.CGList.Contains(node.cg))
             {
-                cgIndex = node.cg.index;
+                cgIndex = node.cg.Index;
             }
 
             base.OnCreate();
@@ -28,12 +28,7 @@ namespace DokiVnMaker.Story
         {
             serializedObject.Update();
 
-            GUILayout.BeginHorizontal();
-            NodeEditorGUILayout.PortField(GUIContent.none, target.GetInputPort("input"), GUILayout.MinWidth(0));
-            NodeEditorGUILayout.PortField(GUIContent.none, target.GetOutputPort("output"), GUILayout.MinWidth(0));
-            GUILayout.EndHorizontal();
-
-            GUILayout.Space(-15);
+            DrawPorts();
 
             if (DokiGameManager.CgManager == null || DokiGameManager.CgManager.CGList.Count < 1)
             {
@@ -51,14 +46,13 @@ namespace DokiVnMaker.Story
             EditorGUI.EndDisabledGroup();
 
             var imgPriveiw = node.cg.image;
-            if (imgPriveiw != null) GUILayout.Label(imgPriveiw.texture, GUILayout.Width(200), GUILayout.Height(113));
+            if (imgPriveiw != null)
+                GUILayout.Label(imgPriveiw.texture, GUILayout.Width(200), GUILayout.Height(113));
 
-            GUILayout.BeginHorizontal();
-            EditorGUILayout.Slider(serializedObject.FindProperty("duration"), 0, 99);
-            GUILayout.Label("s", GUILayout.Width(20));
-            GUILayout.EndHorizontal();
-
+            DrawDurationField();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("isWait"));
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

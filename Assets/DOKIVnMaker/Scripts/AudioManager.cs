@@ -42,7 +42,7 @@ namespace DokiVnMaker.Game
 
             //audio fade in
             if (node.fadeIn)
-                audioSource.DOFade(node.volume, node.fadeTime);
+                audioSource.DOFade(node.volume, node.duration);
             else
                 audioSource.volume = node.volume;
 

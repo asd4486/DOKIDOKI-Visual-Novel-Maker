@@ -5,7 +5,7 @@ using XNodeEditor;
 namespace DokiVnMaker.Story
 {
     [CustomNodeEditor(typeof(Delayer))]
-    public class DelayerNodeEditor : NodeEditor
+    public class DelayerNodeEditor : StoryNodeEditorBase
     {
         public override void OnBodyGUI()
         {
@@ -13,17 +13,14 @@ namespace DokiVnMaker.Story
 
             var node = target as Delayer;
 
-            GUILayout.BeginHorizontal();
-            NodeEditorGUILayout.PortField(GUIContent.none, target.GetInputPort("input"), GUILayout.MinWidth(0));
-            NodeEditorGUILayout.PortField(GUIContent.none, target.GetOutputPort("output"), GUILayout.MinWidth(0));
-            GUILayout.EndHorizontal();
-
-            GUILayout.Space(-15);
+            DrawPorts();
 
             GUILayout.BeginHorizontal();
             NodeEditorGUILayout.PropertyField(serializedObject.FindProperty("delay"), GUIContent.none);
-            GUILayout.Label("s", GUILayout.Width(30));
+            GUILayout.Label("s", GUILayout.Width(15));
             GUILayout.EndHorizontal();
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

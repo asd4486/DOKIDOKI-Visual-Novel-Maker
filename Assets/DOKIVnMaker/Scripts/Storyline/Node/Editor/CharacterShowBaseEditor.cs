@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace DokiVnMaker.Story
 {
     [CustomNodeEditor(typeof(CharacterShowBase))]
-    public class CharacterShowBaseEditor : NodeEditor
+    public class CharacterShowBaseEditor : StoryNodeEditorBase
     {
         public override void OnBodyGUI()
         {
@@ -14,12 +14,7 @@ namespace DokiVnMaker.Story
 
             var node = target as CharacterShowBase;
 
-            GUILayout.BeginHorizontal();
-            NodeEditorGUILayout.PortField(GUIContent.none, target.GetInputPort("input"), GUILayout.MinWidth(0));
-            NodeEditorGUILayout.PortField(GUIContent.none, target.GetOutputPort("output"), GUILayout.MinWidth(0));
-            GUILayout.EndHorizontal();
-
-            GUILayout.Space(-15);
+            DrawPorts();
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("character"), GUIContent.none);
 
@@ -29,7 +24,7 @@ namespace DokiVnMaker.Story
                 if (node.character != null && node.character.faces.Count > 0)
                 {
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("Face", GUILayout.Width(70));
+                    GUILayout.Label("Face", GUILayout.Width(75));
                     List<string> faceNames = new List<string>();
                     foreach (var f in node.character.faces) faceNames.Add(f.name);
                     node.faceIndex = EditorGUILayout.Popup(node.faceIndex, faceNames.ToArray());
@@ -37,7 +32,7 @@ namespace DokiVnMaker.Story
                 }
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Display", GUILayout.Width(70));
+                GUILayout.Label("Display", GUILayout.Width(75));
                 node.displayPos = (DisplayPositions) EditorGUILayout.Popup((int)(node.displayPos), node.DisplayList);
                 GUILayout.EndHorizontal();
 
@@ -46,16 +41,9 @@ namespace DokiVnMaker.Story
             }
 
             GUILayout.Space(5);
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Duration", GUILayout.Width(70));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("duration"), GUIContent.none);
-            GUILayout.Label("s", GUILayout.Width(15));
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Is wait", GUILayout.Width(70));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("isWait"), GUIContent.none);
-            GUILayout.EndHorizontal();
 
+            DrawDurationField();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("isWait"));
             serializedObject.ApplyModifiedProperties();
         }
     }

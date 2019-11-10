@@ -23,17 +23,12 @@ namespace DokiVnMaker.Story
         {
             serializedObject.Update();
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Character", GUILayout.Width(70));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("character"), GUIContent.none);
-            GUILayout.EndHorizontal();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("character"));
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Name", GUILayout.Width(70));
             //custom name
             if (node.character == null)
             {
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("charaName"), GUIContent.none);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("charaName"), new GUIContent("Name"));
             }
             //selected character name
             else
@@ -42,7 +37,6 @@ namespace DokiVnMaker.Story
                 EditorGUILayout.TextField(node.character.charaName);
                 EditorGUI.EndDisabledGroup();
             }
-            GUILayout.EndHorizontal();
 
             if (node.answers.Count == 0)
             {

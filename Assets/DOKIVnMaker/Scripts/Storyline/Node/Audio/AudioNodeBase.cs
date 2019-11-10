@@ -13,6 +13,6 @@ namespace DokiVnMaker.Story
         public bool loop;
 
         public bool fadeIn = true;
-        public float fadeTime = 2f;
+        public float duration = 2f;
     }
 }

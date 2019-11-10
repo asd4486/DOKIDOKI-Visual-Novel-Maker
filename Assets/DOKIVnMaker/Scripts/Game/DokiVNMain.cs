@@ -14,7 +14,7 @@ namespace DokiVnMaker.Game
     public class DokiVNMain : MonoBehaviour
     {
         bool nextStepClickable;
-        [SerializeField] DokiDialogueMain dialogueMain;
+        [SerializeField] DokiPlayerUI playerUI;
 
         List<DokiCharacterBase> characterList = new List<DokiCharacterBase>();
         [SerializeField] Transform characterParent;
@@ -22,6 +22,7 @@ namespace DokiVnMaker.Game
         //images
         [SerializeField] Image imageBG;
         [SerializeField] Image imageCG;
+        [SerializeField] Image imageFadeOut;
 
         StoryLauncher storyLauncher;
         Node nowNode;
@@ -30,6 +31,8 @@ namespace DokiVnMaker.Game
         Coroutine delayCoroutine;
 
         AudioManager audioMgr;
+
+        public event System.Action onStoryFinishedAction;
 
         private void Awake()
         {
@@ -41,7 +44,7 @@ namespace DokiVnMaker.Game
 
         void ResetGameUI()
         {
-            dialogueMain.Init();
+            playerUI.Init();
             imageCG.color = new Color(1, 1, 1, 0);
         }
 
@@ -61,8 +64,8 @@ namespace DokiVnMaker.Game
             if (Input.GetButtonDown("Fire1"))
             {
                 //show all text
-                if (dialogueMain.isDisplayingText)
-                    dialogueMain.DisplayAllText();
+                if (playerUI.isDisplayingText)
+                    playerUI.DisplayAllText();
                 //return if isn't clicable 
                 else if (nextStepClickable)
                 {
@@ -91,13 +94,15 @@ namespace DokiVnMaker.Game
             //finish story
             if(connection == null)
             {
+                if(onStoryFinishedAction != null) onStoryFinishedAction();
                 Debug.Log("FIN");
                 return;
             }
 
             nowNode = connection.node;
 
-            if (nowNode is Dialogue) ShowDialog();
+            if (nowNode is Dialogue) ShowDialogue();
+            else if (nowNode is DialogueHide) HideDialogue();
             else if (nowNode is CharacterShow) FadeInOutCharacter();
             else if (nowNode is CharacterHide) FadeInOutCharacter();
             else if (nowNode is BackgroundImage) ShowBackground();
@@ -107,10 +112,11 @@ namespace DokiVnMaker.Game
             else if (nowNode is BackgroundMusic) PlayBackgroundMusic();
             else if (nowNode is Sound) PlaySound();
             else if (nowNode is ChangeStory) SetNextStory();
+            else if (nowNode is ScreenFadeIn) FadeinScreen();
+            else if (nowNode is ScreenFadeOut) FadeoutScreen();
         }
 
         //start next step with delay
-
         void StartDelayer(float delay)
         {
             if (delayCoroutine != null)
@@ -223,21 +229,48 @@ namespace DokiVnMaker.Game
             AutoPlayNextNode();
         }
 
-        #region can't parallel
-        private void ShowDialog()
+        private void FadeoutScreen()
         {
-            var node = nowNode as Dialogue;
-
-            if(node.answers.Count == 0)
-                dialogueMain.OnDisplayFinishedEvent += delegate { StartCoroutine(SetClickableCoroutine(0.1f)); };
-
-            dialogueMain.ShowDialogue(node);
+            var node = nowNode as ScreenFadeOut;         
+            imageFadeOut.DOColor(node.color, node.duration);
 
             //start next step
-            //if (!dialog.NoWait)
-            //    StartNextStepDelay(1);
-            //else
-            //    StartNextStep();
+            if (node.isWait)
+                StartDelayer(node.duration);
+            else
+                AutoPlayNextNode();
+        }
+
+        private void FadeinScreen()
+        {
+            var node = nowNode as ScreenFadeIn;
+            imageFadeOut.DOFade(0, node.duration);
+            
+            //start next step
+            if (node.isWait)
+                StartDelayer(node.duration);
+            else
+                AutoPlayNextNode();
+        }
+
+        #region can't parallel
+        private void ShowDialogue()
+        {
+            var node = nowNode as Dialogue;
+            if(node.answers.Count == 0)
+                playerUI.OnDisplayFinishedEvent += delegate { StartCoroutine(SetClickableCoroutine(0.1f)); };
+
+            playerUI.ShowDialogue(node);
+        }
+
+        private void HideDialogue()
+        {
+            var node = nowNode as DialogueHide;
+            playerUI.ShowHideUI(false, node.duration);
+            if (node.isWait)
+                StartDelayer(node.duration);
+            else
+                AutoPlayNextNode();
         }
 
         void SetNextStory()
@@ -247,95 +280,5 @@ namespace DokiVnMaker.Game
                 storyLauncher.ChangeCurrentStory(node.nextStoryGraph, node.autoPlay);            
         }
         #endregion
-
-
-        //    #region character funcs
-        //    private void ShowCharacter(CharacterSpriteInfos action, bool parallel = false)
-        //    {
-        //        //find character object in scene
-        //        var chara = GameObject.Find(action.Name);
-
-        //        //if null instantiate new chara object in scene
-        //        if (chara == null)
-        //        {
-        //            chara = AssetDatabase.LoadAssetAtPath(action.Path, typeof(GameObject)) as GameObject;
-
-        //            //new chara
-        //            var newChara = Instantiate(chara);
-        //            newChara.name = chara.name;
-        //            chara = newChara;
-        //            chara.transform.SetParent(characterParent, false);
-
-        //        }
-
-        //        chara.SetActive(true);
-        //        var sprites = chara.GetComponentsInChildren<CharaSpriteSetting>().Select(o => o.gameObject).ToList();
-
-        //        //deactive all sprites and active sprite selected
-        //        foreach (var s in sprites) s.SetActive(false);
-        //        sprites[action.SpriteIndex].SetActive(true);
-
-        //        if (action.FaceIndex > -1)
-        //        {
-        //            //active face
-        //            var faces = sprites[action.SpriteIndex].GetComponentInChildren<CharaFaceSetting>().GetComponentsInChildren<Image>();
-
-        //            //inactive all
-        //            foreach (var f in faces) f.gameObject.SetActive(false);
-        //            //active current face
-        //            faces[action.FaceIndex].gameObject.SetActive(true);
-        //        }
-
-        //        var charaRect = chara.GetComponent<RectTransform>();
-        //        //set position
-        //        switch (action.CharaPos)
-        //        {
-        //            case CharacterPosition.Left:
-        //                charaRect.anchoredPosition = new Vector3(-350, 0);
-        //                break;
-        //            case CharacterPosition.Right:
-        //                charaRect.anchoredPosition = new Vector3(355, 0);
-        //                break;
-        //            case CharacterPosition.Center:
-        //                charaRect.anchoredPosition = Vector2.zero;
-        //                break;
-        //            case CharacterPosition.Custom:
-        //                charaRect.anchoredPosition = action.CustomPos;
-        //                break;
-        //        }
-
-        //        //start next step
-        //        if (action.IsWait)
-        //            StartCoroutine(StartNextStepDelay(1));
-        //        else
-        //            PlayNextAction();
-        //    }
-
-        //    void HideCharacter(CharacterOutInfos action, bool parallel = false)
-        //    {
-        //        //find character object in scene
-        //        var chara = GameObject.Find(action.Name);
-
-        //        //return if can't find character
-        //        if (chara == null) return;
-
-        //        chara.SetActive(false);
-
-        //        if (action.IsWait)
-        //            StartCoroutine(StartNextStepDelay(1));
-        //        else
-        //            PlayNextAction();
-        //    }
-
-
-
-
-        //    void PlayChangeScene(ChangeScene action)
-        //    {
-        //        SceneManager.LoadScene(action.sceneName);
-        //    }
-        //    #endregion
-
-        //    #endregion
     }
 }
