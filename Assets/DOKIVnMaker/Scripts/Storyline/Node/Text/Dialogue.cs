@@ -6,7 +6,7 @@ using XNode;
 
 namespace DokiVnMaker.Story
 {
-    [CreateNodeMenu("Text/Dialogue")]
+    [CreateNodeMenu("Text/Show dialogue")]
     [NodeWidth(300)]
     [NodeTint("#99ffcc")]
     public class Dialogue : StoryNodeBase
@@ -14,7 +14,7 @@ namespace DokiVnMaker.Story
         // Use this for initialization
         protected override void Init()
         {
-            name = "Dialogue";
+            name = "Show dialogue";
             base.Init();
         }
 
@@ -32,11 +32,7 @@ namespace DokiVnMaker.Story
 
         public AudioClip voiceClip;
 
-        [outputlist(dynamicPortList = true), AnswerAttribute] public List<string> answers = new List<string>();
-
-        public class AnswerAttribute : PropertyAttribute
-        {
-        }
+        [outputlist(dynamicPortList = true), DialogueAnswerAttribute] public List<string> answers = new List<string>();
 
         //remove last answer if out of range
         public void CheckAnswerCount()

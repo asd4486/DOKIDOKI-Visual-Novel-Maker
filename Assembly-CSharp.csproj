@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Attribute\DialogueAnswerAttribute.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\AudioManager.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Game\DokiCharacterBase.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Game\DokiDialogueMain.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\StartPoint.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\StoryNodeBase.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Text\Dialogue.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Text\DialogueHide.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Text\TextStyle.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryGraph.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\StoryLauncher.cs" />

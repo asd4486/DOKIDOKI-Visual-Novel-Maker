@@ -64,6 +64,7 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CharacterObjectEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\CreateCharacterWindow.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\DokidokiTools.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\Drawer\DialogueAnswerDrawer.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\StoryGraphEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Editor\TextStyleObjectEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\BackgroundMusicNodeEditor.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\ChangeStoryNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\CharacterShowBaseEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DelayerNodeEditor.cs" />
-    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DialogueAnswerDrawer.cs" />
+    <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DialogueHideEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\DialogueNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\SoundNodeEditor.cs" />
     <Compile Include="Assets\DOKIVnMaker\Scripts\Storyline\Node\Editor\StartPointNodeEditor.cs" />

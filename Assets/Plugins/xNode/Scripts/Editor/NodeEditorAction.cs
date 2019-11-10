@@ -361,9 +361,10 @@ namespace XNodeEditor
                                 menu.DropDown(new Rect(Event.current.mousePosition, Vector2.zero));
                             }
                         }
+                        autoConnectOutput = null;
                         isPanning = false;
                     }
-                    else if(e.button == 2)
+                    else if (e.button == 2)
                     {
                         isPanning = false;
                     }
